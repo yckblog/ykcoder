@@ -52,21 +52,20 @@
 
 
 <meta name="description" content="一个趁手的App是离不开网络请求的.而一个APP与服务器之间进行通信分为两种,一种是请求响应机制的,即HTTP请求的.这个大家比较常用.这里不细说了.另外一种就是即时通信.也就是socket.下面我们就来看看socket是何物.
-TCP和UDP
-先抛开两种IOS中常用的通信方式,我们来看一下计算机网络中的数据包的通信.在网络中两个主机之间进行通信有两种选择:UDP标准,TCP/IP标准.UDP标准">
+TCP和UDP先抛开两种IOS中常用的通信方式,我们来看一下计算机网络中的数据包的通信.在网络中两个主机之间进行通信有两种选择:UDP标准,TCP/IP标准.UDP标准:">
 <meta property="og:type" content="article">
 <meta property="og:title" content="“socket通信实现 ”">
 <meta property="og:url" content="http://yoursite.com/2016/01/08/“声明的进程”/index.html">
 <meta property="og:site_name" content="YKcoder">
 <meta property="og:description" content="一个趁手的App是离不开网络请求的.而一个APP与服务器之间进行通信分为两种,一种是请求响应机制的,即HTTP请求的.这个大家比较常用.这里不细说了.另外一种就是即时通信.也就是socket.下面我们就来看看socket是何物.
-TCP和UDP
-先抛开两种IOS中常用的通信方式,我们来看一下计算机网络中的数据包的通信.在网络中两个主机之间进行通信有两种选择:UDP标准,TCP/IP标准.UDP标准">
-<meta property="og:updated_time" content="2016-01-09T02:58:49.000Z">
+TCP和UDP先抛开两种IOS中常用的通信方式,我们来看一下计算机网络中的数据包的通信.在网络中两个主机之间进行通信有两种选择:UDP标准,TCP/IP标准.UDP标准:">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/005KqbSEjw1ez7rpa1d5tj30dm07iwez.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/005KqbSEjw1ez7sl7oo22j311c0butc3.jpg">
+<meta property="og:updated_time" content="2016-01-09T04:52:04.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="“socket通信实现 ”">
 <meta name="twitter:description" content="一个趁手的App是离不开网络请求的.而一个APP与服务器之间进行通信分为两种,一种是请求响应机制的,即HTTP请求的.这个大家比较常用.这里不细说了.另外一种就是即时通信.也就是socket.下面我们就来看看socket是何物.
-TCP和UDP
-先抛开两种IOS中常用的通信方式,我们来看一下计算机网络中的数据包的通信.在网络中两个主机之间进行通信有两种选择:UDP标准,TCP/IP标准.UDP标准">
+TCP和UDP先抛开两种IOS中常用的通信方式,我们来看一下计算机网络中的数据包的通信.在网络中两个主机之间进行通信有两种选择:UDP标准,TCP/IP标准.UDP标准:">
 
 
 
@@ -103,7 +102,7 @@ TCP和UDP
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-meta ">
+      <div class="header-inner"><div class="site-meta custom-logo">
   
 
   <div class="custom-logo-site-title">
@@ -151,16 +150,6 @@ TCP和UDP
         </li>
       
         
-        <li class="menu-item menu-item-about">
-          <a href="/about" rel="section">
-            
-              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
-            
-            关于
-          </a>
-        </li>
-      
-        
         <li class="menu-item menu-item-archives">
           <a href="/archives" rel="section">
             
@@ -177,16 +166,6 @@ TCP和UDP
               <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
             
             标签
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-commonweal">
-          <a href="/404.html" rel="section">
-            
-              <i class="menu-item-icon fa fa-heartbeat fa-fw"></i> <br />
-            
-            公益404
           </a>
         </li>
       
@@ -261,32 +240,16 @@ TCP和UDP
       
 
       
-        <span itemprop="articleBody"><p>一个趁手的App是离不开网络请求的.而一个APP与服务器之间进行通信分为两种,一种是请求响应机制的,即HTTP请求的.这个大家比较常用.这里不细说了.另外一种就是即时通信.也就是socket.下面我们就来看看socket是何物.</p>
-<p>TCP和UDP</p>
-<p>先抛开两种IOS中常用的通信方式,我们来看一下计算机网络中的数据包的通信.在网络中两个主机之间进行通信有两种选择:UDP标准,TCP/IP标准.<br>UDP标准:<br>即将数据包拆成多个小的数据包经由不同的多个交换机和路由器发送到指定的主机上.这里的交换机的路线和经过的路由器都是看当时的设备的网络繁忙状况的.所以路线也是不一定的,也会出现后发先至的情况,当然,这自然都是有解决办法的,加个顺序标记就好了嘛.当然,因为在转发的过程中可能会出现丢包的现象,所以这种方式也是一种不可靠的方式.<br>这里给插一个理解图</p>
-<p>TCP/IP标准:<br>这种方式采用的在两台主机之间建立一个稳定的持久的长连接,两条读写的管道,数据在这两条管道之间进行稳定的数据读写.所以这种标准相比前面的UDP来说,稳定而可靠,但是,因为要保持稳定的长连接,所以对网络资源的消耗也是比较大的.现在用的比较广的也是TCP/IP协议.这里给大家推荐本书.《TCP/IP协议详解》—分上下两卷,是对TCP/IP协议的完美解释,万变不离其宗.我们这里浅层的去理解使用以下TCP/IP协议.</p>
-<p>TCP协议</p>
-<p>TCP协议比较复杂,这里不能详细介绍,我们依旧是肤浅的来看一下.首先给大家简单介绍两个概念<br>服务器地址和端口号.通俗上来理解,服务器地址(IP)就是可以确定是哪一台主机的标识.每台主机有唯一的一个IP地址.用于其他主机的访问.而端口就是数据进出计算机的门口.只不过这个门口有很多.端口号的范围从0到65535,但是有一些常用的端口已经成为了默认的端口.例如用于浏览网页服务的80端口，用于FTP服务的21端口,常用于tomacat的8080端口等,当然还有3389端口,大家可以自行百度”3389爆破”,有惊喜哟.<br>接下来我们来看看代码,在代码实现上,各种语言都实现了TCP协议的方法,相关的API网络上也比较多,我这里整理了一下,给大家看看.</p>
-<p>C语言实现的网络通信</p>
-<p>C语言也是实现了TCP/IP协议的.用起来也是比较简单的,这里将API的使用步骤总结罗列了一下.<br>1 导入头文件</p>
-<p>1<br>2<br>3<br>4</p>
-<p>#import <sys types.h=""></sys></p>
-<p>#import <sys socket.h=""></sys></p>
-<p>#import <netinet in.h=""></netinet></p>
-<p>#import <arpa inet.h=""></arpa></p>
-<p>2 创建IP和端口对象<br>使用TCP/IP协议需要绑定IP地址和端口,但是在C语言里面,他的结构体又有些不同.</p>
-<p>1<br>2<br>3<br>4</p>
-<p>//创建IP结构体变量,用于绑定服务器<br>static struct sockaddr_in addr;<br>addr.sin_addr.s_addr = inet_addr(“127.0.0.1”);<br>addr.sin_port = htons(8880);</p>
-<p>这里用到了一个sockaddr结构体,他里面的每个变量的含义在下面的表中.</p>
-<p>3 创建一个socketClient变量</p>
-<p>1<br>2<br>3<br>4</p>
-<p>//创建一个socketClient,指定为TCP协议,采用流的形式.<br>int clientSocket = socket(AF_INET,SOCK_STREAM, 0);<br>//根据socketClient创建与服务器的链接<br>int flag = connect(clientSocket, (struct sockaddr*)&amp;addr, sizeof(addr));</p>
-<p>4 发送消息<br>发送消息是调用的send方法</p>
-<p>1<br>2<br>3</p>
-<p>char sendstring[255] = “服务器你好啊,吃饭了没?”;<br>//通过socketClient想服务器发送指定长度的字符串流,最后的是保留参数<br>send(clientSocket, sendstring, strlen(sendstring) + 1, 0);</p>
-<p>5 接收消息<br>接收消息是调用的recv方法</p>
-<p>1<br>2<br>3<br>4<br>5<br>6<br>7<br>8</p>
-<p>//创建一个缓冲池,用于从流中读取数据<br>char buff[255] = {0};<br>//利用socketClient接收指定长度的流.<br>long len = recv(clientSocket, buff, 255, 0);<br>//输出打印<br>if (len &gt; 0) {<br>    printf(“%s”,buff);<br>}</p>
+        <span itemprop="articleBody"><p> <span itemprop="articleBody"><p>一个趁手的App是离不开网络请求的.而一个APP与服务器之间进行通信分为两种,一种是请求响应机制的,即HTTP请求的.这个大家比较常用.这里不细说了.另外一种就是即时通信.也就是socket.下面我们就来看看socket是何物.<br><a id="more"></a></p></span></p>
+<p></p><p></p><h2>TCP和UDP</h2><br>先抛开两种IOS中常用的通信方式,我们来看一下计算机网络中的数据包的通信.在网络中两个主机之间进行通信有两种选择:UDP标准,TCP/IP标准.<br>UDP标准:<br>即将数据包拆成多个小的数据包经由不同的多个交换机和路由器发送到指定的主机上.这里的交换机的路线和经过的路由器都是看当时的设备的网络繁忙状况的.所以路线也是不一定的,也会出现后发先至的情况,当然,这自然都是有解决办法的,加个顺序标记就好了嘛.当然,因为在转发的过程中可能会出现丢包的现象,所以这种方式也是一种不可靠的方式.<br>这里给插一个理解图<br><img src="http://ww3.sinaimg.cn/large/005KqbSEjw1ez7rpa1d5tj30dm07iwez.jpg"><br>TCP/IP标准:<br>这种方式采用的在两台主机之间建立一个稳定的持久的长连接,两条读写的管道,数据在这两条管道之间进行稳定的数据读写.所以这种标准相比前面的UDP来说,稳定而可靠,但是,因为要保持稳定的长连接,所以对网络资源的消耗也是比较大的.现在用的比较广的也是TCP/IP协议.这里给大家推荐本书.《TCP/IP协议详解》—分上下两卷,是对TCP/IP协议的完美解释,万变不离其宗.我们这里浅层的去理解使用以下TCP/IP协议.<p></p><p></p>
+<p></p><p></p><h2>TCP协议</h2><br>TCP协议比较复杂,这里不能详细介绍,我们依旧是肤浅的来看一下.首先给大家简单介绍两个概念<br>服务器地址和端口号.通俗上来理解,服务器地址(IP)就是可以确定是哪一台主机的标识.每台主机有唯一的一个IP地址.用于其他主机的访问.而端口就是数据进出计算机的门口.只不过这个门口有很多.端口号的范围从0到65535,但是有一些常用的端口已经成为了默认的端口.例如用于浏览网页服务的80端口，用于FTP服务的21端口,常用于tomacat的8080端口等,当然还有3389端口,大家可以自行百度”3389爆破”,有惊喜哟.<br>接下来我们来看看代码,在代码实现上,各种语言都实现了TCP协议的方法,相关的API网络上也比较多,我这里整理了一下,给大家看看.<p></p><p></p>
+<p></p><p></p><h2>C语言实现的网络通信</h2><br>C语言也是实现了TCP/IP协议的.用起来也是比较简单的,这里将API的使用步骤总结罗列了一下.<br>1 导入头文件<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="id">#import</span> &lt;sys/types.h&gt;</span><br><span class="line"><span class="id">#import</span> &lt;sys/socket.h&gt;</span><br><span class="line"><span class="id">#import</span> &lt;netinet/<span class="keyword">in</span>.h&gt;</span><br><span class="line"><span class="id">#import</span> &lt;arpa/inet.h&gt;</span><br></pre></td></tr></table></figure><p></p><p></p>
+<p></p><p>2 创建IP和端口对象<br>使用TCP/IP协议需要绑定IP地址和端口,但是在C语言里面,他的结构体又有些不同.<br><figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//创建<span class="literal">IP</span>结构体变量,用于绑定服务器</span><br><span class="line"><span class="label">static</span> <span class="keyword">struct </span>sockaddr_in <span class="keyword">addr;</span><br><span class="line"></span><span class="keyword">addr.sin_addr.s_addr </span>= inet_addr(<span class="string">“127.0.0.1”</span>)<span class="comment">;</span></span><br><span class="line"><span class="keyword">addr.sin_port </span>= htons(<span class="number">8880</span>)<span class="comment">;</span></span><br></pre></td></tr></table></figure></p><p></p>
+<p></p><p>这里用到了一个sockaddr结构体,他里面的每个变量的含义在下面的表中.<img src="http://ww3.sinaimg.cn/large/005KqbSEjw1ez7sl7oo22j311c0butc3.jpg"></p><p></p>
+<p></p><p>3 创建一个socketClient变量<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建一个socketClient,指定为TCP协议,采用流的形式.</span></span><br><span class="line"><span class="keyword">int</span> clientSocket = socket(AF_INET,SOCK_STREAM, <span class="number">0</span>);</span><br><span class="line"><span class="comment">//根据socketClient创建与服务器的链接</span></span><br><span class="line"><span class="keyword">int</span> flag = connect(clientSocket, (<span class="keyword">struct</span> sockaddr*)&amp;addr, <span class="keyword">sizeof</span>(addr));</span><br></pre></td></tr></table></figure></p><p></p>
+<p></p><p>4 发送消息<br>发送消息是调用的send方法<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> sendstring[<span class="number">255</span>] = <span class="string">“服务器你好啊,吃饭了没?”</span>;</span><br><span class="line"><span class="comment">//通过socketClient想服务器发送指定长度的字符串流,最后的是保留参数</span></span><br><span class="line">send(clientSocket, sendstring, <span class="built_in">strlen</span>(sendstring) + <span class="number">1</span>, <span class="number">0</span>);</span><br></pre></td></tr></table></figure></p><p></p>
+<p></p><p>5 接收消息<br>接收消息是调用的recv方法<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建一个缓冲池,用于从流中读取数据</span></span><br><span class="line"><span class="keyword">char</span> buff[<span class="number">255</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line"><span class="comment">//利用socketClient接收指定长度的流.</span></span><br><span class="line"><span class="keyword">long</span> len = recv(clientSocket, buff, <span class="number">255</span>, <span class="number">0</span>);</span><br><span class="line"><span class="comment">//输出打印</span></span><br><span class="line"><span class="keyword">if</span> (len &gt; <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">“%s”</span>,buff);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p><p></p>
+<p></p><p>作业1<br>HTTP是属于哪一种标准TCP?UDP?why?</p><br><p></p>
 </span>
       
     </div>
@@ -460,7 +423,7 @@ TCP和UDP
               
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text">TCP和UDP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">2.</span> <span class="nav-text">TCP协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">3.</span> <span class="nav-text">C语言实现的网络通信</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
