@@ -51,22 +51,19 @@
 
 
 
-<meta name="description" content="AsyncSocket简介在实现App的时候经常需要进行实时的网络通信，也就是即时通信。
-实现即时通信的方式很多，可以利用极光、融云等即时通信平台进行通信，也可以利用一些打包类进行简单的即时通信。这些打包类也有很多，例如GCDAsyncSocket，AsyncSocket等等，但他们的使用方法都是共通的。这里以AsyncSocket为例，讲解一下其使用过程。
-AsyncSocket是一套开源的网络">
+<meta name="description" content="SVN是集中式版本控制系统，版本库是集中放在中央服务器的，而干活的时候，用的都是自己的电脑，所以首先要从中央服务器哪里得到最新的版本，然后干活，干完后，需要把自己做完的活推送到中央服务器。集中式版本控制系统是必须联网才能工作，如果在局域网还可以，带宽够大，速度够快:那如果在互联网下，网速又很慢的话，就郁闷了。
+Git是分布式版本控制系统，那么它就没有中央服务器的，每个人的电脑就是一个完整的版本库，">
 <meta property="og:type" content="article">
-<meta property="og:title" content="“IOS开发之利用AsyncSocket实现即时通信(一) ”">
-<meta property="og:url" content="http://yoursite.com/2014/01/08/“声明的进程”副本/index.html">
+<meta property="og:title" content="利用GitHub进行文件的版本控制">
+<meta property="og:url" content="http://yoursite.com/2016/01/09/利用GitHub进行文件的版本控制/index.html">
 <meta property="og:site_name" content="YKcoder">
-<meta property="og:description" content="AsyncSocket简介在实现App的时候经常需要进行实时的网络通信，也就是即时通信。
-实现即时通信的方式很多，可以利用极光、融云等即时通信平台进行通信，也可以利用一些打包类进行简单的即时通信。这些打包类也有很多，例如GCDAsyncSocket，AsyncSocket等等，但他们的使用方法都是共通的。这里以AsyncSocket为例，讲解一下其使用过程。
-AsyncSocket是一套开源的网络">
-<meta property="og:updated_time" content="2016-01-09T01:40:59.000Z">
+<meta property="og:description" content="SVN是集中式版本控制系统，版本库是集中放在中央服务器的，而干活的时候，用的都是自己的电脑，所以首先要从中央服务器哪里得到最新的版本，然后干活，干完后，需要把自己做完的活推送到中央服务器。集中式版本控制系统是必须联网才能工作，如果在局域网还可以，带宽够大，速度够快:那如果在互联网下，网速又很慢的话，就郁闷了。
+Git是分布式版本控制系统，那么它就没有中央服务器的，每个人的电脑就是一个完整的版本库，">
+<meta property="og:updated_time" content="2016-01-09T05:16:04.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="“IOS开发之利用AsyncSocket实现即时通信(一) ”">
-<meta name="twitter:description" content="AsyncSocket简介在实现App的时候经常需要进行实时的网络通信，也就是即时通信。
-实现即时通信的方式很多，可以利用极光、融云等即时通信平台进行通信，也可以利用一些打包类进行简单的即时通信。这些打包类也有很多，例如GCDAsyncSocket，AsyncSocket等等，但他们的使用方法都是共通的。这里以AsyncSocket为例，讲解一下其使用过程。
-AsyncSocket是一套开源的网络">
+<meta name="twitter:title" content="利用GitHub进行文件的版本控制">
+<meta name="twitter:description" content="SVN是集中式版本控制系统，版本库是集中放在中央服务器的，而干活的时候，用的都是自己的电脑，所以首先要从中央服务器哪里得到最新的版本，然后干活，干完后，需要把自己做完的活推送到中央服务器。集中式版本控制系统是必须联网才能工作，如果在局域网还可以，带宽够大，速度够快:那如果在互联网下，网速又很慢的话，就郁闷了。
+Git是分布式版本控制系统，那么它就没有中央服务器的，每个人的电脑就是一个完整的版本库，">
 
 
 
@@ -78,7 +75,7 @@ AsyncSocket是一套开源的网络">
   };
 </script>
 
-  <title> “IOS开发之利用AsyncSocket实现即时通信(一) ” | YKcoder </title>
+  <title> 利用GitHub进行文件的版本控制 | YKcoder </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -208,7 +205,7 @@ AsyncSocket是一套开源的网络">
             
             
               
-                “IOS开发之利用AsyncSocket实现即时通信(一) ”
+                利用GitHub进行文件的版本控制
               
             
           </h1>
@@ -217,8 +214,8 @@ AsyncSocket是一套开源的网络">
         <div class="post-meta">
           <span class="post-time">
             发表于
-            <time itemprop="dateCreated" datetime="2014-01-08T22:17:38+08:00" content="2014-01-08">
-              2014-01-08
+            <time itemprop="dateCreated" datetime="2016-01-09T13:13:46+08:00" content="2016-01-09">
+              2016-01-09
             </time>
           </span>
 
@@ -241,29 +238,22 @@ AsyncSocket是一套开源的网络">
       
 
       
-        <span itemprop="articleBody"><p>AsyncSocket简介<br>在实现App的时候经常需要进行实时的网络通信，也就是即时通信。</p>
-<p>实现即时通信的方式很多，可以利用极光、融云等即时通信平台进行通信，也可以利用一些打包类进行简单的即时通信。这些打包类也有很多，例如GCDAsyncSocket，AsyncSocket等等，但他们的使用方法都是共通的。这里以AsyncSocket为例，讲解一下其使用过程。</p>
-<p>AsyncSocket是一套开源的网络访问类库。 iphone的标准推荐CFNetwork C库编程.但是编程比较麻烦。在其它OS往往用类来封装的对Socket函数的处理。比如MFC的CAsysncSocket，Java里面的Socket和SocketServer.在iphone也有类似于开源项目，就是AsyncSocket库, 官方网站:<a href="http://code.google.com/p/cocoaasyncsocket/" target="_blank" rel="external">http://code.google.com/p/cocoaasyncsocket/</a> 它用来简化CFnetwork的调用.<br>AsyncSocket的基本使用<br>在项目引入ASyncSocket库</p>
-<p>1.下载ASyncSocket库源码</p>
-<p>2.把ASyncSocket库源码加入项目：</p>
-<p>只需要增加RunLoop目录中的AsyncSocket.h、AsyncSocket.m、AsyncUdpSocket.h和AsyncUdpSocket.m四个文件。</p>
-<p>3.在项目增加CFNetwork框架<br>在Framework目录右健,选择Add—&gt;Existing Files…, 选择 CFNetwork.framework<br>连接服务器</p>
-<p>首先引入头文件，声明一个AsyncSocket对象，再调用connection与服务器建立连接，代码如下:</p>
-<p>import “AsyncSocket.h”</p>
-<p>然后就是与服务器建立链接了</p>
-<p>// socket连接<br>-(void)socketConnectHost{<br>    self.socket = [[AsyncSocket alloc] initWithDelegate:self];<br>    NSError *error = nil;<br>    [self.socket connectToHost:self.socketHost onPort:self.socketPort withTimeout:3 error:&amp;error];<br>}</p>
-<p>与Java中的客户端部分代码相似，AsyncSocket代码也需要指定服务端地址和服务端口. ####发送数据 发送数据的代码很简单</p>
-<p>NSString longConnect = @”longConnect”;<br>NSData   dataStream  = [longConnect dataUsingEncoding:NSUTF8StringEncoding];<br>[self.socket writeData:dataStream withTimeout:1 tag:1];</p>
-<p>AsyncSocket向服务器发送数据都是先将数据转换生成二进制的data数据，再向服务端进行发送的。 ####接收数据 为了收到socket的消息，我们需要在长连接方法中进行读取数据</p>
-<p>[self.socket readDataWithTimeout:30 tag:0];</p>
-<p>如果得到数据，会调用回调方法</p>
-<p>-(void)onSocket:(AsyncSocket )sock didReadData:(NSData )data withTag:(long)tag<br>{<br>    // 对得到的data值进行解析与转换即可<br>}</p>
-<p>AsyncSocket的中级使用</p>
-<p>在进行通信的时候经常会遇到一些不可抗力的因素，例如：服务端崩溃，手机端App闪退，手机断网了等等各种导致连接断开，而一个优秀的App是不应该允许这些情况影响用户体验的。</p>
-<p>这个时候可以采取的一种方式是：创建一个类，继承AsyncSocket，重写他的下列方法。</p>
-<p>// Disconnect Implementation<br>(void)closeWithError:(NSError *)err;<br>(void)recoverUnreadData;<br>(void)emptyQueues;<br>(void)close;</p>
-<p>在对应的方法中进行相应的容错处理就可以了。</p>
-</span>
+        <span itemprop="articleBody"><p>   </p><p>SVN是集中式版本控制系统，版本库是集中放在中央服务器的，而干活的时候，用的都是自己的电脑，所以首先要从中央服务器哪里得到最新的版本，然后干活，干完后，需要把自己做完的活推送到中央服务器。集中式版本控制系统是必须联网才能工作，如果在局域网还可以，带宽够大，速度够快:那如果在互联网下，网速又很慢的话，就郁闷了。</p><p></p>
+<p></p><p>Git是分布式版本控制系统，那么它就没有中央服务器的，每个人的电脑就是一个完整的版本库，这样，工作的时候就不需要联网了，因为版本都是在自己的电脑上。既然每个人的电脑都有一个完整的版本库，那多个人如何协作呢？比如说自己在电脑上改了文件A，其他人也在电脑上改了文件A，这时，你们两之间只需把各自的修改推送给对方，就可以互相看到对方的修改了。</p><p></p>
+<p></p><p>这里介绍一下如何利用github进行代码的版本控制.</p><p></p>
+<p></p><p></p><h2>使用终端命令来进行git管理</h2><p></p><p></p>
+<h3>常用命令</h3><br>1 初始化Git仓库<br>对当前的文件夹进行git信息关联,形成一个git仓库.<br>指令是:  git init<br><br>2 将文件添加到版本控制中<br>将文件添加到git的版本控制内,这样文件的修改也就会被监测.<br>指令是: git add read.txt<br><br>3 将修改提交到本地仓库<br>将所有的文件修改记录提交到本地的仓库.<br>指令是:git commit.<br>这里要注意一下,敲完指令,回车之后,显示的是一个Vi编辑的内容,里面的内容都是用”#”注释起来的.git将所有的修改都在文件中列出来了,你只要将需要提交的文件打开注释,git就会将其提交到本地仓库.<br><br>4 提交的服务器<br>将本地仓库和服务器的仓库进行同步提交<br>指令是: git push origin master<br><br>5 查看目前的提交状态<br>查看目前所有在控制目录内的文件的修改及提交情况.<br>指令是: git status<br><br>6 查看一个文件的修改内容<br>指令是:git diff read.txt<br><br><br><h3>版本回退</h3>
+
+<p></p><p>1 查看最近的提交<br>指令是: git log</p><p></p>
+<p></p><p>2 显示简单的版本介绍<br>指令是: git log –-pretty=oneline </p><p></p>
+<p></p><p>3 回退到上一个版本<br>指令是: git reset —hard HEAD^</p><p></p>
+<p></p><p>4 回退到上上个版本<br>指令是: git reset —hard HEAD^^</p><p></p>
+<p></p><p>5 显示所有的版本号<br>指令是: git reflog</p><p></p>
+<p></p><p>6 根据版本号进行回退<br>指令是: git reset —hard 6fcfc89</p><br><p></p>
+<pre><code>&lt;/div&gt;
+
+&lt;footer class=&quot;post-footer&quot;&gt;
+</code></pre></span>
       
     </div>
 
@@ -274,13 +264,13 @@ AsyncSocket是一套开源的网络">
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2016/01/08/“声明的进程”/" rel="next" title="“socket通信实现 ”">
+                <i class="fa fa-chevron-left"></i> “socket通信实现 ”
+              </a>
+            
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/01/08/“声明的进程”/" rel="prev" title="“socket通信实现 ”">
-                “socket通信实现 ” <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -412,7 +402,7 @@ AsyncSocket是一套开源的网络">
               
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text">使用终端命令来进行git管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">1.1.</span> <span class="nav-text">常用命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">1.2.</span> <span class="nav-text">版本回退</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">

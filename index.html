@@ -187,15 +187,101 @@
 
     
     
+
+    
       
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/01/09/利用GitHub进行文件的版本控制/" itemprop="url">
+                  利用GitHub进行文件的版本控制
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-01-09T13:13:46+08:00" content="2016-01-09">
+              2016-01-09
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
       
-        
-        
-        
       
 
       
-    
+        
+          <span itemprop="articleBody">
+            
+              <p>   </p><p>SVN是集中式版本控制系统，版本库是集中放在中央服务器的，而干活的时候，用的都是自己的电脑，所以首先要从中央服务器哪里得到最新的版本，然后干活，干完后，需要把自己做完的活推送到中央服务器。集中式版本控制系统是必须联网才能工作，如果在局域网还可以，带宽够大，速度够快:那如果在互联网下，网速又很慢的话，就郁闷了。</p><p></p>
+<p></p><p>Git是分布式版本控制系统，那么它就没有中央服务器的，每个人的电脑就是一个完整的版本库，这样，工作的时候就不需要联网了，因为版本都是在自己的电脑上。既然每个人的电脑都有一个完整的版本库，那多个人如何协作呢？比如说自己在电脑上改了文件A，其他人也在电脑上改了文件A，这时，你们两之间只需把各自的修改推送给对方，就可以互相看到对方的修改了。</p><p></p>
+<p></p><p>这里介绍一下如何利用github进行代码的版本控制.</p><p></p>
+<p></p><p></p><h2>使用终端命令来进行git管理</h2><p></p><p></p>
+<h3>常用命令</h3><br>1 初始化Git仓库<br>对当前的文件夹进行git信息关联,形成一个git仓库.<br>指令是:  git init<br><br>2 将文件添加到版本控制中<br>将文件添加到git的版本控制内,这样文件的修改也就会被监测.<br>指令是: git add read.txt<br><br>3 将修改提交到本地仓库<br>将所有的文件修改记录提交到本地的仓库.<br>指令是:git commit.<br>这里要注意一下,敲完指令,回车之后,显示的是一个Vi编辑的内容,里面的内容都是用”#”注释起来的.git将所有的修改都在文件中列出来了,你只要将需要提交的文件打开注释,git就会将其提交到本地仓库.<br><br>4 提交的服务器<br>将本地仓库和服务器的仓库进行同步提交<br>指令是: git push origin master<br><br>5 查看目前的提交状态<br>查看目前所有在控制目录内的文件的修改及提交情况.<br>指令是: git status<br><br>6 查看一个文件的修改内容<br>指令是:git diff read.txt<br><br><br><h3>版本回退</h3>
+
+<p></p><p>1 查看最近的提交<br>指令是: git log</p><p></p>
+<p></p><p>2 显示简单的版本介绍<br>指令是: git log –-pretty=oneline </p><p></p>
+<p></p><p>3 回退到上一个版本<br>指令是: git reset —hard HEAD^</p><p></p>
+<p></p><p>4 回退到上上个版本<br>指令是: git reset —hard HEAD^^</p><p></p>
+<p></p><p>5 显示所有的版本号<br>指令是: git reflog</p><p></p>
+<p></p><p>6 根据版本号进行回退<br>指令是: git reset —hard 6fcfc89</p><br><p></p>
+<pre><code>&lt;/div&gt;
+
+&lt;footer class=&quot;post-footer&quot;&gt;
+</code></pre>
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
 
     
       
@@ -432,7 +518,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-count">3</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
