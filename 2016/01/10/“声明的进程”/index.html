@@ -55,13 +55,13 @@
 TCP和UDP先抛开两种IOS中常用的通信方式,我们来看一下计算机网络中的数据包的通信.在网络中两个主机之间进行通信有两种选择:UDP标准,TCP/IP标准.UDP标准:">
 <meta property="og:type" content="article">
 <meta property="og:title" content="socket通信实现 |">
-<meta property="og:url" content="http://yoursite.com/2016/01/09/“声明的进程”/index.html">
+<meta property="og:url" content="http://yoursite.com/2016/01/10/“声明的进程”/index.html">
 <meta property="og:site_name" content="YKcoder">
 <meta property="og:description" content="一个趁手的App是离不开网络请求的.而一个APP与服务器之间进行通信分为两种,一种是请求响应机制的,即HTTP请求的.这个大家比较常用.这里不细说了.另外一种就是即时通信.也就是socket.下面我们就来看看socket是何物.
 TCP和UDP先抛开两种IOS中常用的通信方式,我们来看一下计算机网络中的数据包的通信.在网络中两个主机之间进行通信有两种选择:UDP标准,TCP/IP标准.UDP标准:">
 <meta property="og:image" content="http://ww3.sinaimg.cn/large/005KqbSEjw1ez7rpa1d5tj30dm07iwez.jpg">
 <meta property="og:image" content="http://ww3.sinaimg.cn/large/005KqbSEjw1ez7sl7oo22j311c0butc3.jpg">
-<meta property="og:updated_time" content="2016-01-09T10:07:24.000Z">
+<meta property="og:updated_time" content="2016-01-10T09:15:23.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="socket通信实现 |">
 <meta name="twitter:description" content="一个趁手的App是离不开网络请求的.而一个APP与服务器之间进行通信分为两种,一种是请求响应机制的,即HTTP请求的.这个大家比较常用.这里不细说了.另外一种就是即时通信.也就是socket.下面我们就来看看socket是何物.
@@ -216,8 +216,8 @@ TCP和UDP先抛开两种IOS中常用的通信方式,我们来看一下计算机�
         <div class="post-meta">
           <span class="post-time">
             发表于
-            <time itemprop="dateCreated" datetime="2016-01-09T18:07:24+08:00" content="2016-01-09">
-              2016-01-09
+            <time itemprop="dateCreated" datetime="2016-01-10T17:15:23+08:00" content="2016-01-10">
+              2016-01-10
             </time>
           </span>
 
@@ -227,8 +227,8 @@ TCP和UDP先抛开两种IOS中常用的通信方式,我们来看一下计算机�
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/01/09/“声明的进程”/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/09/“声明的进程”/" itemprop="commentsCount"></span>
+                <a href="/2016/01/10/“声明的进程”/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/10/“声明的进程”/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -256,7 +256,7 @@ TCP和UDP先抛开两种IOS中常用的通信方式,我们来看一下计算机�
 <p></p><p>3 创建一个socketClient变量<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建一个socketClient,指定为TCP协议,采用流的形式.</span></span><br><span class="line"><span class="keyword">int</span> clientSocket = socket(AF_INET,SOCK_STREAM, <span class="number">0</span>);</span><br><span class="line"><span class="comment">//根据socketClient创建与服务器的链接</span></span><br><span class="line"><span class="keyword">int</span> flag = connect(clientSocket, (<span class="keyword">struct</span> sockaddr*)&amp;addr, <span class="keyword">sizeof</span>(addr));</span><br></pre></td></tr></table></figure></p><p></p>
 <p></p><p>4 发送消息<br>发送消息是调用的send方法<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> sendstring[<span class="number">255</span>] = <span class="string">“服务器你好啊,吃饭了没?”</span>;</span><br><span class="line"><span class="comment">//通过socketClient想服务器发送指定长度的字符串流,最后的是保留参数</span></span><br><span class="line">send(clientSocket, sendstring, <span class="built_in">strlen</span>(sendstring) + <span class="number">1</span>, <span class="number">0</span>);</span><br></pre></td></tr></table></figure></p><p></p>
 <p></p><p>5 接收消息<br>接收消息是调用的recv方法<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建一个缓冲池,用于从流中读取数据</span></span><br><span class="line"><span class="keyword">char</span> buff[<span class="number">255</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line"><span class="comment">//利用socketClient接收指定长度的流.</span></span><br><span class="line"><span class="keyword">long</span> len = recv(clientSocket, buff, <span class="number">255</span>, <span class="number">0</span>);</span><br><span class="line"><span class="comment">//输出打印</span></span><br><span class="line"><span class="keyword">if</span> (len &gt; <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">“%s”</span>,buff);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p><p></p>
-<p></p><p>作业1<br>HTTP是属于哪一种标准TCP?UDP?why?</p><br><br><a id="more"></a><p></p>
+<p></p><p>作业1<br>HTTP是属于哪一种标准TCP?UDP?why?</p><br><p></p>
 </span>
       
     </div>
@@ -289,10 +289,10 @@ TCP和UDP先抛开两种IOS中常用的通信方式,我们来看一下计算机�
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2016/01/09/“声明的进程”/"
+        <div class="ds-share flat" data-thread-key="2016/01/10/“声明的进程”/"
      data-title="socket通信实现 |"
      data-content=""
-     data-url="http://yoursite.com/2016/01/09/“声明的进程”/">
+     data-url="http://yoursite.com/2016/01/10/“声明的进程”/">
   <div class="ds-share-inline">
     <ul  class="ds-share-icons-16">
 
@@ -323,8 +323,8 @@ TCP和UDP先抛开两种IOS中常用的通信方式,我们来看一下计算机�
         
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/01/09/“声明的进程”/"
-           data-title="socket通信实现 |" data-url="http://yoursite.com/2016/01/09/“声明的进程”/">
+      <div class="ds-thread" data-thread-key="2016/01/10/“声明的进程”/"
+           data-title="socket通信实现 |" data-url="http://yoursite.com/2016/01/10/“声明的进程”/">
       </div>
     
   </div>
@@ -368,7 +368,7 @@ TCP和UDP先抛开两种IOS中常用的通信方式,我们来看一下计算机�
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-count">4</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -382,7 +382,7 @@ TCP和UDP先抛开两种IOS中常用的通信方式,我们来看一下计算机�
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-count">1</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
