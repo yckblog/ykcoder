@@ -35,7 +35,7 @@
 <link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="iOSAvplayer," />
 
 
 
@@ -51,22 +51,22 @@
 
 
 
-<meta name="description" content="###AsyncSocket简介在实现App的时候经常需要进行实时的网络通信，也就是即时通信。
-实现即时通信的方式很多，可以利用极光、融云等即时通信平台进行通信，也可以利用一些打包类进行简单的即时通信。这些打包类也有很多，例如GCDAsyncSocket，AsyncSocket等等，但他们的使用方法都是共通的。这里以AsyncSocket为例，讲解一下其使用过程。
-AsyncSocket是一套开源">
+<meta name="description" content="在这里给AVPlayer播放在线音频文件作个记号
+###1.在H文件中初始：AVPlayer mp3Player;AVPlayerItem mp3PlayerItem;id audioMix;id volumeMixInput;
+2.在MM文件中：//作品播放    NSURL  songUrl = [NSURL URLWithString:userInfo.songUrl];    AVURLA">
 <meta property="og:type" content="article">
-<meta property="og:title" content="“IOS开发之利用AsyncSocket实现即时通信(一) ”">
-<meta property="og:url" content="http://yoursite.com/2014/02/18/“声明的进程”副本/index.html">
+<meta property="og:title" content="在IOS中使用AVPlayer去播放在线音频文件，并设置音量">
+<meta property="og:url" content="http://yoursite.com/2014/01/12/在IOS中使用AVPlayer去播放在线音频文件，并设置音量/index.html">
 <meta property="og:site_name" content="YKcoder">
-<meta property="og:description" content="###AsyncSocket简介在实现App的时候经常需要进行实时的网络通信，也就是即时通信。
-实现即时通信的方式很多，可以利用极光、融云等即时通信平台进行通信，也可以利用一些打包类进行简单的即时通信。这些打包类也有很多，例如GCDAsyncSocket，AsyncSocket等等，但他们的使用方法都是共通的。这里以AsyncSocket为例，讲解一下其使用过程。
-AsyncSocket是一套开源">
-<meta property="og:updated_time" content="2016-01-09T09:29:52.000Z">
+<meta property="og:description" content="在这里给AVPlayer播放在线音频文件作个记号
+###1.在H文件中初始：AVPlayer mp3Player;AVPlayerItem mp3PlayerItem;id audioMix;id volumeMixInput;
+2.在MM文件中：//作品播放    NSURL  songUrl = [NSURL URLWithString:userInfo.songUrl];    AVURLA">
+<meta property="og:updated_time" content="2016-01-12T09:28:28.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="“IOS开发之利用AsyncSocket实现即时通信(一) ”">
-<meta name="twitter:description" content="###AsyncSocket简介在实现App的时候经常需要进行实时的网络通信，也就是即时通信。
-实现即时通信的方式很多，可以利用极光、融云等即时通信平台进行通信，也可以利用一些打包类进行简单的即时通信。这些打包类也有很多，例如GCDAsyncSocket，AsyncSocket等等，但他们的使用方法都是共通的。这里以AsyncSocket为例，讲解一下其使用过程。
-AsyncSocket是一套开源">
+<meta name="twitter:title" content="在IOS中使用AVPlayer去播放在线音频文件，并设置音量">
+<meta name="twitter:description" content="在这里给AVPlayer播放在线音频文件作个记号
+###1.在H文件中初始：AVPlayer mp3Player;AVPlayerItem mp3PlayerItem;id audioMix;id volumeMixInput;
+2.在MM文件中：//作品播放    NSURL  songUrl = [NSURL URLWithString:userInfo.songUrl];    AVURLA">
 
 
 
@@ -78,7 +78,7 @@ AsyncSocket是一套开源">
   };
 </script>
 
-  <title> “IOS开发之利用AsyncSocket实现即时通信(一) ” | YKcoder </title>
+  <title> 在IOS中使用AVPlayer去播放在线音频文件，并设置音量 | YKcoder </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -208,7 +208,7 @@ AsyncSocket是一套开源">
             
             
               
-                “IOS开发之利用AsyncSocket实现即时通信(一) ”
+                在IOS中使用AVPlayer去播放在线音频文件，并设置音量
               
             
           </h1>
@@ -217,8 +217,8 @@ AsyncSocket是一套开源">
         <div class="post-meta">
           <span class="post-time">
             发表于
-            <time itemprop="dateCreated" datetime="2014-02-18T22:17:38+08:00" content="2014-02-18">
-              2014-02-18
+            <time itemprop="dateCreated" datetime="2014-01-12T17:26:52+08:00" content="2014-01-12">
+              2014-01-12
             </time>
           </span>
 
@@ -228,8 +228,8 @@ AsyncSocket是一套开源">
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2014/02/18/“声明的进程”副本/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/02/18/“声明的进程”副本/" itemprop="commentsCount"></span>
+                <a href="/2014/01/12/在IOS中使用AVPlayer去播放在线音频文件，并设置音量/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/01/12/在IOS中使用AVPlayer去播放在线音频文件，并设置音量/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -248,50 +248,69 @@ AsyncSocket是一套开源">
       
 
       
-        <span itemprop="articleBody"><p>###AsyncSocket简介<br>在实现App的时候经常需要进行实时的网络通信，也就是即时通信。</p>
-<p>实现即时通信的方式很多，可以利用极光、融云等即时通信平台进行通信，也可以利用一些打包类进行简单的即时通信。这些打包类也有很多，例如GCDAsyncSocket，AsyncSocket等等，但他们的使用方法都是共通的。这里以AsyncSocket为例，讲解一下其使用过程。</p>
-<p>AsyncSocket是一套开源的网络访问类库。 iphone的标准推荐CFNetwork C库编程.但是编程比较麻烦。在其它OS往往用类来封装的对Socket函数的处理。比如MFC的CAsysncSocket，Java里面的Socket和SocketServer.在iphone也有类似于开源项目，就是AsyncSocket库, 官方网站:<a href="http://code.google.com/p/cocoaasyncsocket/" target="_blank" rel="external">http://code.google.com/p/cocoaasyncsocket/</a> 它用来简化CFnetwork的调用.</p>
-<p>###AsyncSocket的基本使用<br>在项目引入ASyncSocket库</p>
-<p>1.下载ASyncSocket库源码</p>
-<p>2.把ASyncSocket库源码加入项目：</p>
-<p>只需要增加RunLoop目录中的AsyncSocket.h、AsyncSocket.m、AsyncUdpSocket.h和AsyncUdpSocket.m四个文件。</p>
-<p>3.在项目增加CFNetwork框架<br>在Framework目录右健,选择Add—&gt;Existing Files…, 选择 CFNetwork.framework<br>连接服务器</p>
-<p>首先引入头文件，声明一个AsyncSocket对象，再调用connection与服务器建立连接，代码如下:</p>
-<p>import “AsyncSocket.h”</p>
-<p>然后就是与服务器建立链接了</p>
-<p>// socket连接<br>-(void)socketConnectHost{<br>    self.socket = [[AsyncSocket alloc] initWithDelegate:self];<br>    NSError *error = nil;<br>    [self.socket connectToHost:self.socketHost onPort:self.socketPort withTimeout:3 error:&amp;error];<br>}</p>
-<p>与Java中的客户端部分代码相似，AsyncSocket代码也需要指定服务端地址和服务端口. ####发送数据 发送数据的代码很简单</p>
-<p>NSString longConnect = @”longConnect”;<br>NSData   dataStream  = [longConnect dataUsingEncoding:NSUTF8StringEncoding];<br>[self.socket writeData:dataStream withTimeout:1 tag:1];</p>
-<p>AsyncSocket向服务器发送数据都是先将数据转换生成二进制的data数据，再向服务端进行发送的。 ####接收数据 为了收到socket的消息，我们需要在长连接方法中进行读取数据</p>
-<p>[self.socket readDataWithTimeout:30 tag:0];</p>
-<p>如果得到数据，会调用回调方法</p>
-<p>-(void)onSocket:(AsyncSocket )sock didReadData:(NSData )data withTag:(long)tag<br>{<br>    // 对得到的data值进行解析与转换即可<br>}</p>
-<p>###AsyncSocket的中级使用</p>
-<p>在进行通信的时候经常会遇到一些不可抗力的因素，例如：服务端崩溃，手机端App闪退，手机断网了等等各种导致连接断开，而一个优秀的App是不应该允许这些情况影响用户体验的。</p>
-<p>这个时候可以采取的一种方式是：创建一个类，继承AsyncSocket，重写他的下列方法。</p>
-<p>// Disconnect Implementation<br>(void)closeWithError:(NSError *)err;<br>(void)recoverUnreadData;<br>(void)emptyQueues;<br>(void)close;</p>
-<p>在对应的方法中进行相应的容错处理就可以了。</p>
+        <span itemprop="articleBody"><p>在这里给AVPlayer播放在线音频文件作个记号</p>
+<h1 id="23_23_231-_u5728H_u6587_u4EF6_u4E2D_u521D_u59CB_uFF1A"><a href="#23_23_231-_u5728H_u6587_u4EF6_u4E2D_u521D_u59CB_uFF1A" class="headerlink" title="###1.在H文件中初始："></a>###1.在H文件中初始：</h1><p>AVPlayer <em>mp3Player;<br>AVPlayerItem </em>mp3PlayerItem;<br>id audioMix;<br>id volumeMixInput;</p>
+<p>2.在MM文件中：<br>//作品播放<br>    NSURL <em> songUrl = [NSURL URLWithString:userInfo.songUrl];<br>    AVURLAsset </em>movieAsset    = [[[AVURLAsset alloc]initWithURL:songUrl options:nil]autorelease];</p>
+<pre><code> self. mp3PlayerItem = [AVPlayerItem playerItemWithAsset:movieAsset];
+ [self. mp3PlayerItem addObserver:self forKeyPath:@&quot;status&quot; options:0 context:NULL];
+  self. mp3Player = [AVPlayer playerWithPlayerItem:self. mp3PlayerItem];
+  AVPlayerLayer *playerLayer = [AVPlayerLayer playerLayerWithPlayer:self. mp3Player];
+  playerLayer.frame = self.view.layer.bounds;
+  playerLayer.videoGravity = AVLayerVideoGravityResizeAspect;
+  [self.view.layer addSublayer:playerLayer];
+   [self. mp3Player setAllowsExternalPlayback:YES];
+</code></pre><p>3.实现代理方法：</p>
+<ul>
+<li>(void)observeValueForKeyPath:(NSString <em>)keyPath ofObject:(id)object change:(NSDictionary </em>)change context:(void *)context<br>{<br>  if ([keyPath isEqualToString:@”status”])<br>  {<pre><code>  if (AVPlayerItemStatusReadyToPlay == self. mp3Player.currentItem.status)
+  {
+      [self. mp3Player play];
+  }
+</code></pre>  }<br>}</li>
+</ul>
+<p>4.现实音量调整<br>-(void) setVolume:(float)volume{<br>    //作品音量控制<br>    NSMutableArray <em>allAudioParams = [NSMutableArray array];<br>    AVMutableAudioMixInputParameters </em>audioInputParams =[AVMutableAudioMixInputParameters audioMixInputParameters];<br>    [audioInputParams setVolume:volume atTime:kCMTimeZero];<br>    [audioInputParams setTrackID:1];<br>    [allAudioParams addObject:audioInputParams];<br>    audioMix = [AVMutableAudioMix audioMix];<br>    [audioMix setInputParameters:allAudioParams];<br>    [self. mp3PlayerItem setAudioMix:audioMix]; // Mute the player item</p>
+<pre><code>[avAudioPlayer setVolume:volume];
+</code></pre><p>}</p>
+<p>5.取得播放时间</p>
+<ul>
+<li>(NSTimeInterval) playableDuration<br>{<br>  AVPlayerItem * item = self.worksPlayer.currentItem;<br>  if (item.status == AVPlayerItemStatusReadyToPlay) {<pre><code>  return CMTimeGetSeconds(self.worksPlayer.currentItem.duration);
+</code></pre>  }<br>  else<br>  {<pre><code>  return(CMTimeGetSeconds(kCMTimeInvalid));
+</code></pre>  }<br>}</li>
+<li><p>(NSTimeInterval) playableCurrentTime<br>{<br>  AVPlayerItem * item = self.worksPlayer.currentItem;</p>
+<p>  if (item.status == AVPlayerItemStatusReadyToPlay) {</p>
+<pre><code>  NSLog(@&quot;%f\n&quot;,CMTimeGetSeconds(self.worksPlayer.currentItem.currentTime));
+  if (!playBeginState&amp;&amp;CMTimeGetSeconds(self.worksPlayer.currentItem.currentTime)==CMTimeGetSeconds(self.worksPlayer.currentItem.duration)) {
+      [streamer stop];
+  }
+  playBeginState = NO;
+  return CMTimeGetSeconds(self.worksPlayer.currentItem.currentTime);
+</code></pre><p>  }<br>  else<br>  {</p>
+<pre><code>  return(CMTimeGetSeconds(kCMTimeInvalid));
+</code></pre><p>  }<br>}</p>
+</li>
+</ul>
 </span>
       
     </div>
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/iOSAvplayer/" rel="tag">#iOSAvplayer</a>
+          
+        </div>
+      
 
       
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2014/02/09/利用GitHub进行文件的版本控制副本/" rel="next" title="利用GitHub进行文件的版本控制">
-                <i class="fa fa-chevron-left"></i> 利用GitHub进行文件的版本控制
-              </a>
-            
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/01/10/“声明的进程”/" rel="prev" title="socket通信实现 |">
-                socket通信实现 | <i class="fa fa-chevron-right"></i>
+              <a href="/2014/02/09/利用GitHub进行文件的版本控制/" rel="prev" title="利用GitHub进行文件的版本控制">
+                利用GitHub进行文件的版本控制 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -307,10 +326,10 @@ AsyncSocket是一套开源">
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2014/02/18/“声明的进程”副本/"
-     data-title="“IOS开发之利用AsyncSocket实现即时通信(一) ”"
+        <div class="ds-share flat" data-thread-key="2014/01/12/在IOS中使用AVPlayer去播放在线音频文件，并设置音量/"
+     data-title="在IOS中使用AVPlayer去播放在线音频文件，并设置音量"
      data-content=""
-     data-url="http://yoursite.com/2014/02/18/“声明的进程”副本/">
+     data-url="http://yoursite.com/2014/01/12/在IOS中使用AVPlayer去播放在线音频文件，并设置音量/">
   <div class="ds-share-inline">
     <ul  class="ds-share-icons-16">
 
@@ -341,8 +360,8 @@ AsyncSocket是一套开源">
         
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2014/02/18/“声明的进程”副本/"
-           data-title="“IOS开发之利用AsyncSocket实现即时通信(一) ”" data-url="http://yoursite.com/2014/02/18/“声明的进程”副本/">
+      <div class="ds-thread" data-thread-key="2014/01/12/在IOS中使用AVPlayer去播放在线音频文件，并设置音量/"
+           data-title="在IOS中使用AVPlayer去播放在线音频文件，并设置音量" data-url="http://yoursite.com/2014/01/12/在IOS中使用AVPlayer去播放在线音频文件，并设置音量/">
       </div>
     
   </div>
@@ -450,7 +469,7 @@ AsyncSocket是一套开源">
               
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#23_23_231-_u5728H_u6587_u4EF6_u4E2D_u521D_u59CB_uFF1A"><span class="nav-number">1.</span> <span class="nav-text">###1.在H文件中初始：</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
