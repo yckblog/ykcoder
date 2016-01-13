@@ -51,19 +51,27 @@
 
 
 
-<meta name="description" content="SVN是集中式版本控制系统，版本库是集中放在中央服务器的，而干活的时候，用的都是自己的电脑，所以首先要从中央服务器哪里得到最新的版本，然后干活，干完后，需要把自己做完的活推送到中央服务器。集中式版本控制系统是必须联网才能工作，如果在局域网还可以，带宽够大，速度够快:那如果在互联网下，网速又很慢的话，就郁闷了。
-Git是分布式版本控制系统，那么它就没有中央服务器的，每个人的电脑就是一个完整的版本库，">
+<meta name="description" content="一、静态库和动态库的区别：静态库和动态库是相对编译期和运行期的，静态库以 .a 和 .framework 形式存在，链接时，静态库会被完整地复制到可执行文件中，被多次使用就有多份冗余拷贝；动态库以 .dylib 和 .framework 形式存在，链接时不复制，程序运行时由系统动态加载到内存，供程序调用，系统只加载一次，多个程序共用，节省内存，一般只能由系统创建。
+二、静态库简介：1、静态库分为真">
 <meta property="og:type" content="article">
-<meta property="og:title" content="利用GitHub进行文件的版本控制">
-<meta property="og:url" content="http://yoursite.com/2014/02/09/利用GitHub进行文件的版本控制/index.html">
+<meta property="og:title" content="Xcode7中创建静态库">
+<meta property="og:url" content="http://yoursite.com/2016/01/13/“声明的进程”副本 2/index.html">
 <meta property="og:site_name" content="YKcoder">
-<meta property="og:description" content="SVN是集中式版本控制系统，版本库是集中放在中央服务器的，而干活的时候，用的都是自己的电脑，所以首先要从中央服务器哪里得到最新的版本，然后干活，干完后，需要把自己做完的活推送到中央服务器。集中式版本控制系统是必须联网才能工作，如果在局域网还可以，带宽够大，速度够快:那如果在互联网下，网速又很慢的话，就郁闷了。
-Git是分布式版本控制系统，那么它就没有中央服务器的，每个人的电脑就是一个完整的版本库，">
-<meta property="og:updated_time" content="2016-01-09T09:30:05.000Z">
+<meta property="og:description" content="一、静态库和动态库的区别：静态库和动态库是相对编译期和运行期的，静态库以 .a 和 .framework 形式存在，链接时，静态库会被完整地复制到可执行文件中，被多次使用就有多份冗余拷贝；动态库以 .dylib 和 .framework 形式存在，链接时不复制，程序运行时由系统动态加载到内存，供程序调用，系统只加载一次，多个程序共用，节省内存，一般只能由系统创建。
+二、静态库简介：1、静态库分为真">
+<meta property="og:image" content="http://ww1.sinaimg.cn/mw690/c04e18b7jw1ezwzpznrvaj211p0lqdj9.jpg">
+<meta property="og:image" content="http://ww2.sinaimg.cn/mw690/c04e18b7jw1ezwzvhx3p3j20uv0ox76t.jpg">
+<meta property="og:image" content="http://ww2.sinaimg.cn/mw690/c04e18b7jw1ezwzvhx3p3j20uv0ox76t.jpg">
+<meta property="og:image" content="http://ww4.sinaimg.cn/mw690/c04e18b7jw1ezwzqduw9qj212w0q6jwg.jpg">
+<meta property="og:image" content="http://ww2.sinaimg.cn/mw690/c04e18b7gw1ezxtx9zcj1j20hb03nwfa.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/mw690/c04e18b7gw1ezxtxf7antj20he027wex.jpg">
+<meta property="og:image" content="http://ww4.sinaimg.cn/mw690/c04e18b7gw1ezxtzpkpg7j20l70bqq4d.jpg">
+<meta property="og:image" content="http://ww2.sinaimg.cn/mw690/c04e18b7gw1ezxu9huq5cj20g404h402.jpg">
+<meta property="og:updated_time" content="2016-01-13T15:04:57.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="利用GitHub进行文件的版本控制">
-<meta name="twitter:description" content="SVN是集中式版本控制系统，版本库是集中放在中央服务器的，而干活的时候，用的都是自己的电脑，所以首先要从中央服务器哪里得到最新的版本，然后干活，干完后，需要把自己做完的活推送到中央服务器。集中式版本控制系统是必须联网才能工作，如果在局域网还可以，带宽够大，速度够快:那如果在互联网下，网速又很慢的话，就郁闷了。
-Git是分布式版本控制系统，那么它就没有中央服务器的，每个人的电脑就是一个完整的版本库，">
+<meta name="twitter:title" content="Xcode7中创建静态库">
+<meta name="twitter:description" content="一、静态库和动态库的区别：静态库和动态库是相对编译期和运行期的，静态库以 .a 和 .framework 形式存在，链接时，静态库会被完整地复制到可执行文件中，被多次使用就有多份冗余拷贝；动态库以 .dylib 和 .framework 形式存在，链接时不复制，程序运行时由系统动态加载到内存，供程序调用，系统只加载一次，多个程序共用，节省内存，一般只能由系统创建。
+二、静态库简介：1、静态库分为真">
 
 
 
@@ -75,7 +83,7 @@ Git是分布式版本控制系统，那么它就没有中央服务器的，每�
   };
 </script>
 
-  <title> 利用GitHub进行文件的版本控制 | YKcoder </title>
+  <title> Xcode7中创建静态库 | YKcoder </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -194,7 +202,7 @@ Git是分布式版本控制系统，那么它就没有中央服务器的，每�
   
   
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <article class="post post-type-技术 " itemscope itemtype="http://schema.org/Article">
 
     
       <header class="post-header">
@@ -205,7 +213,7 @@ Git是分布式版本控制系统，那么它就没有中央服务器的，每�
             
             
               
-                利用GitHub进行文件的版本控制
+                Xcode7中创建静态库
               
             
           </h1>
@@ -214,8 +222,8 @@ Git是分布式版本控制系统，那么它就没有中央服务器的，每�
         <div class="post-meta">
           <span class="post-time">
             发表于
-            <time itemprop="dateCreated" datetime="2014-02-09T13:13:46+08:00" content="2014-02-09">
-              2014-02-09
+            <time itemprop="dateCreated" datetime="2016-01-13T23:04:57+08:00" content="2016-01-13">
+              2016-01-13
             </time>
           </span>
 
@@ -225,8 +233,8 @@ Git是分布式版本控制系统，那么它就没有中央服务器的，每�
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2014/02/09/利用GitHub进行文件的版本控制/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/02/09/利用GitHub进行文件的版本控制/" itemprop="commentsCount"></span>
+                <a href="/2016/01/13/“声明的进程”副本 2/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/13/“声明的进程”副本 2/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -245,22 +253,35 @@ Git是分布式版本控制系统，那么它就没有中央服务器的，每�
       
 
       
-        <span itemprop="articleBody"><p>   </p><p>SVN是集中式版本控制系统，版本库是集中放在中央服务器的，而干活的时候，用的都是自己的电脑，所以首先要从中央服务器哪里得到最新的版本，然后干活，干完后，需要把自己做完的活推送到中央服务器。集中式版本控制系统是必须联网才能工作，如果在局域网还可以，带宽够大，速度够快:那如果在互联网下，网速又很慢的话，就郁闷了。</p><p></p>
-<p></p><p>Git是分布式版本控制系统，那么它就没有中央服务器的，每个人的电脑就是一个完整的版本库，这样，工作的时候就不需要联网了，因为版本都是在自己的电脑上。既然每个人的电脑都有一个完整的版本库，那多个人如何协作呢？比如说自己在电脑上改了文件A，其他人也在电脑上改了文件A，这时，你们两之间只需把各自的修改推送给对方，就可以互相看到对方的修改了。</p><p></p>
-<p></p><p>这里介绍一下如何利用github进行代码的版本控制.</p><p></p>
-<p></p><p></p><h2>使用终端命令来进行git管理</h2><p></p><p></p>
-<h3>常用命令</h3><br>1 初始化Git仓库<br>对当前的文件夹进行git信息关联,形成一个git仓库.<br>指令是:  git init<br><br>2 将文件添加到版本控制中<br>将文件添加到git的版本控制内,这样文件的修改也就会被监测.<br>指令是: git add read.txt<br><br>3 将修改提交到本地仓库<br>将所有的文件修改记录提交到本地的仓库.<br>指令是:git commit.<br>这里要注意一下,敲完指令,回车之后,显示的是一个Vi编辑的内容,里面的内容都是用”#”注释起来的.git将所有的修改都在文件中列出来了,你只要将需要提交的文件打开注释,git就会将其提交到本地仓库.<br><br>4 提交的服务器<br>将本地仓库和服务器的仓库进行同步提交<br>指令是: git push origin master<br><br>5 查看目前的提交状态<br>查看目前所有在控制目录内的文件的修改及提交情况.<br>指令是: git status<br><br>6 查看一个文件的修改内容<br>指令是:git diff read.txt<br><br><br><h3>版本回退</h3>
-
-<p></p><p>1 查看最近的提交<br>指令是: git log</p><p></p>
-<p></p><p>2 显示简单的版本介绍<br>指令是: git log –-pretty=oneline </p><p></p>
-<p></p><p>3 回退到上一个版本<br>指令是: git reset —hard HEAD^</p><p></p>
-<p></p><p>4 回退到上上个版本<br>指令是: git reset —hard HEAD^^</p><p></p>
-<p></p><p>5 显示所有的版本号<br>指令是: git reflog</p><p></p>
-<p></p><p>6 根据版本号进行回退<br>指令是: git reset —hard 6fcfc89</p><br><p></p>
-<pre><code>&lt;/div&gt;
-
-&lt;footer class=&quot;post-footer&quot;&gt;
-</code></pre></span>
+        <span itemprop="articleBody"><p><span itemprop="articleBody"><h3 id="u4E00_u3001_u9759_u6001_u5E93_u548C_u52A8_u6001_u5E93_u7684_u533A_u522B_uFF1A"><a href="#u4E00_u3001_u9759_u6001_u5E93_u548C_u52A8_u6001_u5E93_u7684_u533A_u522B_uFF1A" class="headerlink" title="一、静态库和动态库的区别："></a>一、静态库和动态库的区别：</h3><p>静态库和动态库是相对编译期和运行期的，静态库以 .a 和 .framework 形式存在，链接时，静态库会被完整地复制到可执行文件中，被多次使用就有多份冗余拷贝；动态库以 .dylib 和 .framework 形式存在，链接时不复制，程序运行时由系统动态加载到内存，供程序调用，系统只加载一次，多个程序共用，节省内存，一般只能由系统创建。</p></span></p>
+<p></p><h3 id="u4E8C_u3001_u9759_u6001_u5E93_u7B80_u4ECB_uFF1A"><a href="#u4E8C_u3001_u9759_u6001_u5E93_u7B80_u4ECB_uFF1A" class="headerlink" title="二、静态库简介："></a>二、静态库简介：</h3><p>1、静态库分为真机—Debug（调试）版本、真机—Release（发布）版本、模拟器—Debug版本、模拟器—Release版本；开发中一般都打包Release（发布）版本，将真机和模拟器版本合并，提供外界。</p><p></p>
+<p></p><p>2、使用场景：在项目开发的过程中，例如两个公司之间业务交流，不可能把源代码都发送给另一个公司，这时候将私密内容打包成静态库，别人只能调用接口，而不能知道其中实现的细节。</p><p></p>
+<p></p><h3 id="u4E09_u3001_u7528Xcode7_u521B_u5EFA_u9759_u6001_u5E93"><a href="#u4E09_u3001_u7528Xcode7_u521B_u5EFA_u9759_u6001_u5E93" class="headerlink" title="三、用Xcode7创建静态库"></a>三、用Xcode7创建静态库</h3><p>.a文件版本（以制作AFNetworking静态库为例）</p><p></p>
+<p></p><p>1、新建项目，点击iOS—Framework&amp;—Cocoa Touch Static Library。<br><img src="http://ww1.sinaimg.cn/mw690/c04e18b7jw1ezwzpznrvaj211p0lqdj9.jpg"></p><p></p>
+<p></p><p>给你的工程命名为StaticLib</p><p></p>
+<p></p><p>2、系统自动生成以工程名命名的.h和.m文件，可自定义的在目录下添加或删除文件，注意目录下Products文件夹有一个.a文件为红色，说明文件并不存在。这里我们将系统生成的.h和.m文件删除。</p><p></p>
+<p></p><p>将要创建静态库的所有文件导入工程目录下</p><p></p>
+<p></p><p><img src="http://ww2.sinaimg.cn/mw690/c04e18b7jw1ezwzvhx3p3j20uv0ox76t.jpg"></p><p></p>
+<p></p><p>3、点击Build Phases—Copy Files，左下角点击+号按钮，添加你需要暴露的接口头文件。如果你在静态库工程中使用了category，那么你可能会碰到链接问题，解决的办法就是需要同时在生成静态库的工程和使用静态库的工程中使用“-all_load”编译选项，即在对应target的”Build Settings”中的“Other Linker Flags”选项添加“-all_load”，注意：使用静态库的工程中是一定要加该编译选项的！至于生成静态库的工程中加不加没有试过，不过建议还是加上该编译选项。</p><p></p>
+<p></p><p>点击Add添加</p><p></p>
+<p></p><p><img src="http://ww2.sinaimg.cn/mw690/c04e18b7jw1ezwzvhx3p3j20uv0ox76t.jpg"></p><p></p>
+<p></p><p>4、然后点击左上角，选择Edit Scheme，Build Configuration下选择Release，先注意检查下面Release是否为NO：Yes表示只编译选中模拟器设备对应的架构，No则为编译所有模拟器设备支持的cup架构（Debug版本同理）,选择NO，然后分别在模拟器和真机下Command+B编译一下，会看到Products文件夹下的.a文件变为黑色，这个.a文件就是我们想要得到的静态库，这里会出现一个问题你先编译的模拟器会发现.a依然是红色，你需要模拟器和真机都编译后.a才会变成黑色，这应该是Xcode本身的问题。</p><p></p>
+<p></p><p><img src="http://ww4.sinaimg.cn/mw690/c04e18b7jw1ezwzqduw9qj212w0q6jwg.jpg"></p><p></p>
+<p></p><p>注：关于静态库对CPU架构的支持，首先了解iOS设备CPU架构方面的知识，ARM是微处理器行业的一家知名企业，arm处理器以体积小和高性能的优势在嵌入式设备中广泛使用，几乎所有手机都是使用它的。</p><p></p>
+<p></p><p>模拟器：iphone4s~5 : i386 iphone5s~6plus : x86_64</p><p></p>
+<p></p><p>真机：iphone3gs~4s : armv7  iphone5~5c : armv7s （静态库只要支持了armv7，就可以跑在armv7s的架构上） iphone5s~6plus : arm64</p><p></p>
+<p></p><p>armv6, armv7, armv7s是ARM CPU的不同指令集，原则是向下兼容的。例如iPhone4S CPU支持armv7, 但它同时兼容armv6，只是使用armv6指令可能无法充分发挥它的特性。</p><p></p>
+<p></p><p>这里再补充一下查看静态库.a对处理器架构的支持，先cd到.a文件的路径下，命令行输入：lipo -info xxxxx.a</p><p></p>
+<p></p><p><img src="http://ww2.sinaimg.cn/mw690/c04e18b7gw1ezxtx9zcj1j20hb03nwfa.jpg"></p><p></p>
+<p></p><p>5、通过终端打开路径/Users/shelin/Library/Developer/Xcode/DerivedData/，选择对应的工程文件夹。</p><p></p>
+<p></p><p><img src="http://ww1.sinaimg.cn/mw690/c04e18b7gw1ezxtxf7antj20he027wex.jpg"></p><p></p>
+<p></p><p>打开Build—Products文件夹，会看到Release-iphoneos和Release-iphonesimulator文件夹，分别是真机和模拟器的.a文件，为了使用方便我们将两个版本的.a文件合并。</p><p></p>
+<p></p><p><img src="http://ww4.sinaimg.cn/mw690/c04e18b7gw1ezxtzpkpg7j20l70bqq4d.jpg"></p><p></p>
+<p></p><p>6、合并真机和模拟器.a文件，在终端输入以下命令行：lipo -create  模拟器.a文件的路径 真机.a文件的路径 -output 合并后的保存路径（例：lipo -create /Users/lanou3g/Library/Developer/Xcode/DerivedData/StaticLib-bclobqjuiutnrobrjacafgddptem/Build/Products/Release-iphoneos/libStaticLib.a  /Users/lanou3g/Library/Developer/Xcode/DerivedData/StaticLib-bclobqjuiutnrobrjacafgddptem/Build/Products/Release-iphonesimulator/libStaticLib.a  -output /Users/lanou3g/Desktop/StaticLib.a）最终会在桌面得到一个合并后的StaticLib.a文件，再将暴露出来的.h头文件一起复制出来。</p><p></p>
+<p></p><p><img src="http://ww2.sinaimg.cn/mw690/c04e18b7gw1ezxu9huq5cj20g404h402.jpg"></p><p></p>
+<p></p><p>7、使用：只需将.a和暴露出来的.h头文件导入工程目录下就可供外界使用。</p><p></p>
+<p></p><p>8、.framework待研究。</p><br><p></p>
+</span>
       
     </div>
 
@@ -271,17 +292,13 @@ Git是分布式版本控制系统，那么它就没有中央服务器的，每�
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2014/01/12/在IOS中使用AVPlayer去播放在线音频文件，并设置音量/" rel="next" title="在IOS中使用AVPlayer去播放在线音频文件，并设置音量">
-                <i class="fa fa-chevron-left"></i> 在IOS中使用AVPlayer去播放在线音频文件，并设置音量
+              <a href="/2016/01/10/“声明的进程”/" rel="next" title="socket通信实现 |">
+                <i class="fa fa-chevron-left"></i> socket通信实现 |
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2014/02/18/“声明的进程”副本/" rel="prev" title="“IOS开发之利用AsyncSocket实现即时通信(一) ”">
-                “IOS开发之利用AsyncSocket实现即时通信(一) ” <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -296,10 +313,10 @@ Git是分布式版本控制系统，那么它就没有中央服务器的，每�
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2014/02/09/利用GitHub进行文件的版本控制/"
-     data-title="利用GitHub进行文件的版本控制"
+        <div class="ds-share flat" data-thread-key="2016/01/13/“声明的进程”副本 2/"
+     data-title="Xcode7中创建静态库"
      data-content=""
-     data-url="http://yoursite.com/2014/02/09/利用GitHub进行文件的版本控制/">
+     data-url="http://yoursite.com/2016/01/13/“声明的进程”副本 2/">
   <div class="ds-share-inline">
     <ul  class="ds-share-icons-16">
 
@@ -330,8 +347,8 @@ Git是分布式版本控制系统，那么它就没有中央服务器的，每�
         
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2014/02/09/利用GitHub进行文件的版本控制/"
-           data-title="利用GitHub进行文件的版本控制" data-url="http://yoursite.com/2014/02/09/利用GitHub进行文件的版本控制/">
+      <div class="ds-thread" data-thread-key="2016/01/13/“声明的进程”副本 2/"
+           data-title="Xcode7中创建静态库" data-url="http://yoursite.com/2016/01/13/“声明的进程”副本 2/">
       </div>
     
   </div>
@@ -439,7 +456,7 @@ Git是分布式版本控制系统，那么它就没有中央服务器的，每�
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text">使用终端命令来进行git管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">1.1.</span> <span class="nav-text">常用命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">1.2.</span> <span class="nav-text">版本回退</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#u4E00_u3001_u9759_u6001_u5E93_u548C_u52A8_u6001_u5E93_u7684_u533A_u522B_uFF1A"><span class="nav-number">1.</span> <span class="nav-text">一、静态库和动态库的区别：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u4E8C_u3001_u9759_u6001_u5E93_u7B80_u4ECB_uFF1A"><span class="nav-number">2.</span> <span class="nav-text">二、静态库简介：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u4E09_u3001_u7528Xcode7_u521B_u5EFA_u9759_u6001_u5E93"><span class="nav-number">3.</span> <span class="nav-text">三、用Xcode7创建静态库</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
