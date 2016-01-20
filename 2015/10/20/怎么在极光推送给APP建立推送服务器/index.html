@@ -51,22 +51,19 @@
 
 
 
-<meta name="description" content="###AsyncSocket简介在实现App的时候经常需要进行实时的网络通信，也就是即时通信。
-实现即时通信的方式很多，可以利用极光、融云等即时通信平台进行通信，也可以利用一些打包类进行简单的即时通信。这些打包类也有很多，例如GCDAsyncSocket，AsyncSocket等等，但他们的使用方法都是共通的。这里以AsyncSocket为例，讲解一下其使用过程。
-AsyncSocket是一套开源">
+<meta name="description" content="关于如何用极光（JPUSH）来对你的APP进行推送服务消息，首先我们需要有一个开发者账户，这是首要条件，然后我们需要去激光推送（JPUSH）官网注册一个账号，然后登陆，里面首页有一排选项，我们需要选择文档。下面进入指南：
+1、选择“SDK”那一项，里面有iOSSDK选项，点击下载，会下载下来一个JPUSH-iOS-SDK-2.1.x的文件，我们需要做的就是把里面的lib文件拖入到我们写的工程里，勾">
 <meta property="og:type" content="article">
-<meta property="og:title" content="“IOS开发之利用AsyncSocket实现即时通信(一) ”">
-<meta property="og:url" content="http://yoursite.com/2014/02/18/“声明的进程”副本/index.html">
+<meta property="og:title" content="怎么在极光推送给APP建立推送服务器">
+<meta property="og:url" content="http://yoursite.com/2015/10/20/怎么在极光推送给APP建立推送服务器/index.html">
 <meta property="og:site_name" content="YKcoder">
-<meta property="og:description" content="###AsyncSocket简介在实现App的时候经常需要进行实时的网络通信，也就是即时通信。
-实现即时通信的方式很多，可以利用极光、融云等即时通信平台进行通信，也可以利用一些打包类进行简单的即时通信。这些打包类也有很多，例如GCDAsyncSocket，AsyncSocket等等，但他们的使用方法都是共通的。这里以AsyncSocket为例，讲解一下其使用过程。
-AsyncSocket是一套开源">
-<meta property="og:updated_time" content="2016-01-09T09:29:52.000Z">
+<meta property="og:description" content="关于如何用极光（JPUSH）来对你的APP进行推送服务消息，首先我们需要有一个开发者账户，这是首要条件，然后我们需要去激光推送（JPUSH）官网注册一个账号，然后登陆，里面首页有一排选项，我们需要选择文档。下面进入指南：
+1、选择“SDK”那一项，里面有iOSSDK选项，点击下载，会下载下来一个JPUSH-iOS-SDK-2.1.x的文件，我们需要做的就是把里面的lib文件拖入到我们写的工程里，勾">
+<meta property="og:updated_time" content="2016-01-20T11:22:34.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="“IOS开发之利用AsyncSocket实现即时通信(一) ”">
-<meta name="twitter:description" content="###AsyncSocket简介在实现App的时候经常需要进行实时的网络通信，也就是即时通信。
-实现即时通信的方式很多，可以利用极光、融云等即时通信平台进行通信，也可以利用一些打包类进行简单的即时通信。这些打包类也有很多，例如GCDAsyncSocket，AsyncSocket等等，但他们的使用方法都是共通的。这里以AsyncSocket为例，讲解一下其使用过程。
-AsyncSocket是一套开源">
+<meta name="twitter:title" content="怎么在极光推送给APP建立推送服务器">
+<meta name="twitter:description" content="关于如何用极光（JPUSH）来对你的APP进行推送服务消息，首先我们需要有一个开发者账户，这是首要条件，然后我们需要去激光推送（JPUSH）官网注册一个账号，然后登陆，里面首页有一排选项，我们需要选择文档。下面进入指南：
+1、选择“SDK”那一项，里面有iOSSDK选项，点击下载，会下载下来一个JPUSH-iOS-SDK-2.1.x的文件，我们需要做的就是把里面的lib文件拖入到我们写的工程里，勾">
 
 
 
@@ -78,7 +75,7 @@ AsyncSocket是一套开源">
   };
 </script>
 
-  <title> “IOS开发之利用AsyncSocket实现即时通信(一) ” | YKcoder </title>
+  <title> 怎么在极光推送给APP建立推送服务器 | YKcoder </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -208,7 +205,7 @@ AsyncSocket是一套开源">
             
             
               
-                “IOS开发之利用AsyncSocket实现即时通信(一) ”
+                怎么在极光推送给APP建立推送服务器
               
             
           </h1>
@@ -217,8 +214,8 @@ AsyncSocket是一套开源">
         <div class="post-meta">
           <span class="post-time">
             发表于
-            <time itemprop="dateCreated" datetime="2014-02-18T22:17:38+08:00" content="2014-02-18">
-              2014-02-18
+            <time itemprop="dateCreated" datetime="2015-10-20T17:59:10+08:00" content="2015-10-20">
+              2015-10-20
             </time>
           </span>
 
@@ -228,8 +225,8 @@ AsyncSocket是一套开源">
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2014/02/18/“声明的进程”副本/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/02/18/“声明的进程”副本/" itemprop="commentsCount"></span>
+                <a href="/2015/10/20/怎么在极光推送给APP建立推送服务器/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/10/20/怎么在极光推送给APP建立推送服务器/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -248,29 +245,83 @@ AsyncSocket是一套开源">
       
 
       
-        <span itemprop="articleBody"><p>###AsyncSocket简介<br>在实现App的时候经常需要进行实时的网络通信，也就是即时通信。</p>
-<p>实现即时通信的方式很多，可以利用极光、融云等即时通信平台进行通信，也可以利用一些打包类进行简单的即时通信。这些打包类也有很多，例如GCDAsyncSocket，AsyncSocket等等，但他们的使用方法都是共通的。这里以AsyncSocket为例，讲解一下其使用过程。</p>
-<p>AsyncSocket是一套开源的网络访问类库。 iphone的标准推荐CFNetwork C库编程.但是编程比较麻烦。在其它OS往往用类来封装的对Socket函数的处理。比如MFC的CAsysncSocket，Java里面的Socket和SocketServer.在iphone也有类似于开源项目，就是AsyncSocket库, 官方网站:<a href="http://code.google.com/p/cocoaasyncsocket/" target="_blank" rel="external">http://code.google.com/p/cocoaasyncsocket/</a> 它用来简化CFnetwork的调用.</p>
-<p>###AsyncSocket的基本使用<br>在项目引入ASyncSocket库</p>
-<p>1.下载ASyncSocket库源码</p>
-<p>2.把ASyncSocket库源码加入项目：</p>
-<p>只需要增加RunLoop目录中的AsyncSocket.h、AsyncSocket.m、AsyncUdpSocket.h和AsyncUdpSocket.m四个文件。</p>
-<p>3.在项目增加CFNetwork框架<br>在Framework目录右健,选择Add—&gt;Existing Files…, 选择 CFNetwork.framework<br>连接服务器</p>
-<p>首先引入头文件，声明一个AsyncSocket对象，再调用connection与服务器建立连接，代码如下:</p>
-<p>import “AsyncSocket.h”</p>
-<p>然后就是与服务器建立链接了</p>
-<p>// socket连接<br>-(void)socketConnectHost{<br>    self.socket = [[AsyncSocket alloc] initWithDelegate:self];<br>    NSError *error = nil;<br>    [self.socket connectToHost:self.socketHost onPort:self.socketPort withTimeout:3 error:&amp;error];<br>}</p>
-<p>与Java中的客户端部分代码相似，AsyncSocket代码也需要指定服务端地址和服务端口. ####发送数据 发送数据的代码很简单</p>
-<p>NSString longConnect = @”longConnect”;<br>NSData   dataStream  = [longConnect dataUsingEncoding:NSUTF8StringEncoding];<br>[self.socket writeData:dataStream withTimeout:1 tag:1];</p>
-<p>AsyncSocket向服务器发送数据都是先将数据转换生成二进制的data数据，再向服务端进行发送的。 ####接收数据 为了收到socket的消息，我们需要在长连接方法中进行读取数据</p>
-<p>[self.socket readDataWithTimeout:30 tag:0];</p>
-<p>如果得到数据，会调用回调方法</p>
-<p>-(void)onSocket:(AsyncSocket )sock didReadData:(NSData )data withTag:(long)tag<br>{<br>    // 对得到的data值进行解析与转换即可<br>}</p>
-<p>###AsyncSocket的中级使用</p>
-<p>在进行通信的时候经常会遇到一些不可抗力的因素，例如：服务端崩溃，手机端App闪退，手机断网了等等各种导致连接断开，而一个优秀的App是不应该允许这些情况影响用户体验的。</p>
-<p>这个时候可以采取的一种方式是：创建一个类，继承AsyncSocket，重写他的下列方法。</p>
-<p>// Disconnect Implementation<br>(void)closeWithError:(NSError *)err;<br>(void)recoverUnreadData;<br>(void)emptyQueues;<br>(void)close;</p>
-<p>在对应的方法中进行相应的容错处理就可以了。</p>
+        <span itemprop="articleBody"><p>关于如何用极光（JPUSH）来对你的APP进行推送服务消息，首先我们需要有一个开发者账户，这是首要条件，然后我们需要去激光推送（JPUSH）官网注册一个账号，然后登陆，里面首页有一排选项，我们需要选择文档。下面进入指南：</p>
+<p>1、选择“SDK”那一项，里面有iOSSDK选项，点击下载，会下载下来一个JPUSH-iOS-SDK-2.1.x的文件，我们需要做的就是把里面的lib文件拖入到我们写的工程里，勾选copyifNeeded选项。</p>
+<p>2、进入极光推送官网-文档-入门指南-JPUSH IOS集成指南，网址：<a href="http://docs.jpush.io/guideline/ios_guide/" target="_blank" rel="external">http://docs.jpush.io/guideline/ios_guide/</a></p>
+<p>3、导入API开发包到应用程序项目<br>  将SDK包解压，在XCode中选择“Add files to ‘Your project name’…”，将解压后的lib子文件夹（包含JPUSHService.h、jpush-ios-x.x.x.a）添加到你的工程目录中。</p>
+<p>4、必要的框架<br>CFNetwork.framework<br>CoreFoundation.framework<br>CoreTelephony.framework<br>SystemConfiguration.framework<br>CoreGraphics.framework<br>Foundation.framework<br>UIKit.framework<br>Security.framework<br>Xcode7需要的是libz.tbd；Xcode7以下版本是libz.dylib<br>libstdc++.tbd</p>
+<p>5、Build Settings<br>  如果你的工程需要支持小于7.0的iOS系统，请到Build Settings 关闭 bitCode 选项，否则将无法正常编译通过。<br>  设置 Search Paths 下的 User Header Search Paths 和 Library Search Paths，比如SDK文件夹（默认为lib）与工程文件在同一级目录下，则都设置为”$(SRCROOT)/{静态库所在文件夹名称}”即可。 </p>
+<p>6、创建并配置PushConfig.plist文件<br>  2.1.0 版本开始，新增了带参数的setupWithOption初始化方法，可通过此方法等参数传入AppKey等信息。1.8.8及之前版本的 JPush SDK只能通过PushConfig.plist配置AppKey等信息。<br>  在你的工程中创建一个新的Property List文件，并将其命名为PushConfig.plist，文件所含字段如下：</p>
+<p>###CHANNEL<br>指明应用程序包的下载渠道，为方便分渠道统计，具体值由你自行定义，如：App Store。</p>
+<p>###APP_KEY<br>填写管理Portal上创建应用后自动生成的AppKey值。请确保应用内配置的 AppKey 与第1步在 Portal 上创建应用后生成的 AppKey 一致。</p>
+<p>###APS_FOR_PRODUCTION<br>1.3.1版本新增，用于标识当前应用所使用的APNs证书环境。<br>0 (默认值)表示采用的是开发证书，1 表示采用生产证书发布应用。<br>注：此字段的值要与Build Settings的Code Signing配置的证书环境一致。<br>在1.2.2或之前版本的配置文件中，有 TEST_MODE 这个键，新版的SDK不再使用，可以将它删除。<br>PushConfig.plist文件示例图:</p>
+<p>7、添加代码</p>
+<p>2.1.0版本开始,API类名为JPUSHService，不再使用原先的APService。</p>
+<p>允许XCode7支持Http传输方法</p>
+<p>如果用的是Xcode7时，需要在App项目的plist手动加入以下key和值以支持http传输:</p>
+<p>  <key>NSAppTransportSecurity</key><br>      <dict><br>  <key>NSAllowsArbitraryLoads</key><br>        <true><br>    </true></dict><br>集成所需API</p>
+<p>APIs 主要集中在 JPUSHService 接口类里。</p>
+<p>初始化JPush方法分为两个：</p>
+<p>1.8.8及以下版本使用的是已过期的初始化方法。升级到2.1.0的老用户仍可继续使用旧的初始化方法。<br>2.1.0版本开始提供带appkey等参数的新初始化方法。使用此方法无需再添加PushConfig.plist配置JPush的AppKey等字段。<br>使用建议:<br>两个初始化 JPush的方法同时存在，以第一个被调用的方法为准。</p>
+<pre><code>@interface JPUSHService : NSObject    
+// init Push
+ // init Push(&lt;= 1.8.8版本的SDK的注册方法）
++ (void)setupWithOption:(NSDictionary *)launchingOption;
+// init Push(2.1.0版本的SDK新增的注册方法)
++ (void)setupWithOption:(NSDictionary *)launchingOption appKey:(NSString *)appKey channel:(NSString *)channel apsForProduction:(BOOL)isProduction;
+
+// register notification type
++ (void)registerForRemoteNotificationTypes:(NSUInteger)types
+                        categories:(NSSet *)categories;  // 注册APNS类型
+
+ // upload device token
+ + (void)registerDeviceToken:(NSData *)deviceToken;
+
+// handle notification recieved
++ (void)handleRemoteNotification:(NSDictionary *)remoteInfo;
+</code></pre><p>调用代码</p>
+<p>监听系统事件，相应地调用 JPush SDK 提供的 API 来实现功能。</p>
+<p>以下 ３ 个事件监听与调用 JPush SDK API 都是必须的。请直接复制如下代码块里，注释为 “Required” 的行，到你的应用程序代理类里相应的监听方法里。</p>
+<pre><code>- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+  self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
+  self.window.backgroundColor = [UIColor whiteColor];
+  [self.window makeKeyAndVisible];
+
+  // Required
+  if ([[UIDevice currentDevice].systemVersion floatValue] &gt;= 8.0) {
+     //可以添加自定义categories
+    [JPUSHService registerForRemoteNotificationTypes:(UIUserNotificationTypeBadge |
+                                                      UIUserNotificationTypeSound |
+                                                      UIUserNotificationTypeAlert)
+                                           categories:nil];
+  } else {
+    //categories 必须为nil
+    [JPUSHService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
+                                                      UIRemoteNotificationTypeSound |
+                                                      UIRemoteNotificationTypeAlert)
+                                          categories:nil];
+ }
+
+ // Required
+ //如需兼容旧版本的方式，请依旧使用[JPUSHService setupWithOption:launchOptions]方式初始化和同时使用pushConfig.plist文件声明appKey等配置内容。
+ [JPUSHService setupWithOption:launchOptions appKey:appKey channel:channel apsForProduction:isProduction];     
+    return YES;
+</code></pre><p>  }</p>
+<ul>
+<li><p>(void)application:(UIApplication <em>)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData </em>)deviceToken {</p>
+<p> // Required<br> [JPUSHService registerDeviceToken:deviceToken];<br>}</p>
+</li>
+<li><p>(void)application:(UIApplication <em>)application didReceiveRemoteNotification:(NSDictionary </em>)userInfo {</p>
+<p>  // Required,For systems with less than or equal to iOS6<br> [JPUSHService handleRemoteNotification:userInfo];<br>}</p>
+</li>
+<li><p>(void)application:(UIApplication <em>)application didReceiveRemoteNotification:(NSDictionary </em>)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {</p>
+<p> // IOS 7 Support Required<br> [JPUSHService handleRemoteNotification:userInfo];<br> completionHandler(UIBackgroundFetchResultNewData);<br>}</p>
+</li>
+<li><p>(void)application:(UIApplication <em>)application didFailToRegisterForRemoteNotificationsWithError:(NSError </em>)error {</p>
+<p> //Optional<br> NSLog(@”did Fail To Register For Remote Notifications With Error: %@”, error);<br>}</p>
+</li>
+</ul>
+<p>8、需要在apple.developer网站注册号推送证书，然后添加到钥匙串里，并且把推送证书导出放到极光推送官网上，有一个创建应用。<br>可以发送推送消息从极光官网到你手机的APP上了。 </p>
 </span>
       
     </div>
@@ -282,16 +333,16 @@ AsyncSocket是一套开源">
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2014/02/09/利用GitHub进行文件的版本控制/" rel="next" title="利用GitHub进行文件的版本控制">
-                <i class="fa fa-chevron-left"></i> 利用GitHub进行文件的版本控制
+              <a href="/2014/02/19/iOS最新版CocoaPods的安装流程/" rel="next" title="iOS最新版CocoaPods的安装流程">
+                <i class="fa fa-chevron-left"></i> iOS最新版CocoaPods的安装流程
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2014/02/19/iOS最新版CocoaPods的安装流程/" rel="prev" title="iOS最新版CocoaPods的安装流程">
-                iOS最新版CocoaPods的安装流程 <i class="fa fa-chevron-right"></i>
+              <a href="/2016/01/10/“声明的进程”/" rel="prev" title="socket通信实现 |">
+                socket通信实现 | <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -307,10 +358,10 @@ AsyncSocket是一套开源">
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2014/02/18/“声明的进程”副本/"
-     data-title="“IOS开发之利用AsyncSocket实现即时通信(一) ”"
+        <div class="ds-share flat" data-thread-key="2015/10/20/怎么在极光推送给APP建立推送服务器/"
+     data-title="怎么在极光推送给APP建立推送服务器"
      data-content=""
-     data-url="http://yoursite.com/2014/02/18/“声明的进程”副本/">
+     data-url="http://yoursite.com/2015/10/20/怎么在极光推送给APP建立推送服务器/">
   <div class="ds-share-inline">
     <ul  class="ds-share-icons-16">
 
@@ -341,8 +392,8 @@ AsyncSocket是一套开源">
         
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2014/02/18/“声明的进程”副本/"
-           data-title="“IOS开发之利用AsyncSocket实现即时通信(一) ”" data-url="http://yoursite.com/2014/02/18/“声明的进程”副本/">
+      <div class="ds-thread" data-thread-key="2015/10/20/怎么在极光推送给APP建立推送服务器/"
+           data-title="怎么在极光推送给APP建立推送服务器" data-url="http://yoursite.com/2015/10/20/怎么在极光推送给APP建立推送服务器/">
       </div>
     
   </div>
