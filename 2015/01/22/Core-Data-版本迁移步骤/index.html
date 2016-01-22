@@ -51,22 +51,28 @@
 
 
 
-<meta name="description" content="###AsyncSocket简介在实现App的时候经常需要进行实时的网络通信，也就是即时通信。
-实现即时通信的方式很多，可以利用极光、融云等即时通信平台进行通信，也可以利用一些打包类进行简单的即时通信。这些打包类也有很多，例如GCDAsyncSocket，AsyncSocket等等，但他们的使用方法都是共通的。这里以AsyncSocket为例，讲解一下其使用过程。
-AsyncSocket是一套开源">
+<meta name="description" content="CoreData版本迁移
+1、基于当前版本模型版本创建新的模型版本
+2、在新的模型版本里面修改模型类的属性
+3、切换当前使用版本为新创建的版本
+4、在AppDelegate里面助手的创建方法里设置自动版本迁移和自动版本映射：//版本自动迁移    //NSMigratePersistentStoresAutomaticallyOption    //版本映射    //NSInferMapping">
 <meta property="og:type" content="article">
-<meta property="og:title" content="“IOS开发之利用AsyncSocket实现即时通信(一) ”">
-<meta property="og:url" content="http://yoursite.com/2014/02/18/“声明的进程”副本/index.html">
+<meta property="og:title" content="Core Data 版本迁移步骤">
+<meta property="og:url" content="http://yoursite.com/2015/01/22/Core-Data-版本迁移步骤/index.html">
 <meta property="og:site_name" content="YKcoder">
-<meta property="og:description" content="###AsyncSocket简介在实现App的时候经常需要进行实时的网络通信，也就是即时通信。
-实现即时通信的方式很多，可以利用极光、融云等即时通信平台进行通信，也可以利用一些打包类进行简单的即时通信。这些打包类也有很多，例如GCDAsyncSocket，AsyncSocket等等，但他们的使用方法都是共通的。这里以AsyncSocket为例，讲解一下其使用过程。
-AsyncSocket是一套开源">
-<meta property="og:updated_time" content="2016-01-09T09:29:52.000Z">
+<meta property="og:description" content="CoreData版本迁移
+1、基于当前版本模型版本创建新的模型版本
+2、在新的模型版本里面修改模型类的属性
+3、切换当前使用版本为新创建的版本
+4、在AppDelegate里面助手的创建方法里设置自动版本迁移和自动版本映射：//版本自动迁移    //NSMigratePersistentStoresAutomaticallyOption    //版本映射    //NSInferMapping">
+<meta property="og:updated_time" content="2016-01-22T02:27:39.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="“IOS开发之利用AsyncSocket实现即时通信(一) ”">
-<meta name="twitter:description" content="###AsyncSocket简介在实现App的时候经常需要进行实时的网络通信，也就是即时通信。
-实现即时通信的方式很多，可以利用极光、融云等即时通信平台进行通信，也可以利用一些打包类进行简单的即时通信。这些打包类也有很多，例如GCDAsyncSocket，AsyncSocket等等，但他们的使用方法都是共通的。这里以AsyncSocket为例，讲解一下其使用过程。
-AsyncSocket是一套开源">
+<meta name="twitter:title" content="Core Data 版本迁移步骤">
+<meta name="twitter:description" content="CoreData版本迁移
+1、基于当前版本模型版本创建新的模型版本
+2、在新的模型版本里面修改模型类的属性
+3、切换当前使用版本为新创建的版本
+4、在AppDelegate里面助手的创建方法里设置自动版本迁移和自动版本映射：//版本自动迁移    //NSMigratePersistentStoresAutomaticallyOption    //版本映射    //NSInferMapping">
 
 
 
@@ -78,7 +84,7 @@ AsyncSocket是一套开源">
   };
 </script>
 
-  <title> “IOS开发之利用AsyncSocket实现即时通信(一) ” | YKcoder </title>
+  <title> Core Data 版本迁移步骤 | YKcoder </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -208,7 +214,7 @@ AsyncSocket是一套开源">
             
             
               
-                “IOS开发之利用AsyncSocket实现即时通信(一) ”
+                Core Data 版本迁移步骤
               
             
           </h1>
@@ -217,8 +223,8 @@ AsyncSocket是一套开源">
         <div class="post-meta">
           <span class="post-time">
             发表于
-            <time itemprop="dateCreated" datetime="2014-02-18T22:17:38+08:00" content="2014-02-18">
-              2014-02-18
+            <time itemprop="dateCreated" datetime="2015-01-22T10:26:45+08:00" content="2015-01-22">
+              2015-01-22
             </time>
           </span>
 
@@ -228,8 +234,8 @@ AsyncSocket是一套开源">
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2014/02/18/“声明的进程”副本/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/02/18/“声明的进程”副本/" itemprop="commentsCount"></span>
+                <a href="/2015/01/22/Core-Data-版本迁移步骤/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/01/22/Core-Data-版本迁移步骤/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -248,29 +254,12 @@ AsyncSocket是一套开源">
       
 
       
-        <span itemprop="articleBody"><p>###AsyncSocket简介<br>在实现App的时候经常需要进行实时的网络通信，也就是即时通信。</p>
-<p>实现即时通信的方式很多，可以利用极光、融云等即时通信平台进行通信，也可以利用一些打包类进行简单的即时通信。这些打包类也有很多，例如GCDAsyncSocket，AsyncSocket等等，但他们的使用方法都是共通的。这里以AsyncSocket为例，讲解一下其使用过程。</p>
-<p>AsyncSocket是一套开源的网络访问类库。 iphone的标准推荐CFNetwork C库编程.但是编程比较麻烦。在其它OS往往用类来封装的对Socket函数的处理。比如MFC的CAsysncSocket，Java里面的Socket和SocketServer.在iphone也有类似于开源项目，就是AsyncSocket库, 官方网站:<a href="http://code.google.com/p/cocoaasyncsocket/" target="_blank" rel="external">http://code.google.com/p/cocoaasyncsocket/</a> 它用来简化CFnetwork的调用.</p>
-<p>###AsyncSocket的基本使用<br>在项目引入ASyncSocket库</p>
-<p>1.下载ASyncSocket库源码</p>
-<p>2.把ASyncSocket库源码加入项目：</p>
-<p>只需要增加RunLoop目录中的AsyncSocket.h、AsyncSocket.m、AsyncUdpSocket.h和AsyncUdpSocket.m四个文件。</p>
-<p>3.在项目增加CFNetwork框架<br>在Framework目录右健,选择Add—&gt;Existing Files…, 选择 CFNetwork.framework<br>连接服务器</p>
-<p>首先引入头文件，声明一个AsyncSocket对象，再调用connection与服务器建立连接，代码如下:</p>
-<p>import “AsyncSocket.h”</p>
-<p>然后就是与服务器建立链接了</p>
-<p>// socket连接<br>-(void)socketConnectHost{<br>    self.socket = [[AsyncSocket alloc] initWithDelegate:self];<br>    NSError *error = nil;<br>    [self.socket connectToHost:self.socketHost onPort:self.socketPort withTimeout:3 error:&amp;error];<br>}</p>
-<p>与Java中的客户端部分代码相似，AsyncSocket代码也需要指定服务端地址和服务端口. ####发送数据 发送数据的代码很简单</p>
-<p>NSString longConnect = @”longConnect”;<br>NSData   dataStream  = [longConnect dataUsingEncoding:NSUTF8StringEncoding];<br>[self.socket writeData:dataStream withTimeout:1 tag:1];</p>
-<p>AsyncSocket向服务器发送数据都是先将数据转换生成二进制的data数据，再向服务端进行发送的。 ####接收数据 为了收到socket的消息，我们需要在长连接方法中进行读取数据</p>
-<p>[self.socket readDataWithTimeout:30 tag:0];</p>
-<p>如果得到数据，会调用回调方法</p>
-<p>-(void)onSocket:(AsyncSocket )sock didReadData:(NSData )data withTag:(long)tag<br>{<br>    // 对得到的data值进行解析与转换即可<br>}</p>
-<p>###AsyncSocket的中级使用</p>
-<p>在进行通信的时候经常会遇到一些不可抗力的因素，例如：服务端崩溃，手机端App闪退，手机断网了等等各种导致连接断开，而一个优秀的App是不应该允许这些情况影响用户体验的。</p>
-<p>这个时候可以采取的一种方式是：创建一个类，继承AsyncSocket，重写他的下列方法。</p>
-<p>// Disconnect Implementation<br>(void)closeWithError:(NSError *)err;<br>(void)recoverUnreadData;<br>(void)emptyQueues;<br>(void)close;</p>
-<p>在对应的方法中进行相应的容错处理就可以了。</p>
+        <span itemprop="articleBody"><p>CoreData版本迁移</p>
+<p>1、基于当前版本模型版本创建新的模型版本</p>
+<p>2、在新的模型版本里面修改模型类的属性</p>
+<p>3、切换当前使用版本为新创建的版本</p>
+<p>4、在AppDelegate里面助手的创建方法里设置自动版本迁移和自动版本映射：<br>//版本自动迁移<br>    //NSMigratePersistentStoresAutomaticallyOption<br>    //版本映射<br>    //NSInferMappingModelAutomaticallyOption</p>
+<p>5、删除原有的实体类文件，根据新的版本创建新的实体类文件</p>
 </span>
       
     </div>
@@ -282,16 +271,16 @@ AsyncSocket是一套开源">
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2014/02/09/利用GitHub进行文件的版本控制/" rel="next" title="利用GitHub进行文件的版本控制">
-                <i class="fa fa-chevron-left"></i> 利用GitHub进行文件的版本控制
+              <a href="/2014/02/19/iOS最新版CocoaPods的安装流程/" rel="next" title="iOS最新版CocoaPods的安装流程">
+                <i class="fa fa-chevron-left"></i> iOS最新版CocoaPods的安装流程
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2014/02/19/iOS最新版CocoaPods的安装流程/" rel="prev" title="iOS最新版CocoaPods的安装流程">
-                iOS最新版CocoaPods的安装流程 <i class="fa fa-chevron-right"></i>
+              <a href="/2015/10/20/怎么在极光推送给APP建立推送服务器/" rel="prev" title="怎么在极光推送给APP建立推送服务器">
+                怎么在极光推送给APP建立推送服务器 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -307,10 +296,10 @@ AsyncSocket是一套开源">
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2014/02/18/“声明的进程”副本/"
-     data-title="“IOS开发之利用AsyncSocket实现即时通信(一) ”"
+        <div class="ds-share flat" data-thread-key="2015/01/22/Core-Data-版本迁移步骤/"
+     data-title="Core Data 版本迁移步骤"
      data-content=""
-     data-url="http://yoursite.com/2014/02/18/“声明的进程”副本/">
+     data-url="http://yoursite.com/2015/01/22/Core-Data-版本迁移步骤/">
   <div class="ds-share-inline">
     <ul  class="ds-share-icons-16">
 
@@ -341,8 +330,8 @@ AsyncSocket是一套开源">
         
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2014/02/18/“声明的进程”副本/"
-           data-title="“IOS开发之利用AsyncSocket实现即时通信(一) ”" data-url="http://yoursite.com/2014/02/18/“声明的进程”副本/">
+      <div class="ds-thread" data-thread-key="2015/01/22/Core-Data-版本迁移步骤/"
+           data-title="Core Data 版本迁移步骤" data-url="http://yoursite.com/2015/01/22/Core-Data-版本迁移步骤/">
       </div>
     
   </div>
