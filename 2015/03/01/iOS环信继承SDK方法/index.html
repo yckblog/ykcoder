@@ -51,28 +51,28 @@
 
 
 
-<meta name="description" content="CoreData版本迁移
-1、基于当前版本模型版本创建新的模型版本
-2、在新的模型版本里面修改模型类的属性
-3、切换当前使用版本为新创建的版本
-4、在AppDelegate里面助手的创建方法里设置自动版本迁移和自动版本映射：//版本自动迁移    //NSMigratePersistentStoresAutomaticallyOption    //版本映射    //NSInferMapping">
+<meta name="description" content="1、环信官网介绍
+2、准备工作: 登录环信开发者账号并创建应用、制作并上传推送证书(开发、生产)；
+3、下载SDK：通过Cocoapods下载或到官网下载 ，对于Cocoapods下载：
+ 不包含实时语音版本SDK（EaseMobClientSDKLite），引用时 #import &amp;lt;EaseMobSDK/EaseMob.h&amp;gt;
+　　pod ‘EaseMobSDK’, :git =&amp;gt">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Core Data 版本迁移步骤">
-<meta property="og:url" content="http://yoursite.com/2015/01/22/Core-Data-版本迁移步骤/index.html">
+<meta property="og:title" content="iOS环信继承SDK方法">
+<meta property="og:url" content="http://yoursite.com/2015/03/01/iOS环信继承SDK方法/index.html">
 <meta property="og:site_name" content="YKcoder">
-<meta property="og:description" content="CoreData版本迁移
-1、基于当前版本模型版本创建新的模型版本
-2、在新的模型版本里面修改模型类的属性
-3、切换当前使用版本为新创建的版本
-4、在AppDelegate里面助手的创建方法里设置自动版本迁移和自动版本映射：//版本自动迁移    //NSMigratePersistentStoresAutomaticallyOption    //版本映射    //NSInferMapping">
-<meta property="og:updated_time" content="2016-01-22T02:27:39.000Z">
+<meta property="og:description" content="1、环信官网介绍
+2、准备工作: 登录环信开发者账号并创建应用、制作并上传推送证书(开发、生产)；
+3、下载SDK：通过Cocoapods下载或到官网下载 ，对于Cocoapods下载：
+ 不包含实时语音版本SDK（EaseMobClientSDKLite），引用时 #import &amp;lt;EaseMobSDK/EaseMob.h&amp;gt;
+　　pod ‘EaseMobSDK’, :git =&amp;gt">
+<meta property="og:updated_time" content="2016-03-01T01:59:34.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Core Data 版本迁移步骤">
-<meta name="twitter:description" content="CoreData版本迁移
-1、基于当前版本模型版本创建新的模型版本
-2、在新的模型版本里面修改模型类的属性
-3、切换当前使用版本为新创建的版本
-4、在AppDelegate里面助手的创建方法里设置自动版本迁移和自动版本映射：//版本自动迁移    //NSMigratePersistentStoresAutomaticallyOption    //版本映射    //NSInferMapping">
+<meta name="twitter:title" content="iOS环信继承SDK方法">
+<meta name="twitter:description" content="1、环信官网介绍
+2、准备工作: 登录环信开发者账号并创建应用、制作并上传推送证书(开发、生产)；
+3、下载SDK：通过Cocoapods下载或到官网下载 ，对于Cocoapods下载：
+ 不包含实时语音版本SDK（EaseMobClientSDKLite），引用时 #import &amp;lt;EaseMobSDK/EaseMob.h&amp;gt;
+　　pod ‘EaseMobSDK’, :git =&amp;gt">
 
 
 
@@ -84,7 +84,7 @@
   };
 </script>
 
-  <title> Core Data 版本迁移步骤 | YKcoder </title>
+  <title> iOS环信继承SDK方法 | YKcoder </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -214,7 +214,7 @@
             
             
               
-                Core Data 版本迁移步骤
+                iOS环信继承SDK方法
               
             
           </h1>
@@ -223,8 +223,8 @@
         <div class="post-meta">
           <span class="post-time">
             发表于
-            <time itemprop="dateCreated" datetime="2015-01-22T10:26:45+08:00" content="2015-01-22">
-              2015-01-22
+            <time itemprop="dateCreated" datetime="2015-03-01T09:58:07+08:00" content="2015-03-01">
+              2015-03-01
             </time>
           </span>
 
@@ -234,8 +234,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2015/01/22/Core-Data-版本迁移步骤/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/01/22/Core-Data-版本迁移步骤/" itemprop="commentsCount"></span>
+                <a href="/2015/03/01/iOS环信继承SDK方法/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/03/01/iOS环信继承SDK方法/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -254,12 +254,20 @@
       
 
       
-        <span itemprop="articleBody"><p>CoreData版本迁移</p>
-<p>1、基于当前版本模型版本创建新的模型版本</p>
-<p>2、在新的模型版本里面修改模型类的属性</p>
-<p>3、切换当前使用版本为新创建的版本</p>
-<p>4、在AppDelegate里面助手的创建方法里设置自动版本迁移和自动版本映射：<br>//版本自动迁移<br>    //NSMigratePersistentStoresAutomaticallyOption<br>    //版本映射<br>    //NSInferMappingModelAutomaticallyOption</p>
-<p>5、删除原有的实体类文件，根据新的版本创建新的实体类文件</p>
+        <span itemprop="articleBody"><p>1、环信官网介绍</p>
+<p>2、准备工作: 登录环信开发者账号并创建应用、制作并上传推送证书(开发、生产)；</p>
+<p>3、下载SDK：通过Cocoapods下载或到官网下载 ，对于Cocoapods下载：</p>
+<pre><code> 不包含实时语音版本SDK（EaseMobClientSDKLite），引用时 #import &lt;EaseMobSDK/EaseMob.h&gt;
+</code></pre><p>　　pod ‘EaseMobSDK’, :git =&gt; ‘<a href="https://github.com/easemob/sdk-ios-cocoapods.git" target="_blank" rel="external">https://github.com/easemob/sdk-ios-cocoapods.git</a>‘<br>　  包含实时语音版本SDK（EaseMobClientSDK），引用时 #import <easemobsdkfull easemob.h=""></easemobsdkfull></p>
+<p>　　pod ‘EaseMobSDKFull’, :git =&gt; ‘<a href="https://github.com/easemob/sdk-ios-cocoapods-integration.git" target="_blank" rel="external">https://github.com/easemob/sdk-ios-cocoapods-integration.git</a>‘<br>4、 IOS SDK中有三个子文件夹:include、lib、resources</p>
+<p>lib 静态库，包含两个静态库libEaseMobClientSDK.a和libEaseMobClientSDKLite.a。libEaseMobClientSDKLite.a不包含实时语音功能，libEaseMobClientSDK.a包含所有功能。如果你的app中不需要实时语音功能，删掉libEaseMobClientSDK.a只使用libEaseMobClientSDKLite.a即可。<br>resources sdk的bundle，包含旧版sdk的数据库、消息提示音，sdk配置文件。其中sdk配置文件已加密，旧版sdk数据库几乎没什么实质作用。<br>include：<br>　　1&gt; EaseMobClientSDK/EaseMobClientSDKLite 包含在项目中要引用的总头文件，即在代码中只需#import”EMSDKFull.h”或#import”EaseMob.h”即可调用所有对应的api。<br>　　2&gt; CallService 包含实时语音相关的接口<br>　　3&gt; ChatService 包含聊天相关的接口，比如注册、登录、退出、单聊、群聊、群组等<br>　　4&gt; Utility 包含DeviceManager和ErrorManager。DeviceManager硬件相关接口，ErrorManager错误码定义</p>
+<p>　注：delegates文件夹包含各种代理接口，internal文件夹包含各种协议的声明，types文件夹包含各种实例的声明。</p>
+<p>5、配置工程</p>
+<p>　　1&gt; 添加SDK，向Build Phases → Link Binary With Libraries 中添加依赖库 </p>
+<p>SDK依赖库有</p>
+<p>MobileCoreServices.framework<br>CFNetwork.framework<br>libEaseMobClientSDKLite.a<br>libsqlite3.dylib<br>libstdc++.6.0.9.dylib<br>libz.dylib<br>libiconv.dylib<br>libresolv.dylib<br>libxml2.dylib<br>　   2&gt; 向Build Settings → Linking → Other Linker Flags 中 添加-ObjC(注意大小写) </p>
+<p>　　3&gt; 如果项目中使用-ObjC有冲突,可以添加-force_load来解决。格式为: -force_load[空格]EaseMobSDK/lib/libEaseMobClientSDKLite.a(静态库的路径)</p>
+<p>6、若编译成功，则已成功集成了SDK。</p>
 </span>
       
     </div>
@@ -271,16 +279,16 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2014/02/19/iOS最新版CocoaPods的安装流程/" rel="next" title="iOS最新版CocoaPods的安装流程">
-                <i class="fa fa-chevron-left"></i> iOS最新版CocoaPods的安装流程
+              <a href="/2015/01/22/Core-Data-版本迁移步骤/" rel="next" title="Core Data 版本迁移步骤">
+                <i class="fa fa-chevron-left"></i> Core Data 版本迁移步骤
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/03/01/iOS环信继承SDK方法/" rel="prev" title="iOS环信继承SDK方法">
-                iOS环信继承SDK方法 <i class="fa fa-chevron-right"></i>
+              <a href="/2015/10/20/怎么在极光推送给APP建立推送服务器/" rel="prev" title="怎么在极光推送给APP建立推送服务器">
+                怎么在极光推送给APP建立推送服务器 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -296,10 +304,10 @@
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2015/01/22/Core-Data-版本迁移步骤/"
-     data-title="Core Data 版本迁移步骤"
+        <div class="ds-share flat" data-thread-key="2015/03/01/iOS环信继承SDK方法/"
+     data-title="iOS环信继承SDK方法"
      data-content=""
-     data-url="http://yoursite.com/2015/01/22/Core-Data-版本迁移步骤/">
+     data-url="http://yoursite.com/2015/03/01/iOS环信继承SDK方法/">
   <div class="ds-share-inline">
     <ul  class="ds-share-icons-16">
 
@@ -330,8 +338,8 @@
         
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2015/01/22/Core-Data-版本迁移步骤/"
-           data-title="Core Data 版本迁移步骤" data-url="http://yoursite.com/2015/01/22/Core-Data-版本迁移步骤/">
+      <div class="ds-thread" data-thread-key="2015/03/01/iOS环信继承SDK方法/"
+           data-title="iOS环信继承SDK方法" data-url="http://yoursite.com/2015/03/01/iOS环信继承SDK方法/">
       </div>
     
   </div>
