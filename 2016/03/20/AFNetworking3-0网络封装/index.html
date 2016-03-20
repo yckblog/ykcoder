@@ -1,0 +1,711 @@
+<!doctype html>
+<html class="theme-next   use-motion ">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
+
+
+
+
+
+
+<meta name="description" content="title: AFNetworking3.0网络封装date: 2015-11- 22:08:22
+tags:对于开发人员来说，学习网络层知识是必备的，任何一款App的开发，都需要到网络请求接口。很多朋友都还在使用原生的NSURLConnection一行一行地写，代码到处是，这样维护起来更困难了。对于使用AFNetworking的朋友来说，很多朋友都是直接调用AFNetworking的API，这样">
+<meta property="og:type" content="article">
+<meta property="og:title" content="YKcoder">
+<meta property="og:url" content="http://yoursite.com/2016/03/20/AFNetworking3-0网络封装/index.html">
+<meta property="og:site_name" content="YKcoder">
+<meta property="og:description" content="title: AFNetworking3.0网络封装date: 2015-11- 22:08:22
+tags:对于开发人员来说，学习网络层知识是必备的，任何一款App的开发，都需要到网络请求接口。很多朋友都还在使用原生的NSURLConnection一行一行地写，代码到处是，这样维护起来更困难了。对于使用AFNetworking的朋友来说，很多朋友都是直接调用AFNetworking的API，这样">
+<meta property="og:updated_time" content="2016-03-20T14:12:18.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="YKcoder">
+<meta name="twitter:description" content="title: AFNetworking3.0网络封装date: 2015-11- 22:08:22
+tags:对于开发人员来说，学习网络层知识是必备的，任何一款App的开发，都需要到网络请求接口。很多朋友都还在使用原生的NSURLConnection一行一行地写，代码到处是，这样维护起来更困难了。对于使用AFNetworking的朋友来说，很多朋友都是直接调用AFNetworking的API，这样">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post',
+    motion: true
+  };
+</script>
+
+  <title>  | YKcoder </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta custom-logo">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">YKcoder</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">没有代码的日子好孤单！</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-03-20T22:12:18+08:00" content="2016-03-20">
+              2016-03-20
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/03/20/AFNetworking3-0网络封装/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/20/AFNetworking3-0网络封装/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>title: AFNetworking3.0网络封装<br>date: 2015-11- 22:08:22</p>
+<h2 id="tags_3A"><a href="#tags_3A" class="headerlink" title="tags:"></a>tags:</h2><p>对于开发人员来说，学习网络层知识是必备的，任何一款<code>App</code>的开发，都需要到网络请求接口。很多朋友都还在使用原生的<code>NSURLConnection</code>一行一行地写，代码到处是，这样维护起来更困难了。</p><br><p>对于使用<code>AFNetworking</code>的朋友来说，很多朋友都是直接调用<code>AFNetworking</code>的<code>API</code>，这样不太好，无法做到全工程统一配置。</p><br><p>最好的方式就是对网络层再封装一层，全工程不允许直接使用<code>AFNetworking</code>的<code>API</code>，必须调用我们自己封装的一层，如此一来，任何网络配置都可以在这一层里配置好，使用的人无须知道里面在干嘛，只管调用就可以了。</p><br><p>本篇为基于AFNetworking3.0的版本，支持iOS7及其以上版本。若要支持iOS6，请阅读旧版本：<a href="http://www.henishuo.com/base-on-afnetworking-wrapper/" target="_blank" rel="external">http://www.henishuo.com/base-on-afnetworking-wrapper/</a></p><br><h1 id="toc_1">常用接口类型</h1><br><p>应用开发过程中，所使用类型通常是<code>GET</code>、<code>POST</code>及上传图片。因此，这里只是对这几种类型提供<code>API</code>。</p><br><h2 id="toc_2">GET接口</h2><br><p>这里提供了两个<code>GET</code>请求的<code>API</code>，需要一般情况下<code>GET</code>请求都是直接写一个完整的<code>URL</code>，但是有时候为了参数可读性更强，改成传一个字典过来更容易阅读。</p><div><br><p><code>HYBResponseSuccess</code>是响应成功的回调，返回的是字典，外部再转换成模型就可以了。<br><br><code>HYBResponseFail</code>是响应失败的回调，只有一个<code>NSError</code>对象，外部可接收处理。</p><br><div id="crayon-56eead6552af1337409756" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-mac print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eead6552af1337409756-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552af1337409756-2">2</div><div class="crayon-num" data-line="crayon-56eead6552af1337409756-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552af1337409756-4">4</div><div class="crayon-num" data-line="crayon-56eead6552af1337409756-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552af1337409756-6">6</div><div class="crayon-num" data-line="crayon-56eead6552af1337409756-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552af1337409756-8">8</div><div class="crayon-num" data-line="crayon-56eead6552af1337409756-9">9</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552af1337409756-10">10</div><div class="crayon-num" data-line="crayon-56eead6552af1337409756-11">11</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552af1337409756-12">12</div><div class="crayon-num" data-line="crayon-56eead6552af1337409756-13">13</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552af1337409756-14">14</div><div class="crayon-num" data-line="crayon-56eead6552af1337409756-15">15</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552af1337409756-16">16</div><div class="crayon-num" data-line="crayon-56eead6552af1337409756-17">17</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552af1337409756-18">18</div><div class="crayon-num" data-line="crayon-56eead6552af1337409756-19">19</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552af1337409756-20">20</div><div class="crayon-num" data-line="crayon-56eead6552af1337409756-21">21</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552af1337409756-22">22</div><div class="crayon-num" data-line="crayon-56eead6552af1337409756-23">23</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552af1337409756-24">24</div><div class="crayon-num" data-line="crayon-56eead6552af1337409756-25">25</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552af1337409756-26">26</div><div class="crayon-num" data-line="crayon-56eead6552af1337409756-27">27</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552af1337409756-28">28</div><div class="crayon-num" data-line="crayon-56eead6552af1337409756-29">29</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552af1337409756-30">30</div><div class="crayon-num" data-line="crayon-56eead6552af1337409756-31">31</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552af1337409756-32">32</div><div class="crayon-num" data-line="crayon-56eead6552af1337409756-33">33</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552af1337409756-34">34</div><div class="crayon-num" data-line="crayon-56eead6552af1337409756-35">35</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552af1337409756-36">36</div><div class="crayon-num" data-line="crayon-56eead6552af1337409756-37">37</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552af1337409756-38">38</div><div class="crayon-num" data-line="crayon-56eead6552af1337409756-39">39</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eead6552af1337409756-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552af1337409756-2"><span class="crayon-c">/<em>!</em></span></div><div class="crayon-line" id="crayon-56eead6552af1337409756-3"><span class="crayon-c"> &nbsp;&nbsp;@author 黄仪标, 15-11-15 13:11:50</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552af1337409756-4"><span class="crayon-c"> <em></em></span></div><div class="crayon-line" id="crayon-56eead6552af1337409756-5"><span class="crayon-c"> &nbsp;&nbsp;GET请求接口，若不指定baseurl，可传完整的url</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552af1337409756-6"><span class="crayon-c"> <em></em></span></div><div class="crayon-line" id="crayon-56eead6552af1337409756-7"><span class="crayon-c"> &nbsp;&nbsp;@param url&nbsp;&nbsp;&nbsp;&nbsp; 接口路径，如/path/getArticleList?categoryid=1</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552af1337409756-8"><span class="crayon-c"> <em>&nbsp;&nbsp;@param success 接口成功请求到数据的回调</em></span></div><div class="crayon-line" id="crayon-56eead6552af1337409756-9"><span class="crayon-c"> &nbsp;&nbsp;@param fail&nbsp;&nbsp;&nbsp;&nbsp;接口请求数据失败的回调</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552af1337409756-10"><span class="crayon-c"> <em></em></span></div><div class="crayon-line" id="crayon-56eead6552af1337409756-11"><span class="crayon-c"> &nbsp;&nbsp;@return 返回的对象中有可取消请求的API</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552af1337409756-12"><span class="crayon-c"> <em>/</em></span></div><div class="crayon-line" id="crayon-56eead6552af1337409756-13"><span class="crayon-o">+</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-t">HYBURLSessionTask</span><span class="crayon-h"> </span><span class="crayon-t "></span><span class="crayon-sy">)</span><span class="crayon-e ">getWithUrl</span><span class="crayon-o">:</span><span class="crayon-sy">(</span><span class="crayon-t">NSString</span><span class="crayon-h"> </span><span class="crayon-t "><em></em></span><span class="crayon-sy">)</span><span class="crayon-v">url</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552af1337409756-14"><span class="crayon-e ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;success</span><span class="crayon-o">:</span><span class="crayon-sy">(</span><span class="crayon-t">HYBResponseSuccess</span><span class="crayon-sy">)</span><span class="crayon-v">success</span></div><div class="crayon-line" id="crayon-56eead6552af1337409756-15"><span class="crayon-e ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fail</span><span class="crayon-o">:</span><span class="crayon-sy">(</span><span class="crayon-t">HYBResponseFail</span><span class="crayon-sy">)</span><span class="crayon-v">fail</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552af1337409756-16"><span class="crayon-c">/!</span></div><div class="crayon-line" id="crayon-56eead6552af1337409756-17"><span class="crayon-c"> <em>&nbsp;&nbsp;@author 黄仪标, 15-11-15 13:11:50</em></span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552af1337409756-18"><span class="crayon-c"> </span></div><div class="crayon-line" id="crayon-56eead6552af1337409756-19"><span class="crayon-c"> <em>&nbsp;&nbsp;GET请求接口，若不指定baseurl，可传完整的url</em></span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552af1337409756-20"><span class="crayon-c"> </span></div><div class="crayon-line" id="crayon-56eead6552af1337409756-21"><span class="crayon-c"> <em>&nbsp;&nbsp;@param url&nbsp;&nbsp;&nbsp;&nbsp; 接口路径，如/path/getArticleList</em></span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552af1337409756-22"><span class="crayon-c"> &nbsp;&nbsp;@param params&nbsp;&nbsp;接口中所需要的拼接参数，如@{“categoryid” : @(12)}</span></div><div class="crayon-line" id="crayon-56eead6552af1337409756-23"><span class="crayon-c"> <em>&nbsp;&nbsp;@param success 接口成功请求到数据的回调</em></span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552af1337409756-24"><span class="crayon-c"> &nbsp;&nbsp;@param fail&nbsp;&nbsp;&nbsp;&nbsp;接口请求数据失败的回调</span></div><div class="crayon-line" id="crayon-56eead6552af1337409756-25"><span class="crayon-c"> <em></em></span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552af1337409756-26"><span class="crayon-c"> &nbsp;&nbsp;@return 返回的对象中有可取消请求的API</span></div><div class="crayon-line" id="crayon-56eead6552af1337409756-27"><span class="crayon-c"> <em>/</em></span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552af1337409756-28"><span class="crayon-o">+</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-t">HYBURLSessionTask</span><span class="crayon-h"> </span><span class="crayon-t "></span><span class="crayon-sy">)</span><span class="crayon-e ">getWithUrl</span><span class="crayon-o">:</span><span class="crayon-sy">(</span><span class="crayon-t">NSString</span><span class="crayon-h"> </span><span class="crayon-t "><em></em></span><span class="crayon-sy">)</span><span class="crayon-v">url</span></div><div class="crayon-line" id="crayon-56eead6552af1337409756-29"><span class="crayon-e ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; params</span><span class="crayon-o">:</span><span class="crayon-sy">(</span><span class="crayon-t">NSDictionary</span><span class="crayon-h"> </span><span class="crayon-t "></span><span class="crayon-sy">)</span><span class="crayon-v">params</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552af1337409756-30"><span class="crayon-e ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;success</span><span class="crayon-o">:</span><span class="crayon-sy">(</span><span class="crayon-t">HYBResponseSuccess</span><span class="crayon-sy">)</span><span class="crayon-v">success</span></div><div class="crayon-line" id="crayon-56eead6552af1337409756-31"><span class="crayon-e ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fail</span><span class="crayon-o">:</span><span class="crayon-sy">(</span><span class="crayon-t">HYBResponseFail</span><span class="crayon-sy">)</span><span class="crayon-v">fail</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552af1337409756-32">&nbsp;</div><div class="crayon-line" id="crayon-56eead6552af1337409756-33"><span class="crayon-c">// 支持进度</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552af1337409756-34"><span class="crayon-o">+</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-t">HYBURLSessionTask</span><span class="crayon-h"> </span><span class="crayon-t "><em></em></span><span class="crayon-sy">)</span><span class="crayon-e ">getWithUrl</span><span class="crayon-o">:</span><span class="crayon-sy">(</span><span class="crayon-t">NSString</span><span class="crayon-h"> </span><span class="crayon-t "></span><span class="crayon-sy">)</span><span class="crayon-v">url</span></div><div class="crayon-line" id="crayon-56eead6552af1337409756-35"><span class="crayon-e ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; params</span><span class="crayon-o">:</span><span class="crayon-sy">(</span><span class="crayon-t">NSDictionary</span><span class="crayon-h"> </span><span class="crayon-t "><em></em></span><span class="crayon-sy">)</span><span class="crayon-v">params</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552af1337409756-36"><span class="crayon-e ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; progress</span><span class="crayon-o">:</span><span class="crayon-sy">(</span><span class="crayon-t">HYBGetProgress</span><span class="crayon-sy">)</span><span class="crayon-v">progress</span></div><div class="crayon-line" id="crayon-56eead6552af1337409756-37"><span class="crayon-e ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;success</span><span class="crayon-o">:</span><span class="crayon-sy">(</span><span class="crayon-t">HYBResponseSuccess</span><span class="crayon-sy">)</span><span class="crayon-v">success</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552af1337409756-38"><span class="crayon-e ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fail</span><span class="crayon-o">:</span><span class="crayon-sy">(</span><span class="crayon-t">HYBResponseFail</span><span class="crayon-sy">)</span><span class="crayon-v">fail</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56eead6552af1337409756-39">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><p></p><br><h2 id="toc_3">POST接口</h2><br><p>对于<code>POST</code>请求类型的接口，只有一个，看注释就可以明白如何使用了。</p><br><div id="crayon-56eead6552b00199633071" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-mac print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eead6552b00199633071-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b00199633071-2">2</div><div class="crayon-num" data-line="crayon-56eead6552b00199633071-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b00199633071-4">4</div><div class="crayon-num" data-line="crayon-56eead6552b00199633071-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b00199633071-6">6</div><div class="crayon-num" data-line="crayon-56eead6552b00199633071-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b00199633071-8">8</div><div class="crayon-num" data-line="crayon-56eead6552b00199633071-9">9</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b00199633071-10">10</div><div class="crayon-num" data-line="crayon-56eead6552b00199633071-11">11</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b00199633071-12">12</div><div class="crayon-num" data-line="crayon-56eead6552b00199633071-13">13</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b00199633071-14">14</div><div class="crayon-num" data-line="crayon-56eead6552b00199633071-15">15</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b00199633071-16">16</div><div class="crayon-num" data-line="crayon-56eead6552b00199633071-17">17</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b00199633071-18">18</div><div class="crayon-num" data-line="crayon-56eead6552b00199633071-19">19</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b00199633071-20">20</div><div class="crayon-num" data-line="crayon-56eead6552b00199633071-21">21</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b00199633071-22">22</div><div class="crayon-num" data-line="crayon-56eead6552b00199633071-23">23</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b00199633071-24">24</div><div class="crayon-num" data-line="crayon-56eead6552b00199633071-25">25</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eead6552b00199633071-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b00199633071-2"><span class="crayon-c">/!</span></div><div class="crayon-line" id="crayon-56eead6552b00199633071-3"><span class="crayon-c"> <em>&nbsp;&nbsp;@author 黄仪标, 15-11-15 13:11:50</em></span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b00199633071-4"><span class="crayon-c"> </span></div><div class="crayon-line" id="crayon-56eead6552b00199633071-5"><span class="crayon-c"> <em>&nbsp;&nbsp;POST请求接口，若不指定baseurl，可传完整的url</em></span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b00199633071-6"><span class="crayon-c"> </span></div><div class="crayon-line" id="crayon-56eead6552b00199633071-7"><span class="crayon-c"> <em>&nbsp;&nbsp;@param url&nbsp;&nbsp;&nbsp;&nbsp; 接口路径，如/path/getArticleList</em></span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b00199633071-8"><span class="crayon-c"> &nbsp;&nbsp;@param params&nbsp;&nbsp;接口中所需的参数，如@{“categoryid” : @(12)}</span></div><div class="crayon-line" id="crayon-56eead6552b00199633071-9"><span class="crayon-c"> <em>&nbsp;&nbsp;@param success 接口成功请求到数据的回调</em></span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b00199633071-10"><span class="crayon-c"> &nbsp;&nbsp;@param fail&nbsp;&nbsp;&nbsp;&nbsp;接口请求数据失败的回调</span></div><div class="crayon-line" id="crayon-56eead6552b00199633071-11"><span class="crayon-c"> <em></em></span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b00199633071-12"><span class="crayon-c"> &nbsp;&nbsp;@return 返回的对象中有可取消请求的API</span></div><div class="crayon-line" id="crayon-56eead6552b00199633071-13"><span class="crayon-c"> <em>/</em></span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b00199633071-14"><span class="crayon-o">+</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-t">HYBURLSessionTask</span><span class="crayon-h"> </span><span class="crayon-t "></span><span class="crayon-sy">)</span><span class="crayon-e ">postWithUrl</span><span class="crayon-o">:</span><span class="crayon-sy">(</span><span class="crayon-t">NSString</span><span class="crayon-h"> </span><span class="crayon-t "><em></em></span><span class="crayon-sy">)</span><span class="crayon-v">url</span></div><div class="crayon-line" id="crayon-56eead6552b00199633071-15"><span class="crayon-e ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;params</span><span class="crayon-o">:</span><span class="crayon-sy">(</span><span class="crayon-t">NSDictionary</span><span class="crayon-h"> </span><span class="crayon-t "></span><span class="crayon-sy">)</span><span class="crayon-v">params</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b00199633071-16"><span class="crayon-e ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; success</span><span class="crayon-o">:</span><span class="crayon-sy">(</span><span class="crayon-t">HYBResponseSuccess</span><span class="crayon-sy">)</span><span class="crayon-v">success</span></div><div class="crayon-line" id="crayon-56eead6552b00199633071-17"><span class="crayon-e ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fail</span><span class="crayon-o">:</span><span class="crayon-sy">(</span><span class="crayon-t">HYBResponseFail</span><span class="crayon-sy">)</span><span class="crayon-v">fail</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b00199633071-18">&nbsp;</div><div class="crayon-line" id="crayon-56eead6552b00199633071-19"><span class="crayon-c">// 支持进度</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b00199633071-20"><span class="crayon-o">+</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-t">HYBURLSessionTask</span><span class="crayon-h"> </span><span class="crayon-t "><em></em></span><span class="crayon-sy">)</span><span class="crayon-e ">postWithUrl</span><span class="crayon-o">:</span><span class="crayon-sy">(</span><span class="crayon-t">NSString</span><span class="crayon-h"> </span><span class="crayon-t "></span><span class="crayon-sy">)</span><span class="crayon-v">url</span></div><div class="crayon-line" id="crayon-56eead6552b00199633071-21"><span class="crayon-e ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;params</span><span class="crayon-o">:</span><span class="crayon-sy">(</span><span class="crayon-t">NSDictionary</span><span class="crayon-h"> </span><span class="crayon-t "><em></em></span><span class="crayon-sy">)</span><span class="crayon-v">params</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b00199633071-22"><span class="crayon-e ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;progress</span><span class="crayon-o">:</span><span class="crayon-sy">(</span><span class="crayon-t">HYBPostProgress</span><span class="crayon-sy">)</span><span class="crayon-v">progress</span></div><div class="crayon-line" id="crayon-56eead6552b00199633071-23"><span class="crayon-e ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; success</span><span class="crayon-o">:</span><span class="crayon-sy">(</span><span class="crayon-t">HYBResponseSuccess</span><span class="crayon-sy">)</span><span class="crayon-v">success</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b00199633071-24"><span class="crayon-e ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fail</span><span class="crayon-o">:</span><span class="crayon-sy">(</span><span class="crayon-t">HYBResponseFail</span><span class="crayon-sy">)</span><span class="crayon-v">fail</span><span class="crayon-sy">;</span><span class="crayon-sy"><code>&lt;/span&gt;&lt;span class=&quot;crayon-sy&quot;&gt;</code></span><span class="crayon-sy">`</span></div><div class="crayon-line" id="crayon-56eead6552b00199633071-25">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><p></p><br><h2 id="toc_4">图片上传接口</h2><br><p>接口一次只能上传一张图片，通常也是这么处理的。这里是以文件流的形式来上传的哦。其中，<code>mineType</code>为<code>image/jpeg</code>。</p><br><div id="crayon-56eead6552b06968637025" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-mac print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eead6552b06968637025-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b06968637025-2">2</div><div class="crayon-num" data-line="crayon-56eead6552b06968637025-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b06968637025-4">4</div><div class="crayon-num" data-line="crayon-56eead6552b06968637025-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b06968637025-6">6</div><div class="crayon-num" data-line="crayon-56eead6552b06968637025-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b06968637025-8">8</div><div class="crayon-num" data-line="crayon-56eead6552b06968637025-9">9</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b06968637025-10">10</div><div class="crayon-num" data-line="crayon-56eead6552b06968637025-11">11</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b06968637025-12">12</div><div class="crayon-num" data-line="crayon-56eead6552b06968637025-13">13</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b06968637025-14">14</div><div class="crayon-num" data-line="crayon-56eead6552b06968637025-15">15</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b06968637025-16">16</div><div class="crayon-num" data-line="crayon-56eead6552b06968637025-17">17</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b06968637025-18">18</div><div class="crayon-num" data-line="crayon-56eead6552b06968637025-19">19</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b06968637025-20">20</div><div class="crayon-num" data-line="crayon-56eead6552b06968637025-21">21</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b06968637025-22">22</div><div class="crayon-num" data-line="crayon-56eead6552b06968637025-23">23</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b06968637025-24">24</div><div class="crayon-num" data-line="crayon-56eead6552b06968637025-25">25</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b06968637025-26">26</div><div class="crayon-num" data-line="crayon-56eead6552b06968637025-27">27</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b06968637025-28">28</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eead6552b06968637025-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b06968637025-2"><span class="crayon-c">/**</span></div><div class="crayon-line" id="crayon-56eead6552b06968637025-3"><span class="crayon-c"> &nbsp;&nbsp;@author 黄仪标, 16-01-31 00:01:40</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b06968637025-4"><span class="crayon-c"> <em></em></span></div><div class="crayon-line" id="crayon-56eead6552b06968637025-5"><span class="crayon-c"> &nbsp;&nbsp;图片上传接口，若不指定baseurl，可传完整的url</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b06968637025-6"><span class="crayon-c"> <em></em></span></div><div class="crayon-line" id="crayon-56eead6552b06968637025-7"><span class="crayon-c"> &nbsp;&nbsp;@param image&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;图片对象</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b06968637025-8"><span class="crayon-c"> <em>&nbsp;&nbsp;@param url&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;上传图片的接口路径，如/path/images/</em></span></div><div class="crayon-line" id="crayon-56eead6552b06968637025-9"><span class="crayon-c"> &nbsp;&nbsp;@param filename&nbsp;&nbsp;&nbsp;&nbsp; 给图片起一个名字，默认为当前日期时间,格式为”yyyyMMddHHmmss”，后缀为<code>jpg</code></span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b06968637025-10"><span class="crayon-c"> <em>&nbsp;&nbsp;@param name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 与指定的图片相关联的名称，这是由后端写接口的人指定的，如imagefiles</em></span></div><div class="crayon-line" id="crayon-56eead6552b06968637025-11"><span class="crayon-c"> &nbsp;&nbsp;@param mimeType&nbsp;&nbsp;&nbsp;&nbsp; 默认为image/jpeg</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b06968637025-12"><span class="crayon-c"> <em>&nbsp;&nbsp;@param parameters&nbsp;&nbsp; 参数</em></span></div><div class="crayon-line" id="crayon-56eead6552b06968637025-13"><span class="crayon-c"> &nbsp;&nbsp;@param progress&nbsp;&nbsp;&nbsp;&nbsp; 上传进度</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b06968637025-14"><span class="crayon-c"> <em>&nbsp;&nbsp;@param success&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;上传成功回调</em></span></div><div class="crayon-line" id="crayon-56eead6552b06968637025-15"><span class="crayon-c"> &nbsp;&nbsp;@param fail&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 上传失败回调</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b06968637025-16"><span class="crayon-c"> <em></em></span></div><div class="crayon-line" id="crayon-56eead6552b06968637025-17"><span class="crayon-c"> &nbsp;&nbsp;@return</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b06968637025-18"><span class="crayon-c"> <em>/</em></span></div><div class="crayon-line" id="crayon-56eead6552b06968637025-19"><span class="crayon-o">+</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-t">HYBURLSessionTask</span><span class="crayon-h"> </span><span class="crayon-t "></span><span class="crayon-sy">)</span><span class="crayon-e ">uploadWithImage</span><span class="crayon-o">:</span><span class="crayon-sy">(</span><span class="crayon-t">UIImage</span><span class="crayon-h"> </span><span class="crayon-t "><em></em></span><span class="crayon-sy">)</span><span class="crayon-v">image</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b06968637025-20"><span class="crayon-e ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; url</span><span class="crayon-o">:</span><span class="crayon-sy">(</span><span class="crayon-t">NSString</span><span class="crayon-h"> </span><span class="crayon-t "></span><span class="crayon-sy">)</span><span class="crayon-v">url</span></div><div class="crayon-line" id="crayon-56eead6552b06968637025-21"><span class="crayon-e ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;filename</span><span class="crayon-o">:</span><span class="crayon-sy">(</span><span class="crayon-t">NSString</span><span class="crayon-h"> </span><span class="crayon-t "><em></em></span><span class="crayon-sy">)</span><span class="crayon-v">filename</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b06968637025-22"><span class="crayon-e ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name</span><span class="crayon-o">:</span><span class="crayon-sy">(</span><span class="crayon-t">NSString</span><span class="crayon-h"> </span><span class="crayon-t "></span><span class="crayon-sy">)</span><span class="crayon-v">name</span></div><div class="crayon-line" id="crayon-56eead6552b06968637025-23"><span class="crayon-e ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mimeType</span><span class="crayon-o">:</span><span class="crayon-sy">(</span><span class="crayon-t">NSString</span><span class="crayon-h"> </span><span class="crayon-t "><em></em></span><span class="crayon-sy">)</span><span class="crayon-v">mimeType</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b06968637025-24"><span class="crayon-e ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parameters</span><span class="crayon-o">:</span><span class="crayon-sy">(</span><span class="crayon-t">NSDictionary</span><span class="crayon-h"> </span><span class="crayon-t "></span><span class="crayon-sy">)</span><span class="crayon-v">parameters</span></div><div class="crayon-line" id="crayon-56eead6552b06968637025-25"><span class="crayon-e ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;progress</span><span class="crayon-o">:</span><span class="crayon-sy">(</span><span class="crayon-t">HYBUploadProgress</span><span class="crayon-sy">)</span><span class="crayon-v">progress</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b06968637025-26"><span class="crayon-e ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; success</span><span class="crayon-o">:</span><span class="crayon-sy">(</span><span class="crayon-t">HYBResponseSuccess</span><span class="crayon-sy">)</span><span class="crayon-v">success</span></div><div class="crayon-line" id="crayon-56eead6552b06968637025-27"><span class="crayon-e ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fail</span><span class="crayon-o">:</span><span class="crayon-sy">(</span><span class="crayon-t">HYBResponseFail</span><span class="crayon-sy">)</span><span class="crayon-v">fail</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b06968637025-28">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><p></p><br><h1 id="toc_5">设置基础URL</h1><br><p>这里还提供了两个公共接口，一个是用于设置或者更新网络接口的基础URL，一个是获取当前设置使用的网络接口基础URL。</p><br><div id="crayon-56eead6552b0c750630266" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-mac print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eead6552b0c750630266-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b0c750630266-2">2</div><div class="crayon-num" data-line="crayon-56eead6552b0c750630266-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b0c750630266-4">4</div><div class="crayon-num" data-line="crayon-56eead6552b0c750630266-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b0c750630266-6">6</div><div class="crayon-num" data-line="crayon-56eead6552b0c750630266-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b0c750630266-8">8</div><div class="crayon-num" data-line="crayon-56eead6552b0c750630266-9">9</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b0c750630266-10">10</div><div class="crayon-num" data-line="crayon-56eead6552b0c750630266-11">11</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b0c750630266-12">12</div><div class="crayon-num" data-line="crayon-56eead6552b0c750630266-13">13</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b0c750630266-14">14</div><div class="crayon-num" data-line="crayon-56eead6552b0c750630266-15">15</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b0c750630266-16">16</div><div class="crayon-num" data-line="crayon-56eead6552b0c750630266-17">17</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b0c750630266-18">18</div><div class="crayon-num" data-line="crayon-56eead6552b0c750630266-19">19</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b0c750630266-20">20</div><div class="crayon-num" data-line="crayon-56eead6552b0c750630266-21">21</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b0c750630266-22">22</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eead6552b0c750630266-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b0c750630266-2"><span class="crayon-c">/<em>!</em></span></div><div class="crayon-line" id="crayon-56eead6552b0c750630266-3"><span class="crayon-c"> &nbsp;&nbsp;@author 黄仪标, 15-11-15 13:11:45</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b0c750630266-4"><span class="crayon-c"> <em></em></span></div><div class="crayon-line" id="crayon-56eead6552b0c750630266-5"><span class="crayon-c"> &nbsp;&nbsp;用于指定网络请求接口的基础url，如：</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b0c750630266-6"><span class="crayon-c"> <em>&nbsp;&nbsp;<a href="http://henishuo.com或者http://101.200.209.244" target="_blank" rel="external">http://henishuo.com或者http://101.200.209.244</a></em></span></div><div class="crayon-line" id="crayon-56eead6552b0c750630266-7"><span class="crayon-c"> &nbsp;&nbsp;通常在AppDelegate中启动时就设置一次就可以了。如果接口有来源</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b0c750630266-8"><span class="crayon-c"> <em>&nbsp;&nbsp;于多个服务器，可以调用更新</em></span></div><div class="crayon-line" id="crayon-56eead6552b0c750630266-9"><span class="crayon-c"> </span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b0c750630266-10"><span class="crayon-c"> <em>&nbsp;&nbsp;@param baseUrl 网络接口的基础url</em></span></div><div class="crayon-line" id="crayon-56eead6552b0c750630266-11"><span class="crayon-c"> /</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b0c750630266-12"><span class="crayon-o">+</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-t">void</span><span class="crayon-sy">)</span><span class="crayon-e ">updateBaseUrl</span><span class="crayon-o">:</span><span class="crayon-sy">(</span><span class="crayon-t">NSString</span><span class="crayon-h"> </span><span class="crayon-t "><em></em></span><span class="crayon-sy">)</span><span class="crayon-v">baseUrl</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56eead6552b0c750630266-13">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b0c750630266-14"><span class="crayon-c">/!</span></div><div class="crayon-line" id="crayon-56eead6552b0c750630266-15"><span class="crayon-c"> <em>&nbsp;&nbsp;@author 黄仪标, 15-11-15 13:11:06</em></span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b0c750630266-16"><span class="crayon-c"> </span></div><div class="crayon-line" id="crayon-56eead6552b0c750630266-17"><span class="crayon-c"> <em>&nbsp;&nbsp;对外公开可获取当前所设置的网络接口基础url</em></span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b0c750630266-18"><span class="crayon-c"> </span></div><div class="crayon-line" id="crayon-56eead6552b0c750630266-19"><span class="crayon-c"> <em>&nbsp;&nbsp;@return 当前基础url</em></span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b0c750630266-20"><span class="crayon-c"> /</span></div><div class="crayon-line" id="crayon-56eead6552b0c750630266-21"><span class="crayon-o">+</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-t">NSString</span><span class="crayon-h"> </span><span class="crayon-t "><em></em></span><span class="crayon-sy">)</span><span class="crayon-v">baseUrl</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b0c750630266-22">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><p></p><br><h1 id="toc_6">添加公共请求头参数</h1><br><p>通常每家公司的接口都会设置公共的请求头参数，以代表是公司的接口。默认已经配置了可接收的类型，但是如果需要额外配置，可通过调用此<code>api</code>来添加：</p><br><div id="crayon-56eead6552b11282209846" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-mac print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eead6552b11282209846-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b11282209846-2">2</div><div class="crayon-num" data-line="crayon-56eead6552b11282209846-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b11282209846-4">4</div><div class="crayon-num" data-line="crayon-56eead6552b11282209846-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b11282209846-6">6</div><div class="crayon-num" data-line="crayon-56eead6552b11282209846-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b11282209846-8">8</div><div class="crayon-num" data-line="crayon-56eead6552b11282209846-9">9</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b11282209846-10">10</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eead6552b11282209846-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b11282209846-2"><span class="crayon-c">/!</span></div><div class="crayon-line" id="crayon-56eead6552b11282209846-3"><span class="crayon-c"> <em>&nbsp;&nbsp;@author 黄仪标, 15-11-16 13:11:41</em></span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b11282209846-4"><span class="crayon-c"> </span></div><div class="crayon-line" id="crayon-56eead6552b11282209846-5"><span class="crayon-c"> <em>&nbsp;&nbsp;配置公共的请求头，只调用一次即可，通常放在应用启动的时候配置就可以了</em></span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b11282209846-6"><span class="crayon-c"> </span></div><div class="crayon-line" id="crayon-56eead6552b11282209846-7"><span class="crayon-c"> <em>&nbsp;&nbsp;@param httpHeaders 只需要将与服务器商定的固定参数设置即可</em></span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b11282209846-8"><span class="crayon-c"> /</span></div><div class="crayon-line" id="crayon-56eead6552b11282209846-9"><span class="crayon-o">+</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-t">void</span><span class="crayon-sy">)</span><span class="crayon-e ">configCommonHttpHeaders</span><span class="crayon-o">:</span><span class="crayon-sy">(</span><span class="crayon-t">NSDictionary</span><span class="crayon-h"> </span><span class="crayon-t "><em></em></span><span class="crayon-sy">)</span><span class="crayon-v">httpHeaders</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b11282209846-10">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><p></p><br><h1 id="toc_7">请求与响应格式设置</h1><br><p>默认responseType和requestType都是JSON格式。如果不使用JSON，可以全局配置成自己希望的格式即可。若不配置，默认就是JSON。</p><br><div id="crayon-56eead6552b16490858610" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-mac print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eead6552b16490858610-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b16490858610-2">2</div><div class="crayon-num" data-line="crayon-56eead6552b16490858610-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b16490858610-4">4</div><div class="crayon-num" data-line="crayon-56eead6552b16490858610-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b16490858610-6">6</div><div class="crayon-num" data-line="crayon-56eead6552b16490858610-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b16490858610-8">8</div><div class="crayon-num" data-line="crayon-56eead6552b16490858610-9">9</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b16490858610-10">10</div><div class="crayon-num" data-line="crayon-56eead6552b16490858610-11">11</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b16490858610-12">12</div><div class="crayon-num" data-line="crayon-56eead6552b16490858610-13">13</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b16490858610-14">14</div><div class="crayon-num" data-line="crayon-56eead6552b16490858610-15">15</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b16490858610-16">16</div><div class="crayon-num" data-line="crayon-56eead6552b16490858610-17">17</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b16490858610-18">18</div><div class="crayon-num" data-line="crayon-56eead6552b16490858610-19">19</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eead6552b16490858610-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b16490858610-2"><span class="crayon-c">/!</span></div><div class="crayon-line" id="crayon-56eead6552b16490858610-3"><span class="crayon-c"> <em>&nbsp;&nbsp;@author 黄仪标, 15-12-25 15:12:38</em></span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b16490858610-4"><span class="crayon-c"> </span></div><div class="crayon-line" id="crayon-56eead6552b16490858610-5"><span class="crayon-c"> <em>&nbsp;&nbsp;配置返回格式，默认为JSON。若为XML或者PLIST请在全局修改一下</em></span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b16490858610-6"><span class="crayon-c"> </span></div><div class="crayon-line" id="crayon-56eead6552b16490858610-7"><span class="crayon-c"> <em>&nbsp;&nbsp;@param responseType 响应格式</em></span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b16490858610-8"><span class="crayon-c"> /</span></div><div class="crayon-line" id="crayon-56eead6552b16490858610-9"><span class="crayon-o">+</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-t">void</span><span class="crayon-sy">)</span><span class="crayon-e ">configResponseType</span><span class="crayon-o">:</span><span class="crayon-sy">(</span><span class="crayon-t">HYBResponseType</span><span class="crayon-sy">)</span><span class="crayon-v">responseType</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b16490858610-10">&nbsp;</div><div class="crayon-line" id="crayon-56eead6552b16490858610-11"><span class="crayon-c">/<em>!</em></span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b16490858610-12"><span class="crayon-c"> &nbsp;&nbsp;@author 黄仪标, 15-12-25 15:12:45</span></div><div class="crayon-line" id="crayon-56eead6552b16490858610-13"><span class="crayon-c"> <em></em></span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b16490858610-14"><span class="crayon-c"> &nbsp;&nbsp;配置请求格式，默认为JSON。如果要求传XML或者PLIST，请在全局配置一下</span></div><div class="crayon-line" id="crayon-56eead6552b16490858610-15"><span class="crayon-c"> <em></em></span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b16490858610-16"><span class="crayon-c"> &nbsp;&nbsp;@param requestType 请求格式</span></div><div class="crayon-line" id="crayon-56eead6552b16490858610-17"><span class="crayon-c"> <em>/</em></span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b16490858610-18"><span class="crayon-o">+</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-t">void</span><span class="crayon-sy">)</span><span class="crayon-e ">configRequestType</span><span class="crayon-o">:</span><span class="crayon-sy">(</span><span class="crayon-t">HYBRequestType</span><span class="crayon-sy">)</span><span class="crayon-v">requestType</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56eead6552b16490858610-19">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><p></p><br><h1 id="toc_8">URL编码问题</h1><br><p>考虑到网络请求接口中，有时候会有中文参数，这时候就会请求失败，因此我们要对这种类型的<code>URL</code>进行编码，否则请求会失败。这里是开启或者关闭自动将<code>URL</code>编码的接口，默认为NO，表示不开启。</p><br><div id="crayon-56eead6552b1b885881193" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-mac print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eead6552b1b885881193-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b1b885881193-2">2</div><div class="crayon-num" data-line="crayon-56eead6552b1b885881193-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b1b885881193-4">4</div><div class="crayon-num" data-line="crayon-56eead6552b1b885881193-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b1b885881193-6">6</div><div class="crayon-num" data-line="crayon-56eead6552b1b885881193-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b1b885881193-8">8</div><div class="crayon-num" data-line="crayon-56eead6552b1b885881193-9">9</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b1b885881193-10">10</div><div class="crayon-num" data-line="crayon-56eead6552b1b885881193-11">11</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b1b885881193-12">12</div><div class="crayon-num" data-line="crayon-56eead6552b1b885881193-13">13</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b1b885881193-14">14</div><div class="crayon-num" data-line="crayon-56eead6552b1b885881193-15">15</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b1b885881193-16">16</div><div class="crayon-num" data-line="crayon-56eead6552b1b885881193-17">17</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b1b885881193-18">18</div><div class="crayon-num" data-line="crayon-56eead6552b1b885881193-19">19</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eead6552b1b885881193-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b1b885881193-2"><span class="crayon-c">/!</span></div><div class="crayon-line" id="crayon-56eead6552b1b885881193-3"><span class="crayon-c"> <em>&nbsp;&nbsp;@author 黄仪标, 15-11-15 14:11:40</em></span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b1b885881193-4"><span class="crayon-c"> </span></div><div class="crayon-line" id="crayon-56eead6552b1b885881193-5"><span class="crayon-c"> <em>&nbsp;&nbsp;开启或关闭接口打印信息</em></span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b1b885881193-6"><span class="crayon-c"> </span></div><div class="crayon-line" id="crayon-56eead6552b1b885881193-7"><span class="crayon-c"> <em>&nbsp;&nbsp;@param isDebug 开发期，最好打开，默认是NO</em></span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b1b885881193-8"><span class="crayon-c"> /</span></div><div class="crayon-line" id="crayon-56eead6552b1b885881193-9"><span class="crayon-o">+</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-t">void</span><span class="crayon-sy">)</span><span class="crayon-e ">enableInterfaceDebug</span><span class="crayon-o">:</span><span class="crayon-sy">(</span><span class="crayon-t">BOOL</span><span class="crayon-sy">)</span><span class="crayon-v">isDebug</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b1b885881193-10">&nbsp;</div><div class="crayon-line" id="crayon-56eead6552b1b885881193-11"><span class="crayon-c">/<em>!</em></span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b1b885881193-12"><span class="crayon-c"> &nbsp;&nbsp;@author 黄仪标, 15-11-15 15:11:16</span></div><div class="crayon-line" id="crayon-56eead6552b1b885881193-13"><span class="crayon-c"> <em></em></span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b1b885881193-14"><span class="crayon-c"> &nbsp;&nbsp;开启或关闭是否自动将URL使用UTF8编码，用于处理链接中有中文时无法请求的问题</span></div><div class="crayon-line" id="crayon-56eead6552b1b885881193-15"><span class="crayon-c"> <em></em></span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b1b885881193-16"><span class="crayon-c"> &nbsp;&nbsp;@param shouldAutoEncode YES or NO,默认为NO</span></div><div class="crayon-line" id="crayon-56eead6552b1b885881193-17"><span class="crayon-c"> <em>/</em></span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b1b885881193-18"><span class="crayon-o">+</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-t">void</span><span class="crayon-sy">)</span><span class="crayon-e ">shouldAutoEncodeUrl</span><span class="crayon-o">:</span><span class="crayon-sy">(</span><span class="crayon-t">BOOL</span><span class="crayon-sy">)</span><span class="crayon-v">shouldAutoEncode</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56eead6552b1b885881193-19">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><p></p><br><h1 id="toc_9">网络接口数据日志</h1><br><p>对于网络请求回来的结果，如果没有一个格式化好的日志打印出来查看，就要通过断点一步步跟踪，然后打开出来看，这太麻烦。因此，这里提供了打印日志的私有<code>API</code>。默认是不开启打印日志的。</p><br><div id="crayon-56eead6552b1f695400860" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-mac print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eead6552b1f695400860-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b1f695400860-2">2</div><div class="crayon-num" data-line="crayon-56eead6552b1f695400860-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b1f695400860-4">4</div><div class="crayon-num" data-line="crayon-56eead6552b1f695400860-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b1f695400860-6">6</div><div class="crayon-num" data-line="crayon-56eead6552b1f695400860-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b1f695400860-8">8</div><div class="crayon-num" data-line="crayon-56eead6552b1f695400860-9">9</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b1f695400860-10">10</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eead6552b1f695400860-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b1f695400860-2"><span class="crayon-c">/!</span></div><div class="crayon-line" id="crayon-56eead6552b1f695400860-3"><span class="crayon-c"> <em>&nbsp;&nbsp;@author 黄仪标, 15-11-15 14:11:40</em></span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b1f695400860-4"><span class="crayon-c"> </span></div><div class="crayon-line" id="crayon-56eead6552b1f695400860-5"><span class="crayon-c"> <em>&nbsp;&nbsp;开启或关闭接口打印信息</em></span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b1f695400860-6"><span class="crayon-c"> </span></div><div class="crayon-line" id="crayon-56eead6552b1f695400860-7"><span class="crayon-c"> <em>&nbsp;&nbsp;@param isDebug 开发期，最好打开，默认是NO</em></span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b1f695400860-8"><span class="crayon-c"> /</span></div><div class="crayon-line" id="crayon-56eead6552b1f695400860-9"><span class="crayon-o">+</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-t">void</span><span class="crayon-sy">)</span><span class="crayon-e ">enableInterfaceDebug</span><span class="crayon-o">:</span><span class="crayon-sy">(</span><span class="crayon-t">BOOL</span><span class="crayon-sy">)</span><span class="crayon-v">isDebug</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b1f695400860-10">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><p>通常在<code>AppDelegate</code>中应用启动的代理方法中调用设置为开启就可以了。不过是否设置为开启，当应用以发布证书打包时，都不会打印日志，因为这里做了处理，可放心使用。</p><br><div id="crayon-56eead6552b24244714551" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-mac print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eead6552b24244714551-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b24244714551-2">2</div><div class="crayon-num" data-line="crayon-56eead6552b24244714551-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b24244714551-4">4</div><div class="crayon-num" data-line="crayon-56eead6552b24244714551-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b24244714551-6">6</div><div class="crayon-num" data-line="crayon-56eead6552b24244714551-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b24244714551-8">8</div><div class="crayon-num" data-line="crayon-56eead6552b24244714551-9">9</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eead6552b24244714551-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b24244714551-2"><span class="crayon-c">// 项目打包上线都不会打印日志，因此可放心。</span></div><div class="crayon-line" id="crayon-56eead6552b24244714551-3"><span class="crayon-p">#ifdef DEBUG</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b24244714551-4"><span class="crayon-p">#define HYBAppLog(s, … ) NSLog( @”[%@：in line: %d]–&gt;[message: %@]”, [[NSString stringWithUTF8String:<strong>FILE</strong>] lastPathComponent], <strong>LINE</strong>, [NSString stringWithFormat:(s), ##<strong>VA_ARGS</strong>] )</span></div><div class="crayon-line" id="crayon-56eead6552b24244714551-5"><span class="crayon-p">#else</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b24244714551-6"><span class="crayon-p">#define HYBAppLog(s, … )</span></div><div class="crayon-line" id="crayon-56eead6552b24244714551-7"><span class="crayon-p">#endif</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b24244714551-8">&nbsp;</div><div class="crayon-line" id="crayon-56eead6552b24244714551-9">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><p></p><br><h1 id="toc_10">安装使用</h1><br><p>现在已经支持<code>cocoapods</code>，引入以下命令即可：</p><br><div id="crayon-56eead6552b29257589380" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-mac print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eead6552b29257589380-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eead6552b29257589380-2">2</div><div class="crayon-num" data-line="crayon-56eead6552b29257589380-3">3</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eead6552b29257589380-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eead6552b29257589380-2"><span class="crayon-v">pod</span><span class="crayon-h"> </span><span class="crayon-s">‘HYBNetworking’</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-s">‘~&gt; 2.0.0’</span></div><div class="crayon-line" id="crayon-56eead6552b29257589380-3">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><p>或者直接下载源代码，拖入工程使用！</p></div></span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/03/20/Swift-JavaScriptCore与js交互/" rel="next" title="Swift JavaScriptCore与js交互">
+                <i class="fa fa-chevron-left"></i> Swift JavaScriptCore与js交互
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2016/03/20/AFNetworking3-0网络封装/"
+     data-title=""
+     data-content=""
+     data-url="http://yoursite.com/2016/03/20/AFNetworking3-0网络封装/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+        </div>
+
+        
+
+
+        
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/03/20/AFNetworking3-0网络封装/"
+           data-title="" data-url="http://yoursite.com/2016/03/20/AFNetworking3-0网络封装/">
+      </div>
+    
+  </div>
+
+
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="http://img5.duitang.com/uploads/item/201406/26/20140626193943_WGW2n.thumb.700_0.jpeg" alt="YCK" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">YCK</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">愿世界永无Bug！</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">34</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">1</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yckblog/ykcoder" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> github
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/fav?leftnav=1" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> weibo
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#tags_3A"><span class="nav-number">1.</span> <span class="nav-text">tags:</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_1"><span class="nav-number"></span> <span class="nav-text">常用接口类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#toc_2"><span class="nav-number">1.</span> <span class="nav-text">GET接口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#toc_3"><span class="nav-number">2.</span> <span class="nav-text">POST接口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#toc_4"><span class="nav-number">3.</span> <span class="nav-text">图片上传接口</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_5"><span class="nav-number"></span> <span class="nav-text">设置基础URL</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_6"><span class="nav-number"></span> <span class="nav-text">添加公共请求头参数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_7"><span class="nav-number"></span> <span class="nav-text">请求与响应格式设置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_8"><span class="nav-number"></span> <span class="nav-text">URL编码问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_9"><span class="nav-number"></span> <span class="nav-text">网络接口数据日志</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_10"><span class="nav-number"></span> <span class="nav-text">安装使用</span></a></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">YCK</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"ykcoder"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+
+
+    
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+<script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+<script type="text/javascript" src="/js/motion.js?v=0.4.5.2" id="motion.global"></script>
+
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    motionMiddleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
+
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+
+  
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/MathJax.js"></script>
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/config/TeX-AMS-MML_HTMLorMML.js"></script>
+  
+
+
+  
+  
+
+</body>
+</html>

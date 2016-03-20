@@ -1,0 +1,763 @@
+<!doctype html>
+<html class="theme-next   use-motion ">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
+
+
+
+
+
+
+<meta name="description" content="demo效果
+千言万语，不如一个demo效果图，看完效果图再继续往下看：
+
+库名HYBSnapkitAutoCellHeight
+名称命名为HYBSnapkitAutoCellHeight，主要是区别于Masonry版本。关于Masonry自动计算行高的版本，大家可以阅读：HYBMasonryAutoCellHeight，它是Objective-C写的。
+设计思路
+既然我们使用的是自动布局，那么就">
+<meta property="og:type" content="article">
+<meta property="og:title" content="开源HYBSnapkitAutoCellHeight自动算行高">
+<meta property="og:url" content="http://yoursite.com/2015/10/20/开源HYBSnapkitAutoCellHeight自动算行高/index.html">
+<meta property="og:site_name" content="YKcoder">
+<meta property="og:description" content="demo效果
+千言万语，不如一个demo效果图，看完效果图再继续往下看：
+
+库名HYBSnapkitAutoCellHeight
+名称命名为HYBSnapkitAutoCellHeight，主要是区别于Masonry版本。关于Masonry自动计算行高的版本，大家可以阅读：HYBMasonryAutoCellHeight，它是Objective-C写的。
+设计思路
+既然我们使用的是自动布局，那么就">
+<meta property="og:image" content="http://7xrs9h.com1.z0.glb.clouddn.com/wp-content/uploads/2016/01/snapkitcellheight.gif">
+<meta property="og:updated_time" content="2016-03-20T14:15:41.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="开源HYBSnapkitAutoCellHeight自动算行高">
+<meta name="twitter:description" content="demo效果
+千言万语，不如一个demo效果图，看完效果图再继续往下看：
+
+库名HYBSnapkitAutoCellHeight
+名称命名为HYBSnapkitAutoCellHeight，主要是区别于Masonry版本。关于Masonry自动计算行高的版本，大家可以阅读：HYBMasonryAutoCellHeight，它是Objective-C写的。
+设计思路
+既然我们使用的是自动布局，那么就">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post',
+    motion: true
+  };
+</script>
+
+  <title> 开源HYBSnapkitAutoCellHeight自动算行高 | YKcoder </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta custom-logo">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">YKcoder</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">没有代码的日子好孤单！</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                开源HYBSnapkitAutoCellHeight自动算行高
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-10-20T22:13:14+08:00" content="2015-10-20">
+              2015-10-20
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/10/20/开源HYBSnapkitAutoCellHeight自动算行高/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/10/20/开源HYBSnapkitAutoCellHeight自动算行高/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p></p><h1 id="toc_1">demo效果</h1><p></p>
+<p></p><p>千言万语，不如一个demo效果图，看完效果图再继续往下看：</p><p></p>
+<p></p><p><img src="http://7xrs9h.com1.z0.glb.clouddn.com/wp-content/uploads/2016/01/snapkitcellheight.gif" alt="image"></p><p></p>
+<p></p><h1 id="toc_2">库名HYBSnapkitAutoCellHeight</h1><p></p>
+<p></p><p>名称命名为HYBSnapkitAutoCellHeight，主要是区别于Masonry版本。关于Masonry自动计算行高的版本，大家可以阅读：<a href="http://www.henishuo.com/masonry-cell-height-auto-calculate/" target="_blank" rel="external">HYBMasonryAutoCellHeight</a>，它是Objective-C写的。</p><p></p>
+<p></p><h1 id="toc_3">设计思路</h1><p></p>
+<p></p><p>既然我们使用的是自动布局，那么就可以利用自动布局来准确地计算出位置。要想通过自动布局立即得到位置和大小，那么就需要调用<code>layoutIfNeeded</code>方法，这样就可以获取所有控件的<code>frame</code>了。</p><div><p></p>
+<p></p><p>既然可以通过此方法获取到所有控件的<code>frame</code>了，那么我们若指定某一个视图为最后一个视图，作为参考，那么就可以直接通过获取该视图的frame来计算高度了。但是，如果我们并不是与指定的视图的位置平齐怎么办？没有关系，我们提供了另外一个属性用于设置最后一个参考视图与cell的最底部的间隔是多少。</p><p></p>
+<p></p><p>我们指定如下两个属性：</p><p></p>
+<p><div id="crayon-56eeafd7eedb2009307528" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-mac print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"></div></p>
+<p><div class="crayon-plain-wrap"></div></p>
+<p><div class="crayon-main" style=""></div></p>
+<p><table class="crayon-table"></table></p>
+<p><tr class="crayon-row"></tr></p>
+<p><td class="crayon-nums " data-settings="show"></td></p>
+<p><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eeafd7eedb2009307528-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedb2009307528-2">2</div><div class="crayon-num" data-line="crayon-56eeafd7eedb2009307528-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedb2009307528-4">4</div><div class="crayon-num" data-line="crayon-56eeafd7eedb2009307528-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedb2009307528-6">6</div><div class="crayon-num" data-line="crayon-56eeafd7eedb2009307528-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedb2009307528-8">8</div><div class="crayon-num" data-line="crayon-56eeafd7eedb2009307528-9">9</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedb2009307528-10">10</div><div class="crayon-num" data-line="crayon-56eeafd7eedb2009307528-11">11</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedb2009307528-12">12</div><div class="crayon-num" data-line="crayon-56eeafd7eedb2009307528-13">13</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedb2009307528-14">14</div><div class="crayon-num" data-line="crayon-56eeafd7eedb2009307528-15">15</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedb2009307528-16">16</div><div class="crayon-num" data-line="crayon-56eeafd7eedb2009307528-17">17</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedb2009307528-18">18</div><div class="crayon-num" data-line="crayon-56eeafd7eedb2009307528-19">19</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedb2009307528-20">20</div><div class="crayon-num" data-line="crayon-56eeafd7eedb2009307528-21">21</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedb2009307528-22">22</div><div class="crayon-num" data-line="crayon-56eeafd7eedb2009307528-23">23</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedb2009307528-24">24</div><div class="crayon-num" data-line="crayon-56eeafd7eedb2009307528-25">25</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedb2009307528-26">26</div><div class="crayon-num" data-line="crayon-56eeafd7eedb2009307528-27">27</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedb2009307528-28">28</div><div class="crayon-num" data-line="crayon-56eeafd7eedb2009307528-29">29</div></div><br></p>
+<p><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eeafd7eedb2009307528-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedb2009307528-2"><span class="crayon-e">public </span><span class="crayon-v">var</span><span class="crayon-e "> hyb_lastViewInCell</span><span class="crayon-v">: UIView</span><span class="crayon-sy">?</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56eeafd7eedb2009307528-3"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">get</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedb2009307528-4"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">let </span><span class="crayon-v">lastView</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">objc_getAssociatedObject</span><span class="crayon-sy">(</span><span class="crayon-r">self</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-o">&amp;</span><span class="crayon-v"><strong>hyb_lastViewInCellKey</strong></span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56eeafd7eedb2009307528-5"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">return</span><span class="crayon-h"> </span><span class="crayon-e">lastView </span><span class="crayon-v">as</span><span class="crayon-sy">?</span><span class="crayon-h"> </span><span class="crayon-t">UIView</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedb2009307528-6"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56eeafd7eedb2009307528-7"><span class="crayon-h">&nbsp;&nbsp;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedb2009307528-8"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">set</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56eeafd7eedb2009307528-9"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">objc_setAssociatedObject</span><span class="crayon-sy">(</span><span class="crayon-r">self</span><span class="crayon-sy">,</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedb2009307528-10"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-o">&amp;</span><span class="crayon-v">hyb_lastViewInCellKey</span><span class="crayon-sy">,</span></div><div class="crayon-line" id="crayon-56eeafd7eedb2009307528-11"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">newValue</span><span class="crayon-sy">,</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedb2009307528-12"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">.</span><span class="crayon-t">OBJC_ASSOCIATION_RETAIN_NONATOMIC</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56eeafd7eedb2009307528-13"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedb2009307528-14"><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56eeafd7eedb2009307528-15">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedb2009307528-16"><span class="crayon-e">public </span><span class="crayon-v">var</span><span class="crayon-e "> hyb_bottomOffsetToCell</span><span class="crayon-v">: CGFloat</span><span class="crayon-sy">?</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56eeafd7eedb2009307528-17"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">get</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedb2009307528-18"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">let </span><span class="crayon-v">offset</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">objc_getAssociatedObject</span><span class="crayon-sy">(</span><span class="crayon-r">self</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-o">&amp;</span><span class="crayon-v"><strong>hyb_bottomOffsetToCell</strong></span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56eeafd7eedb2009307528-19"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">return</span><span class="crayon-h"> </span><span class="crayon-e">offset </span><span class="crayon-v">as</span><span class="crayon-sy">?</span><span class="crayon-h"> </span><span class="crayon-t">CGFloat</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedb2009307528-20"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56eeafd7eedb2009307528-21"><span class="crayon-h">&nbsp;&nbsp;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedb2009307528-22"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">set</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56eeafd7eedb2009307528-23"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">objc_setAssociatedObject</span><span class="crayon-sy">(</span><span class="crayon-r">self</span><span class="crayon-sy">,</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedb2009307528-24"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-o">&amp;</span><span class="crayon-v">hyb_bottomOffsetToCell</span><span class="crayon-sy">,</span></div><div class="crayon-line" id="crayon-56eeafd7eedb2009307528-25"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">newValue</span><span class="crayon-sy">,</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedb2009307528-26"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">.</span><span class="crayon-t">OBJC_ASSOCIATION_ASSIGN</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56eeafd7eedb2009307528-27"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedb2009307528-28"><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56eeafd7eedb2009307528-29">&nbsp;</div></div></td><br><br><br></p></div><br><p>这两个是通过runtime添加的属性，因为扩展并不能添加属性。由于swift中关联值所使用的key是个指针，因为我们的参数应该是传一个地址，比如我们定义的key是<code>__hyb_lastViewInCellKey</code>，它是String类型的，而String类型是结构体类型，但是实际应该是要传一个指针，因此需要传这个字符串的地址过去。</p><p></p>
+<p></p><h1 id="toc_4">单API</h1><p></p>
+<p></p><p>对外只提供了一个API，而且还是类方法：</p><p></p>
+<p><div id="crayon-56eeafd7eedc2912683145" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-mac print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"></div></p>
+<p><div class="crayon-plain-wrap"></div></p>
+<p><div class="crayon-main" style=""></div></p>
+<p><table class="crayon-table"></table></p>
+<p><tr class="crayon-row"></tr></p>
+<p><td class="crayon-nums " data-settings="show"></td></p>
+<p><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eeafd7eedc2912683145-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedc2912683145-2">2</div><div class="crayon-num" data-line="crayon-56eeafd7eedc2912683145-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedc2912683145-4">4</div><div class="crayon-num" data-line="crayon-56eeafd7eedc2912683145-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedc2912683145-6">6</div><div class="crayon-num" data-line="crayon-56eeafd7eedc2912683145-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedc2912683145-8">8</div><div class="crayon-num" data-line="crayon-56eeafd7eedc2912683145-9">9</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedc2912683145-10">10</div><div class="crayon-num" data-line="crayon-56eeafd7eedc2912683145-11">11</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedc2912683145-12">12</div><div class="crayon-num" data-line="crayon-56eeafd7eedc2912683145-13">13</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedc2912683145-14">14</div><div class="crayon-num" data-line="crayon-56eeafd7eedc2912683145-15">15</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedc2912683145-16">16</div><div class="crayon-num" data-line="crayon-56eeafd7eedc2912683145-17">17</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedc2912683145-18">18</div><div class="crayon-num" data-line="crayon-56eeafd7eedc2912683145-19">19</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedc2912683145-20">20</div><div class="crayon-num" data-line="crayon-56eeafd7eedc2912683145-21">21</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedc2912683145-22">22</div><div class="crayon-num" data-line="crayon-56eeafd7eedc2912683145-23">23</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedc2912683145-24">24</div><div class="crayon-num" data-line="crayon-56eeafd7eedc2912683145-25">25</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedc2912683145-26">26</div><div class="crayon-num" data-line="crayon-56eeafd7eedc2912683145-27">27</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedc2912683145-28">28</div><div class="crayon-num" data-line="crayon-56eeafd7eedc2912683145-29">29</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedc2912683145-30">30</div><div class="crayon-num" data-line="crayon-56eeafd7eedc2912683145-31">31</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedc2912683145-32">32</div><div class="crayon-num" data-line="crayon-56eeafd7eedc2912683145-33">33</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedc2912683145-34">34</div><div class="crayon-num" data-line="crayon-56eeafd7eedc2912683145-35">35</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedc2912683145-36">36</div><div class="crayon-num" data-line="crayon-56eeafd7eedc2912683145-37">37</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedc2912683145-38">38</div><div class="crayon-num" data-line="crayon-56eeafd7eedc2912683145-39">39</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedc2912683145-40">40</div><div class="crayon-num" data-line="crayon-56eeafd7eedc2912683145-41">41</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedc2912683145-42">42</div><div class="crayon-num" data-line="crayon-56eeafd7eedc2912683145-43">43</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedc2912683145-44">44</div><div class="crayon-num" data-line="crayon-56eeafd7eedc2912683145-45">45</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedc2912683145-46">46</div><div class="crayon-num" data-line="crayon-56eeafd7eedc2912683145-47">47</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedc2912683145-48">48</div><div class="crayon-num" data-line="crayon-56eeafd7eedc2912683145-49">49</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedc2912683145-50">50</div><div class="crayon-num" data-line="crayon-56eeafd7eedc2912683145-51">51</div></div><br></p>
+<p><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eeafd7eedc2912683145-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedc2912683145-2"><span class="crayon-c">/<em>*</em></span></div><div class="crayon-line" id="crayon-56eeafd7eedc2912683145-3"><span class="crayon-c"> 带缓存功能、自动计算行高</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedc2912683145-4"><span class="crayon-c"> </span></div><div class="crayon-line" id="crayon-56eeafd7eedc2912683145-5"><span class="crayon-c"> - parameter tableView:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 给哪个tableview缓存</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedc2912683145-6"><span class="crayon-c"> - parameter config:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在回调中配置数据</span></div><div class="crayon-line" id="crayon-56eeafd7eedc2912683145-7"><span class="crayon-c"> - parameter cache:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 指定缓存key/stateKey/tableview</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedc2912683145-8"><span class="crayon-c"> - parameter stateKey:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stateKey表示状态key</span></div><div class="crayon-line" id="crayon-56eeafd7eedc2912683145-9"><span class="crayon-c"> - parameter shouldUpdate&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 是否要更新指定stateKey中缓存高度，若为YES,不管有没有缓存 ，都会重新计算</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedc2912683145-10"><span class="crayon-c"> </span></div><div class="crayon-line" id="crayon-56eeafd7eedc2912683145-11"><span class="crayon-c"> - returns: 行高</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedc2912683145-12"><span class="crayon-c"> /</span></div><div class="crayon-line" id="crayon-56eeafd7eedc2912683145-13"><span class="crayon-e">public </span><span class="crayon-t">class</span><span class="crayon-h"> </span><span class="crayon-e">func </span><span class="crayon-e">hyb<em>cellHeight</em></span><span class="crayon-sy">(</span><span class="crayon-v">forTableView</span><span class="crayon-e "> tableView</span><span class="crayon-v">: UITableView</span><span class="crayon-sy">,</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedc2912683145-14"><span class="crayon-e ">&nbsp;&nbsp;config</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-sy">(</span><span class="crayon-e ">cell</span><span class="crayon-v">: UITableViewCell</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">-&gt;</span><span class="crayon-h"> </span><span class="crayon-t">Void</span><span class="crayon-sy">)</span><span class="crayon-sy">?</span><span class="crayon-sy">,</span></div><div class="crayon-line" id="crayon-56eeafd7eedc2912683145-15"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">updateCacheIfNeeded</span><span class="crayon-e "> cache</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-sy">(</span><span class="crayon-t">Void</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">-&gt;</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-e ">key</span><span class="crayon-v">: String</span><span class="crayon-sy">,</span><span class="crayon-e "> stateKey</span><span class="crayon-v">: String</span><span class="crayon-sy">,</span><span class="crayon-e "> shouldUpdate</span><span class="crayon-v">: Bool</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span><span class="crayon-sy">?</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">-&gt;</span><span class="crayon-h"> </span><span class="crayon-t">CGFloat</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedc2912683145-16"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line" id="crayon-56eeafd7eedc2912683145-17"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-e">let </span><span class="crayon-v">cacheBlock</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">cache</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedc2912683145-18"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">let </span><span class="crayon-v">keyGroup</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">cacheBlock</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-56eeafd7eedc2912683145-19"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">let </span><span class="crayon-v">key</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">keyGroup</span><span class="crayon-sy">.</span><span class="crayon-e">key</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedc2912683145-20"><span class="crayon-e">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">let </span><span class="crayon-v">stateKey</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">keyGroup</span><span class="crayon-sy">.</span><span class="crayon-e">stateKey</span></div><div class="crayon-line" id="crayon-56eeafd7eedc2912683145-21"><span class="crayon-e">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">let </span><span class="crayon-v">shouldUpdate</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">keyGroup</span><span class="crayon-sy">.</span><span class="crayon-v">shouldUpdate</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedc2912683145-22"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line" id="crayon-56eeafd7eedc2912683145-23"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-v">shouldUpdate</span><span class="crayon-h"> </span><span class="crayon-o">==</span><span class="crayon-h"> </span><span class="crayon-cn">false</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedc2912683145-24"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">if</span><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-e">let </span><span class="crayon-v">cacheDict</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">tableView</span><span class="crayon-sy">.</span><span class="crayon-v">hyb</span><span class="crayon-sy"></span><span class="crayon-v">cacheHeightDictionary</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56eeafd7eedc2912683145-25"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c">// 状态高度缓存</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedc2912683145-26"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-e">let </span><span class="crayon-v">stateDict</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">cacheDict</span><span class="crayon-sy">[</span><span class="crayon-v">key</span><span class="crayon-sy">]</span><span class="crayon-e "> as</span><span class="crayon-sy">?</span><span class="crayon-h"> </span><span class="crayon-t">NSMutableDictionary</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56eeafd7eedc2912683145-27"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-e">let </span><span class="crayon-v">height</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">stateDict</span><span class="crayon-sy">[</span><span class="crayon-v">stateKey</span><span class="crayon-sy">]</span><span class="crayon-e "> as</span><span class="crayon-sy">?</span><span class="crayon-h"> </span><span class="crayon-t">NSNumber</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedc2912683145-28"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-v">height</span><span class="crayon-sy">.</span><span class="crayon-v">intValue</span><span class="crayon-h"> </span><span class="crayon-o">!=</span><span class="crayon-h"> </span><span class="crayon-cn">0</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56eeafd7eedc2912683145-29"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">return</span><span class="crayon-h"> </span><span class="crayon-t">CGFloat</span><span class="crayon-sy">(</span><span class="crayon-v">height</span><span class="crayon-sy">.</span><span class="crayon-v">floatValue</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedc2912683145-30"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56eeafd7eedc2912683145-31"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedc2912683145-32"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56eeafd7eedc2912683145-33"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedc2912683145-34"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56eeafd7eedc2912683145-35"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedc2912683145-36"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line" id="crayon-56eeafd7eedc2912683145-37"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">let </span><span class="crayon-v">className</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-t">String</span><span class="crayon-sy">(</span><span class="crayon-t">UTF8String</span><span class="crayon-v">: class_getName</span><span class="crayon-sy">(</span><span class="crayon-r">self</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedc2912683145-38"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">var </span><span class="crayon-v">cell</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">tableView</span><span class="crayon-sy">.</span><span class="crayon-v">hyb_cacheCellDictionary</span><span class="crayon-sy">?</span><span class="crayon-sy">.</span><span class="crayon-e">objectForKey</span><span class="crayon-sy">(</span><span class="crayon-v">className</span><span class="crayon-o">!</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-v">as</span><span class="crayon-sy">?</span><span class="crayon-h"> </span><span class="crayon-t">UITableViewCell</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56eeafd7eedc2912683145-39"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedc2912683145-40"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-v">cell</span><span class="crayon-h"> </span><span class="crayon-o">==</span><span class="crayon-h"> </span><span class="crayon-t">nil</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56eeafd7eedc2912683145-41"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">cell</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-e">init</span><span class="crayon-sy">(</span><span class="crayon-e ">style</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-sy">.</span><span class="crayon-t">Default</span><span class="crayon-sy">,</span><span class="crayon-e "> reuseIdentifier</span><span class="crayon-v">: nil</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedc2912683145-42"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">tableView</span><span class="crayon-sy">.</span><span class="crayon-v">hyb_cacheCellDictionary</span><span class="crayon-sy">?</span><span class="crayon-sy">.</span><span class="crayon-e">setObject</span><span class="crayon-sy">(</span><span class="crayon-v">cell</span><span class="crayon-o">!</span><span class="crayon-sy">,</span><span class="crayon-e "> forKey</span><span class="crayon-v">: className</span><span class="crayon-o">!</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56eeafd7eedc2912683145-43"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedc2912683145-44"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line" id="crayon-56eeafd7eedc2912683145-45"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-e">let </span><span class="crayon-v">block</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">config</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedc2912683145-46"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">block</span><span class="crayon-sy">(</span><span class="crayon-e ">cell</span><span class="crayon-v">: cell</span><span class="crayon-o">!</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56eeafd7eedc2912683145-47"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedc2912683145-48"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line" id="crayon-56eeafd7eedc2912683145-49"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">return</span><span class="crayon-h"> </span><span class="crayon-v">cell</span><span class="crayon-o">!</span><span class="crayon-sy">.</span><span class="crayon-e">hyb_calculateCellHeight</span><span class="crayon-sy">(</span><span class="crayon-v">forTableView</span><span class="crayon-v">: tableView</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">updateCacheIfNeeded</span><span class="crayon-v">: cache</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedc2912683145-50"><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56eeafd7eedc2912683145-51">&nbsp;</div></div></td><br><br><br><br></p><p>这里采用了高度缓存且对于所用于计算地cell只会创建一次，因此性能上通常还是很不错的。</p><p></p>
+<p></p><h1 id="toc_5">如何在cell中自动布局</h1><p></p>
+<p></p><p>我们下面来看看要使用这个扩展，应该如何布局呢？它有四大必须，一个可选条件：</p><p></p>
+<p><ol></ol></p>
+<li>必须在<code>override init(style: UITableViewCellStyle, reuseIdentifier: String?)</code>中布局</li><br><li>必须指定<code>self.hyb_lastViewInCell</code></li><br><li>对于UILabel控件，必须指定<code>preferredMaxLayoutWidth</code>，而且它的值要与自动布局所指定计算得到的宽必须保持一致，否则都会导致计算有误差。之前Masonry版本的，指定这个属性只是为了适配iOS6，但是对于SnapKit版本，必须要指定。看来现在是SnapKit版本还不够完善。</li><br><li>可选指定<code>self.hyb<em>bottomOffsetToCell</em></code>，默认为0</li><br><br><p>下面是demo中一个例子，这里是按顺序添加约束的。</p><br><div id="crayon-56eeafd7eedca660826616" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-mac print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eeafd7eedca660826616-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedca660826616-2">2</div><div class="crayon-num" data-line="crayon-56eeafd7eedca660826616-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedca660826616-4">4</div><div class="crayon-num" data-line="crayon-56eeafd7eedca660826616-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedca660826616-6">6</div><div class="crayon-num" data-line="crayon-56eeafd7eedca660826616-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedca660826616-8">8</div><div class="crayon-num" data-line="crayon-56eeafd7eedca660826616-9">9</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedca660826616-10">10</div><div class="crayon-num" data-line="crayon-56eeafd7eedca660826616-11">11</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedca660826616-12">12</div><div class="crayon-num" data-line="crayon-56eeafd7eedca660826616-13">13</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedca660826616-14">14</div><div class="crayon-num" data-line="crayon-56eeafd7eedca660826616-15">15</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedca660826616-16">16</div><div class="crayon-num" data-line="crayon-56eeafd7eedca660826616-17">17</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedca660826616-18">18</div><div class="crayon-num" data-line="crayon-56eeafd7eedca660826616-19">19</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedca660826616-20">20</div><div class="crayon-num" data-line="crayon-56eeafd7eedca660826616-21">21</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedca660826616-22">22</div><div class="crayon-num" data-line="crayon-56eeafd7eedca660826616-23">23</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedca660826616-24">24</div><div class="crayon-num" data-line="crayon-56eeafd7eedca660826616-25">25</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedca660826616-26">26</div><div class="crayon-num" data-line="crayon-56eeafd7eedca660826616-27">27</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedca660826616-28">28</div><div class="crayon-num" data-line="crayon-56eeafd7eedca660826616-29">29</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedca660826616-30">30</div><div class="crayon-num" data-line="crayon-56eeafd7eedca660826616-31">31</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedca660826616-32">32</div><div class="crayon-num" data-line="crayon-56eeafd7eedca660826616-33">33</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedca660826616-34">34</div><div class="crayon-num" data-line="crayon-56eeafd7eedca660826616-35">35</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedca660826616-36">36</div><div class="crayon-num" data-line="crayon-56eeafd7eedca660826616-37">37</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedca660826616-38">38</div><div class="crayon-num" data-line="crayon-56eeafd7eedca660826616-39">39</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedca660826616-40">40</div><div class="crayon-num" data-line="crayon-56eeafd7eedca660826616-41">41</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedca660826616-42">42</div><div class="crayon-num" data-line="crayon-56eeafd7eedca660826616-43">43</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedca660826616-44">44</div><div class="crayon-num" data-line="crayon-56eeafd7eedca660826616-45">45</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedca660826616-46">46</div><div class="crayon-num" data-line="crayon-56eeafd7eedca660826616-47">47</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedca660826616-48">48</div><div class="crayon-num" data-line="crayon-56eeafd7eedca660826616-49">49</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedca660826616-50">50</div><div class="crayon-num" data-line="crayon-56eeafd7eedca660826616-51">51</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedca660826616-52">52</div><div class="crayon-num" data-line="crayon-56eeafd7eedca660826616-53">53</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedca660826616-54">54</div><div class="crayon-num" data-line="crayon-56eeafd7eedca660826616-55">55</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedca660826616-56">56</div><div class="crayon-num" data-line="crayon-56eeafd7eedca660826616-57">57</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedca660826616-58">58</div><div class="crayon-num" data-line="crayon-56eeafd7eedca660826616-59">59</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedca660826616-60">60</div><div class="crayon-num" data-line="crayon-56eeafd7eedca660826616-61">61</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedca660826616-62">62</div><div class="crayon-num" data-line="crayon-56eeafd7eedca660826616-63">63</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedca660826616-64">64</div><div class="crayon-num" data-line="crayon-56eeafd7eedca660826616-65">65</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedca660826616-66">66</div><div class="crayon-num" data-line="crayon-56eeafd7eedca660826616-67">67</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedca660826616-68">68</div><div class="crayon-num" data-line="crayon-56eeafd7eedca660826616-69">69</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedca660826616-70">70</div><div class="crayon-num" data-line="crayon-56eeafd7eedca660826616-71">71</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedca660826616-72">72</div><div class="crayon-num" data-line="crayon-56eeafd7eedca660826616-73">73</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedca660826616-74">74</div><div class="crayon-num" data-line="crayon-56eeafd7eedca660826616-75">75</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedca660826616-76">76</div><div class="crayon-num" data-line="crayon-56eeafd7eedca660826616-77">77</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedca660826616-78">78</div><div class="crayon-num" data-line="crayon-56eeafd7eedca660826616-79">79</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedca660826616-80">80</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eeafd7eedca660826616-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedca660826616-2"><span class="crayon-e">override </span><span class="crayon-e">init</span><span class="crayon-sy">(</span><span class="crayon-e ">style</span><span class="crayon-v">: UITableViewCellStyle</span><span class="crayon-sy">,</span><span class="crayon-e "> reuseIdentifier</span><span class="crayon-v">: String</span><span class="crayon-sy">?</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56eeafd7eedca660826616-3"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-r">super</span><span class="crayon-sy">.</span><span class="crayon-e">init</span><span class="crayon-sy">(</span><span class="crayon-e ">style</span><span class="crayon-v">: style</span><span class="crayon-sy">,</span><span class="crayon-e "> reuseIdentifier</span><span class="crayon-v">: reuseIdentifier</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedca660826616-4"><span class="crayon-h">&nbsp;&nbsp;</span></div><div class="crayon-line" id="crayon-56eeafd7eedca660826616-5"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-v">contentView</span><span class="crayon-sy">.</span><span class="crayon-e">addSubview</span><span class="crayon-sy">(</span><span class="crayon-v">headImageView</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedca660826616-6"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">headImageView</span><span class="crayon-sy">.</span><span class="crayon-v">snp</span><span class="crayon-sy"></span><span class="crayon-v">makeConstraints</span><span class="crayon-h"> </span><span class="crayon-sy">{</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">make</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">-&gt;</span><span class="crayon-h"> </span><span class="crayon-t">Void</span><span class="crayon-h"> </span><span class="crayon-m">in</span></div><div class="crayon-line" id="crayon-56eeafd7eedca660826616-7"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">make</span><span class="crayon-sy">.</span><span class="crayon-v">left</span><span class="crayon-sy">.</span><span class="crayon-v">top</span><span class="crayon-sy">.</span><span class="crayon-e">equalTo</span><span class="crayon-sy">(</span><span class="crayon-cn">15</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedca660826616-8"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">make</span><span class="crayon-sy">.</span><span class="crayon-v">width</span><span class="crayon-sy">.</span><span class="crayon-v">height</span><span class="crayon-sy">.</span><span class="crayon-e">equalTo</span><span class="crayon-sy">(</span><span class="crayon-cn">80</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-56eeafd7eedca660826616-9"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedca660826616-10"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">headImageView</span><span class="crayon-sy">.</span><span class="crayon-v">image</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-t">UIImage</span><span class="crayon-sy">(</span><span class="crayon-e ">named</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-s">“head”</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-56eeafd7eedca660826616-11"><span class="crayon-h">&nbsp;&nbsp;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedca660826616-12"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-c">// title</span></div><div class="crayon-line" id="crayon-56eeafd7eedca660826616-13"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-v">contentView</span><span class="crayon-sy">.</span><span class="crayon-e">addSubview</span><span class="crayon-sy">(</span><span class="crayon-v">titleLabel</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedca660826616-14"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">titleLabel</span><span class="crayon-sy">.</span><span class="crayon-v">numberOfLines</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">0</span></div><div class="crayon-line" id="crayon-56eeafd7eedca660826616-15"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">titleLabel</span><span class="crayon-sy">.</span><span class="crayon-v">font</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-t">UIFont</span><span class="crayon-sy">.</span><span class="crayon-e">systemFontOfSize</span><span class="crayon-sy">(</span><span class="crayon-cn">26</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedca660826616-16"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">titleLabel</span><span class="crayon-sy">.</span><span class="crayon-v">snp</span><span class="crayon-sy">_</span><span class="crayon-v">makeConstraints</span><span class="crayon-h"> </span><span class="crayon-sy">{</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">make</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">-&gt;</span><span class="crayon-h"> </span><span class="crayon-t">Void</span><span class="crayon-h"> </span><span class="crayon-m">in</span></div><div class="crayon-line" id="crayon-56eeafd7eedca660826616-17"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">make</span><span class="crayon-sy">.</span><span class="crayon-v">left</span><span class="crayon-sy">.</span><span class="crayon-e">equalTo</span><span class="crayon-sy">(</span><span class="crayon-v">headImageView</span><span class="crayon-sy">.</span><span class="crayon-v">snp<em>right</em></span><span class="crayon-sy">)</span><span class="crayon-sy">.</span><span class="crayon-e">offset</span><span class="crayon-sy">(</span><span class="crayon-cn">15</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedca660826616-18"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">make</span><span class="crayon-sy">.</span><span class="crayon-v">right</span><span class="crayon-sy">.</span><span class="crayon-e">equalTo</span><span class="crayon-sy">(</span><span class="crayon-o">-</span><span class="crayon-cn">15</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-56eeafd7eedca660826616-19"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">make</span><span class="crayon-sy">.</span><span class="crayon-v">top</span><span class="crayon-sy">.</span><span class="crayon-e">equalTo</span><span class="crayon-sy">(</span><span class="crayon-v">headImageView</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedca660826616-20"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56eeafd7eedca660826616-21"><span class="crayon-h">&nbsp;&nbsp;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedca660826616-22"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-c">// 若不指定preferredMaxLayoutWidth属性，则计算会不准备，使用Masonry时，指定此属性</span></div><div class="crayon-line" id="crayon-56eeafd7eedca660826616-23"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-c">// 是特别适配iOS6的，不过使用SnapKit则必须指定，否则自动计算的高度会不准确</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedca660826616-24"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-e">let </span><span class="crayon-v">width</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-t">UIScreen</span><span class="crayon-sy">.</span><span class="crayon-e">mainScreen</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-sy">.</span><span class="crayon-v">bounds</span><span class="crayon-sy">.</span><span class="crayon-v">size</span><span class="crayon-sy">.</span><span class="crayon-e">width</span></div><div class="crayon-line" id="crayon-56eeafd7eedca660826616-25"><span class="crayon-e">&nbsp;&nbsp;</span><span class="crayon-v">titleLabel</span><span class="crayon-sy">.</span><span class="crayon-v">preferredMaxLayoutWidth</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">width</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-h"> </span><span class="crayon-cn">30</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-h"> </span><span class="crayon-cn">15</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-h"> </span><span class="crayon-cn">80</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedca660826616-26"><span class="crayon-h">&nbsp;&nbsp;</span></div><div class="crayon-line" id="crayon-56eeafd7eedca660826616-27"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-v">contentView</span><span class="crayon-sy">.</span><span class="crayon-e">addSubview</span><span class="crayon-sy">(</span><span class="crayon-v">descLabel</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedca660826616-28"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">descLabel</span><span class="crayon-sy">.</span><span class="crayon-v">numberOfLines</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">0</span></div><div class="crayon-line" id="crayon-56eeafd7eedca660826616-29"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">descLabel</span><span class="crayon-sy">.</span><span class="crayon-v">font</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-t">UIFont</span><span class="crayon-sy">.</span><span class="crayon-e">systemFontOfSize</span><span class="crayon-sy">(</span><span class="crayon-cn">22</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedca660826616-30"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">descLabel</span><span class="crayon-sy">.</span><span class="crayon-v">snp</span><span class="crayon-sy"></span><span class="crayon-v">makeConstraints</span><span class="crayon-h"> </span><span class="crayon-sy">{</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">make</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">-&gt;</span><span class="crayon-h"> </span><span class="crayon-t">Void</span><span class="crayon-h"> </span><span class="crayon-m">in</span></div><div class="crayon-line" id="crayon-56eeafd7eedca660826616-31"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">make</span><span class="crayon-sy">.</span><span class="crayon-v">left</span><span class="crayon-sy">.</span><span class="crayon-v">right</span><span class="crayon-sy">.</span><span class="crayon-e">equalTo</span><span class="crayon-sy">(</span><span class="crayon-v">titleLabel</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedca660826616-32"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">make</span><span class="crayon-sy">.</span><span class="crayon-v">top</span><span class="crayon-sy">.</span><span class="crayon-e">equalTo</span><span class="crayon-sy">(</span><span class="crayon-v">titleLabel</span><span class="crayon-sy">.</span><span class="crayon-v">snp<em>bottom</em></span><span class="crayon-sy">)</span><span class="crayon-sy">.</span><span class="crayon-e">offset</span><span class="crayon-sy">(</span><span class="crayon-cn">15</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-56eeafd7eedca660826616-33"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedca660826616-34"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">descLabel</span><span class="crayon-sy">.</span><span class="crayon-v">preferredMaxLayoutWidth</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">titleLabel</span><span class="crayon-sy">.</span><span class="crayon-e">preferredMaxLayoutWidth</span></div><div class="crayon-line" id="crayon-56eeafd7eedca660826616-35"><span class="crayon-e">&nbsp;&nbsp;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedca660826616-36"><span class="crayon-e">&nbsp;&nbsp;</span><span class="crayon-v">descLabel</span><span class="crayon-sy">.</span><span class="crayon-v">userInteractionEnabled</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">true</span></div><div class="crayon-line" id="crayon-56eeafd7eedca660826616-37"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-e">let </span><span class="crayon-v">tap</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-t">UITapGestureRecognizer</span><span class="crayon-sy">(</span><span class="crayon-e ">target</span><span class="crayon-v">: self</span><span class="crayon-sy">,</span><span class="crayon-e "> action</span><span class="crayon-v">: Selector</span><span class="crayon-sy">(</span><span class="crayon-s">“onTapDesc”</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedca660826616-38"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">descLabel</span><span class="crayon-sy">.</span><span class="crayon-e">addGestureRecognizer</span><span class="crayon-sy">(</span><span class="crayon-v">tap</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-56eeafd7eedca660826616-39"><span class="crayon-h">&nbsp;&nbsp;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedca660826616-40"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-v">contentView</span><span class="crayon-sy">.</span><span class="crayon-e">addSubview</span><span class="crayon-sy">(</span><span class="crayon-v">blogSummaryLabel</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-56eeafd7eedca660826616-41"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">blogSummaryLabel</span><span class="crayon-sy">.</span><span class="crayon-v">numberOfLines</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">0</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedca660826616-42"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">blogSummaryLabel</span><span class="crayon-sy">.</span><span class="crayon-v">font</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-t">UIFont</span><span class="crayon-sy">.</span><span class="crayon-e">systemFontOfSize</span><span class="crayon-sy">(</span><span class="crayon-cn">22</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-56eeafd7eedca660826616-43"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">blogSummaryLabel</span><span class="crayon-sy">.</span><span class="crayon-v">snp</span><span class="crayon-sy"></span><span class="crayon-v">makeConstraints</span><span class="crayon-h"> </span><span class="crayon-sy">{</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">make</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">-&gt;</span><span class="crayon-h"> </span><span class="crayon-t">Void</span><span class="crayon-h"> </span><span class="crayon-m">in</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedca660826616-44"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">make</span><span class="crayon-sy">.</span><span class="crayon-v">left</span><span class="crayon-sy">.</span><span class="crayon-v">right</span><span class="crayon-sy">.</span><span class="crayon-e">equalTo</span><span class="crayon-sy">(</span><span class="crayon-v">descLabel</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-56eeafd7eedca660826616-45"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">make</span><span class="crayon-sy">.</span><span class="crayon-v">top</span><span class="crayon-sy">.</span><span class="crayon-e">equalTo</span><span class="crayon-sy">(</span><span class="crayon-v">descLabel</span><span class="crayon-sy">.</span><span class="crayon-v">snp<em>bottom</em></span><span class="crayon-sy">)</span><span class="crayon-sy">.</span><span class="crayon-e">offset</span><span class="crayon-sy">(</span><span class="crayon-cn">15</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedca660826616-46"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56eeafd7eedca660826616-47"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">blogSummaryLabel</span><span class="crayon-sy">.</span><span class="crayon-v">preferredMaxLayoutWidth</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">titleLabel</span><span class="crayon-sy">.</span><span class="crayon-e">preferredMaxLayoutWidth</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedca660826616-48"><span class="crayon-e">&nbsp;&nbsp;</span></div><div class="crayon-line" id="crayon-56eeafd7eedca660826616-49"><span class="crayon-e">&nbsp;&nbsp;</span><span class="crayon-e">let </span><span class="crayon-v">tap1</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-t">UITapGestureRecognizer</span><span class="crayon-sy">(</span><span class="crayon-e ">target</span><span class="crayon-v">: self</span><span class="crayon-sy">,</span><span class="crayon-e "> action</span><span class="crayon-v">: Selector</span><span class="crayon-sy">(</span><span class="crayon-s">“onTapBlog”</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedca660826616-50"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">blogSummaryLabel</span><span class="crayon-sy">.</span><span class="crayon-v">userInteractionEnabled</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">true</span></div><div class="crayon-line" id="crayon-56eeafd7eedca660826616-51"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">blogSummaryLabel</span><span class="crayon-sy">.</span><span class="crayon-e">addGestureRecognizer</span><span class="crayon-sy">(</span><span class="crayon-v">tap1</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedca660826616-52"><span class="crayon-h">&nbsp;&nbsp;</span></div><div class="crayon-line" id="crayon-56eeafd7eedca660826616-53"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-v">contentView</span><span class="crayon-sy">.</span><span class="crayon-e">addSubview</span><span class="crayon-sy">(</span><span class="crayon-v">okButton</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedca660826616-54"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">okButton</span><span class="crayon-sy">.</span><span class="crayon-e">setTitleColor</span><span class="crayon-sy">(</span><span class="crayon-t">UIColor</span><span class="crayon-sy">.</span><span class="crayon-e">whiteColor</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-sy">,</span><span class="crayon-e "> forState</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-sy">.</span><span class="crayon-t">Normal</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-56eeafd7eedca660826616-55"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">okButton</span><span class="crayon-sy">.</span><span class="crayon-e">setTitle</span><span class="crayon-sy">(</span><span class="crayon-s">“计算高度的参考”</span><span class="crayon-sy">,</span><span class="crayon-e "> forState</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-sy">.</span><span class="crayon-t">Normal</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedca660826616-56"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">okButton</span><span class="crayon-sy">.</span><span class="crayon-v">backgroundColor</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-t">UIColor</span><span class="crayon-sy">.</span><span class="crayon-e">greenColor</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-56eeafd7eedca660826616-57"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">okButton</span><span class="crayon-sy">.</span><span class="crayon-v">snp</span><span class="crayon-sy"></span><span class="crayon-v">makeConstraints</span><span class="crayon-h"> </span><span class="crayon-sy">{</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">make</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">-&gt;</span><span class="crayon-h"> </span><span class="crayon-t">Void</span><span class="crayon-h"> </span><span class="crayon-m">in</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedca660826616-58"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">make</span><span class="crayon-sy">.</span><span class="crayon-v">right</span><span class="crayon-sy">.</span><span class="crayon-e">equalTo</span><span class="crayon-sy">(</span><span class="crayon-o">-</span><span class="crayon-cn">15</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-56eeafd7eedca660826616-59"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">make</span><span class="crayon-sy">.</span><span class="crayon-v">height</span><span class="crayon-sy">.</span><span class="crayon-e">equalTo</span><span class="crayon-sy">(</span><span class="crayon-cn">45</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedca660826616-60"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">make</span><span class="crayon-sy">.</span><span class="crayon-v">top</span><span class="crayon-sy">.</span><span class="crayon-e">equalTo</span><span class="crayon-sy">(</span><span class="crayon-v">blogSummaryLabel</span><span class="crayon-sy">.</span><span class="crayon-v">snp<em>bottom</em></span><span class="crayon-sy">)</span><span class="crayon-sy">.</span><span class="crayon-e">offset</span><span class="crayon-sy">(</span><span class="crayon-cn">15</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-56eeafd7eedca660826616-61"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedca660826616-62"><span class="crayon-h">&nbsp;&nbsp;</span></div><div class="crayon-line" id="crayon-56eeafd7eedca660826616-63"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">blogSummaryLabel</span><span class="crayon-sy">.</span><span class="crayon-v">backgroundColor</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-t">UIColor</span><span class="crayon-sy">.</span><span class="crayon-e">redColor</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedca660826616-64"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">descLabel</span><span class="crayon-sy">.</span><span class="crayon-v">backgroundColor</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-t">UIColor</span><span class="crayon-sy">.</span><span class="crayon-e">greenColor</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-56eeafd7eedca660826616-65"><span class="crayon-h">&nbsp;&nbsp;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedca660826616-66"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-e">let </span><span class="crayon-v">lineLabel</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-t">UILabel</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-56eeafd7eedca660826616-67"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">lineLabel</span><span class="crayon-sy">.</span><span class="crayon-v">backgroundColor</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-t">UIColor</span><span class="crayon-sy">.</span><span class="crayon-e">lightGrayColor</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedca660826616-68"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-v">contentView</span><span class="crayon-sy">.</span><span class="crayon-e">addSubview</span><span class="crayon-sy">(</span><span class="crayon-v">lineLabel</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-56eeafd7eedca660826616-69"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">lineLabel</span><span class="crayon-sy">.</span><span class="crayon-v">snp</span><span class="crayon-sy"></span><span class="crayon-v">makeConstraints</span><span class="crayon-h"> </span><span class="crayon-sy">{</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-e">unowned </span><span class="crayon-r">self</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">make</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">-&gt;</span><span class="crayon-h"> </span><span class="crayon-t">Void</span><span class="crayon-h"> </span><span class="crayon-m">in</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedca660826616-70"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">make</span><span class="crayon-sy">.</span><span class="crayon-v">height</span><span class="crayon-sy">.</span><span class="crayon-e">equalTo</span><span class="crayon-sy">(</span><span class="crayon-cn">1</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-56eeafd7eedca660826616-71"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">make</span><span class="crayon-sy">.</span><span class="crayon-v">left</span><span class="crayon-sy">.</span><span class="crayon-e">equalTo</span><span class="crayon-sy">(</span><span class="crayon-cn">15</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedca660826616-72"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">make</span><span class="crayon-sy">.</span><span class="crayon-v">right</span><span class="crayon-sy">.</span><span class="crayon-e">equalTo</span><span class="crayon-sy">(</span><span class="crayon-cn">0</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-56eeafd7eedca660826616-73"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">make</span><span class="crayon-sy">.</span><span class="crayon-v">bottom</span><span class="crayon-sy">.</span><span class="crayon-e">equalTo</span><span class="crayon-sy">(</span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-v">contentView</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedca660826616-74"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56eeafd7eedca660826616-75"><span class="crayon-h">&nbsp;&nbsp;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedca660826616-76"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-c">// 指定最后一个视图，作为计算高度的参考</span></div><div class="crayon-line" id="crayon-56eeafd7eedca660826616-77"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-v">hyb_lastViewInCell</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">okButton</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedca660826616-78"><span class="crayon-e">&nbsp;&nbsp;</span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-v">hyb_bottomOffsetToCell</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">15</span></div><div class="crayon-line" id="crayon-56eeafd7eedca660826616-79"><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedca660826616-80">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><p></p><br><h1 id="toc_6">如何动态修改约束</h1><br><p>当cell要有动态地展开、收缩等功能时，每次都自己去计算？每次修改约束很复杂？不，不，不！其实很容易的。下面看看笔者是如何做到的。demo提供了展开与收起的功能，因此使用两个变量来记录是展开还是收起，而且还使用了是否是同一种状态的判断，防止每次都重新更新，这样体验会好很多哦。因为我们这里只是简单地对label操作，展开时有多少字就显示多少，因此不能手动指定其高度。收起时，只能指定其高度，因此在收起时通过更新约束API就可以添加高度约束了。但是对于展开并不能直接使用更新约束API去掉收起操作所指定的高度，因此只能使用移除之前的所有约束而重新添加约束的API来完成：</p><br><div id="crayon-56eeafd7eedd3715107694" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-mac print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eeafd7eedd3715107694-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedd3715107694-2">2</div><div class="crayon-num" data-line="crayon-56eeafd7eedd3715107694-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedd3715107694-4">4</div><div class="crayon-num" data-line="crayon-56eeafd7eedd3715107694-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedd3715107694-6">6</div><div class="crayon-num" data-line="crayon-56eeafd7eedd3715107694-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedd3715107694-8">8</div><div class="crayon-num" data-line="crayon-56eeafd7eedd3715107694-9">9</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedd3715107694-10">10</div><div class="crayon-num" data-line="crayon-56eeafd7eedd3715107694-11">11</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedd3715107694-12">12</div><div class="crayon-num" data-line="crayon-56eeafd7eedd3715107694-13">13</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedd3715107694-14">14</div><div class="crayon-num" data-line="crayon-56eeafd7eedd3715107694-15">15</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedd3715107694-16">16</div><div class="crayon-num" data-line="crayon-56eeafd7eedd3715107694-17">17</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedd3715107694-18">18</div><div class="crayon-num" data-line="crayon-56eeafd7eedd3715107694-19">19</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedd3715107694-20">20</div><div class="crayon-num" data-line="crayon-56eeafd7eedd3715107694-21">21</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedd3715107694-22">22</div><div class="crayon-num" data-line="crayon-56eeafd7eedd3715107694-23">23</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedd3715107694-24">24</div><div class="crayon-num" data-line="crayon-56eeafd7eedd3715107694-25">25</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedd3715107694-26">26</div><div class="crayon-num" data-line="crayon-56eeafd7eedd3715107694-27">27</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedd3715107694-28">28</div><div class="crayon-num" data-line="crayon-56eeafd7eedd3715107694-29">29</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedd3715107694-30">30</div><div class="crayon-num" data-line="crayon-56eeafd7eedd3715107694-31">31</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedd3715107694-32">32</div><div class="crayon-num" data-line="crayon-56eeafd7eedd3715107694-33">33</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedd3715107694-34">34</div><div class="crayon-num" data-line="crayon-56eeafd7eedd3715107694-35">35</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedd3715107694-36">36</div><div class="crayon-num" data-line="crayon-56eeafd7eedd3715107694-37">37</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedd3715107694-38">38</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eeafd7eedd3715107694-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedd3715107694-2"><span class="crayon-c">// MARK: Public</span></div><div class="crayon-line" id="crayon-56eeafd7eedd3715107694-3"><span class="crayon-e">func </span><span class="crayon-e">config</span><span class="crayon-sy">(</span><span class="crayon-v">testModel</span><span class="crayon-e "> model</span><span class="crayon-v">: TestModel</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedd3715107694-4"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">titleLabel</span><span class="crayon-sy">.</span><span class="crayon-v">text</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">model</span><span class="crayon-sy">.</span><span class="crayon-e">title</span></div><div class="crayon-line" id="crayon-56eeafd7eedd3715107694-5"><span class="crayon-e">&nbsp;&nbsp;</span><span class="crayon-v">descLabel</span><span class="crayon-sy">.</span><span class="crayon-v">text</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">model</span><span class="crayon-sy">.</span><span class="crayon-e">desc</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedd3715107694-6"><span class="crayon-e">&nbsp;&nbsp;</span><span class="crayon-v">blogSummaryLabel</span><span class="crayon-sy">.</span><span class="crayon-v">text</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">model</span><span class="crayon-sy">.</span><span class="crayon-e">blog</span></div><div class="crayon-line" id="crayon-56eeafd7eedd3715107694-7"><span class="crayon-e">&nbsp;&nbsp;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedd3715107694-8"><span class="crayon-e">&nbsp;&nbsp;</span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-v">model</span><span class="crayon-sy">.</span><span class="crayon-v">isExpand1</span><span class="crayon-h"> </span><span class="crayon-o">!=</span><span class="crayon-h"> </span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-v">isExpand1</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56eeafd7eedd3715107694-9"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-v">isExpand1</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">model</span><span class="crayon-sy">.</span><span class="crayon-e">isExpand1</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedd3715107694-10"><span class="crayon-e">&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line" id="crayon-56eeafd7eedd3715107694-11"><span class="crayon-e">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-v">isExpand1</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedd3715107694-12"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">descLabel</span><span class="crayon-sy">.</span><span class="crayon-e">snp_remakeConstraints</span><span class="crayon-sy">(</span><span class="crayon-e ">closure</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-sy">{</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">make</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">-&gt;</span><span class="crayon-h"> </span><span class="crayon-t">Void</span><span class="crayon-h"> </span><span class="crayon-m">in</span></div><div class="crayon-line" id="crayon-56eeafd7eedd3715107694-13"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">make</span><span class="crayon-sy">.</span><span class="crayon-v">left</span><span class="crayon-sy">.</span><span class="crayon-v">right</span><span class="crayon-sy">.</span><span class="crayon-e">equalTo</span><span class="crayon-sy">(</span><span class="crayon-v">titleLabel</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedd3715107694-14"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">make</span><span class="crayon-sy">.</span><span class="crayon-v">top</span><span class="crayon-sy">.</span><span class="crayon-e">equalTo</span><span class="crayon-sy">(</span><span class="crayon-v">titleLabel</span><span class="crayon-sy">.</span><span class="crayon-v">snp_bottom</span><span class="crayon-sy">)</span><span class="crayon-sy">.</span><span class="crayon-e">offset</span><span class="crayon-sy">(</span><span class="crayon-cn">15</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-56eeafd7eedd3715107694-15"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedd3715107694-16"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span><span class="crayon-h"> </span><span class="crayon-st">else</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56eeafd7eedd3715107694-17"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">descLabel</span><span class="crayon-sy">.</span><span class="crayon-e">snp_updateConstraints</span><span class="crayon-sy">(</span><span class="crayon-e ">closure</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-sy">{</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">make</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">-&gt;</span><span class="crayon-h"> </span><span class="crayon-t">Void</span><span class="crayon-h"> </span><span class="crayon-m">in</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedd3715107694-18"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">make</span><span class="crayon-sy">.</span><span class="crayon-v">height</span><span class="crayon-sy">.</span><span class="crayon-e">lessThanOrEqualTo</span><span class="crayon-sy">(</span><span class="crayon-cn">55</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-56eeafd7eedd3715107694-19"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedd3715107694-20"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56eeafd7eedd3715107694-21"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedd3715107694-22"><span class="crayon-h">&nbsp;&nbsp;</span></div><div class="crayon-line" id="crayon-56eeafd7eedd3715107694-23"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-v">model</span><span class="crayon-sy">.</span><span class="crayon-v">isExpand2</span><span class="crayon-h"> </span><span class="crayon-o">!=</span><span class="crayon-h"> </span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-v">isExpand2</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedd3715107694-24"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-v">isExpand2</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">model</span><span class="crayon-sy">.</span><span class="crayon-e">isExpand2</span></div><div class="crayon-line" id="crayon-56eeafd7eedd3715107694-25"><span class="crayon-e">&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedd3715107694-26"><span class="crayon-e">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-v">isExpand2</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56eeafd7eedd3715107694-27"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">blogSummaryLabel</span><span class="crayon-sy">.</span><span class="crayon-e">snp_remakeConstraints</span><span class="crayon-sy">(</span><span class="crayon-e ">closure</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-sy">{</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">make</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">-&gt;</span><span class="crayon-h"> </span><span class="crayon-t">Void</span><span class="crayon-h"> </span><span class="crayon-m">in</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedd3715107694-28"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">make</span><span class="crayon-sy">.</span><span class="crayon-v">left</span><span class="crayon-sy">.</span><span class="crayon-v">right</span><span class="crayon-sy">.</span><span class="crayon-e">equalTo</span><span class="crayon-sy">(</span><span class="crayon-v">descLabel</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-56eeafd7eedd3715107694-29"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">make</span><span class="crayon-sy">.</span><span class="crayon-v">top</span><span class="crayon-sy">.</span><span class="crayon-e">equalTo</span><span class="crayon-sy">(</span><span class="crayon-v">descLabel</span><span class="crayon-sy">.</span><span class="crayon-v">snp_bottom</span><span class="crayon-sy">)</span><span class="crayon-sy">.</span><span class="crayon-e">offset</span><span class="crayon-sy">(</span><span class="crayon-cn">15</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedd3715107694-30"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-56eeafd7eedd3715107694-31"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span><span class="crayon-h"> </span><span class="crayon-st">else</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedd3715107694-32"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">blogSummaryLabel</span><span class="crayon-sy">.</span><span class="crayon-e">snp_updateConstraints</span><span class="crayon-sy">(</span><span class="crayon-e ">closure</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-sy">{</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">make</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">-&gt;</span><span class="crayon-h"> </span><span class="crayon-t">Void</span><span class="crayon-h"> </span><span class="crayon-m">in</span></div><div class="crayon-line" id="crayon-56eeafd7eedd3715107694-33"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">make</span><span class="crayon-sy">.</span><span class="crayon-v">height</span><span class="crayon-sy">.</span><span class="crayon-e">lessThanOrEqualTo</span><span class="crayon-sy">(</span><span class="crayon-cn">55</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedd3715107694-34"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-56eeafd7eedd3715107694-35"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedd3715107694-36"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56eeafd7eedd3715107694-37"><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedd3715107694-38">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><p></p><br><h1 id="toc_7">如何调用计算行高</h1><br><p></p><br><div id="crayon-56eeafd7eedd8749343648" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-mac print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eeafd7eedd8749343648-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedd8749343648-2">2</div><div class="crayon-num" data-line="crayon-56eeafd7eedd8749343648-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedd8749343648-4">4</div><div class="crayon-num" data-line="crayon-56eeafd7eedd8749343648-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedd8749343648-6">6</div><div class="crayon-num" data-line="crayon-56eeafd7eedd8749343648-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedd8749343648-8">8</div><div class="crayon-num" data-line="crayon-56eeafd7eedd8749343648-9">9</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedd8749343648-10">10</div><div class="crayon-num" data-line="crayon-56eeafd7eedd8749343648-11">11</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedd8749343648-12">12</div><div class="crayon-num" data-line="crayon-56eeafd7eedd8749343648-13">13</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedd8749343648-14">14</div><div class="crayon-num" data-line="crayon-56eeafd7eedd8749343648-15">15</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedd8749343648-16">16</div><div class="crayon-num" data-line="crayon-56eeafd7eedd8749343648-17">17</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedd8749343648-18">18</div><div class="crayon-num" data-line="crayon-56eeafd7eedd8749343648-19">19</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedd8749343648-20">20</div><div class="crayon-num" data-line="crayon-56eeafd7eedd8749343648-21">21</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedd8749343648-22">22</div><div class="crayon-num" data-line="crayon-56eeafd7eedd8749343648-23">23</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedd8749343648-24">24</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eeafd7eedd8749343648-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedd8749343648-2"><span class="crayon-c">// MARK: UITableViewDelegate</span></div><div class="crayon-line" id="crayon-56eeafd7eedd8749343648-3"><span class="crayon-e">func </span><span class="crayon-e">tableView</span><span class="crayon-sy">(</span><span class="crayon-e ">tableView</span><span class="crayon-v">: UITableView</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">heightForRowAtIndexPath</span><span class="crayon-e "> indexPath</span><span class="crayon-v">: NSIndexPath</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">-&gt;</span><span class="crayon-h"> </span><span class="crayon-t">CGFloat</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedd8749343648-4"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-e">let </span><span class="crayon-v">model</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-v">dataSource</span><span class="crayon-sy">[</span><span class="crayon-v">indexPath</span><span class="crayon-sy">.</span><span class="crayon-v">row</span><span class="crayon-sy">]</span></div><div class="crayon-line" id="crayon-56eeafd7eedd8749343648-5"><span class="crayon-e ">&nbsp;&nbsp;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedd8749343648-6"><span class="crayon-e ">&nbsp;&nbsp;var</span><span class="crayon-h"> </span><span class="crayon-v">stateKey</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">“”</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56eeafd7eedd8749343648-7"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-v">model</span><span class="crayon-sy">.</span><span class="crayon-v">isExpand1</span><span class="crayon-h"> </span><span class="crayon-o">&amp;&amp;</span><span class="crayon-h"> </span><span class="crayon-v">model</span><span class="crayon-sy">.</span><span class="crayon-v">isExpand2</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedd8749343648-8"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">stateKey</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">“expand1&amp;expand2”</span></div><div class="crayon-line" id="crayon-56eeafd7eedd8749343648-9"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-sy">}</span><span class="crayon-h"> </span><span class="crayon-st">else</span><span class="crayon-h"> </span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-o">!</span><span class="crayon-v">model</span><span class="crayon-sy">.</span><span class="crayon-v">isExpand1</span><span class="crayon-h"> </span><span class="crayon-o">&amp;&amp;</span><span class="crayon-h"> </span><span class="crayon-o">!</span><span class="crayon-v">model</span><span class="crayon-sy">.</span><span class="crayon-v">isExpand2</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedd8749343648-10"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">stateKey</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">“unexpand1&amp;unexpand2”</span></div><div class="crayon-line" id="crayon-56eeafd7eedd8749343648-11"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-sy">}</span><span class="crayon-h"> </span><span class="crayon-st">else</span><span class="crayon-h"> </span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-v">model</span><span class="crayon-sy">.</span><span class="crayon-v">isExpand1</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedd8749343648-12"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">stateKey</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">“expand1&amp;unexpand2”</span></div><div class="crayon-line" id="crayon-56eeafd7eedd8749343648-13"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-sy">}</span><span class="crayon-h"> </span><span class="crayon-st">else</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedd8749343648-14"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">stateKey</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">“unexpand1&amp;expand2”</span></div><div class="crayon-line" id="crayon-56eeafd7eedd8749343648-15"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedd8749343648-16"><span class="crayon-h">&nbsp;&nbsp;</span></div><div class="crayon-line" id="crayon-56eeafd7eedd8749343648-17"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-st">return</span><span class="crayon-h"> </span><span class="crayon-t">TestCell</span><span class="crayon-sy">.</span><span class="crayon-e">hyb_cellHeight</span><span class="crayon-sy">(</span><span class="crayon-e ">forTableView</span><span class="crayon-v">: tableView</span><span class="crayon-sy">,</span><span class="crayon-e "> config</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-sy">{</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">cell</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">-&gt;</span><span class="crayon-h"> </span><span class="crayon-t">Void</span><span class="crayon-h"> </span><span class="crayon-m">in</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedd8749343648-18"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">let </span><span class="crayon-v">itemCell</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">cell </span><span class="crayon-v">as</span><span class="crayon-sy">?</span><span class="crayon-h"> </span><span class="crayon-t">TestCell</span></div><div class="crayon-line" id="crayon-56eeafd7eedd8749343648-19"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">itemCell</span><span class="crayon-sy">?</span><span class="crayon-sy">.</span><span class="crayon-e">config</span><span class="crayon-sy">(</span><span class="crayon-e ">testModel</span><span class="crayon-v">: model</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedd8749343648-20"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span><span class="crayon-sy">,</span><span class="crayon-e "> updateCacheIfNeeded</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-sy">{</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">-&gt;</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">key</span><span class="crayon-v">: String</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">stateKey</span><span class="crayon-v">: String</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">shouldUpdate</span><span class="crayon-v">: Bool</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-m">in</span></div><div class="crayon-line" id="crayon-56eeafd7eedd8749343648-21"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">return</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-t">String</span><span class="crayon-sy">(</span><span class="crayon-v">model</span><span class="crayon-sy">.</span><span class="crayon-v">modelId</span><span class="crayon-sy">)</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">stateKey</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">false</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedd8749343648-22"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-sy">}</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-56eeafd7eedd8749343648-23"><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedd8749343648-24">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><p>其中，cache闭包要求返回一个元组，指定key,stateKey,tableview，且key必须保证唯一，对应使用model的id作为key。而stateKey是用于存储/获取不同状态下的model对应的数据就有的高度。</p><br><h1 id="toc_8">version 2.0.0</h1><br><p>本版本是一个大的版本，API删除了不缓存和无更新的API，只保留最简单的API，方便大家使用。</p><br><p>本版本升级主要是提升性能，将计算的cell重用，以提高性能。</p><br><h1 id="toc_9">最后</h1><br><p>写代码不易，开源更不易，且用且珍惜！当使用过程中出现bug时，请一定要反馈到原作者这里，一起来维护和完善此开源小项目。</p><br><h1 id="toc_10">源代码</h1><br><p>支持cocoapods，大家可以通过下面的命令放到Podfile中：</p><br><div id="crayon-56eeafd7eedde314268865" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-mac print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eeafd7eedde314268865-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeafd7eedde314268865-2">2</div><div class="crayon-num" data-line="crayon-56eeafd7eedde314268865-3">3</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eeafd7eedde314268865-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eeafd7eedde314268865-2"><span class="crayon-v">pod</span><span class="crayon-h"> </span><span class="crayon-s">‘HYBSnapkitAutoCellHeight’</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-s">‘~&gt; 2.0.0’</span></div><div class="crayon-line" id="crayon-56eeafd7eedde314268865-3">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><p>或者直接到GITHUB下载源代码，将HYBSnapkitAutoCellHeight文件夹放到工程中：<a href="https://github.com/CoderJackyHuang/HYBSnapkitAutoCellHeight" target="_blank" rel="external">HYBSnapkitAutoCellHeight开源</a></p><br><h1 id="toc_11">推荐阅读</h1><br><ul><br><li>Objective-C基于Masonry扩展的版本：<a href="http://www.henishuo.com/masonry-cell-height-auto-calculate/" target="_blank" rel="external">开源HYBMasonryAutoCellHeight自动计算行高</a></li></ul></span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/10/20/怎么在极光推送给APP建立推送服务器/" rel="next" title="怎么在极光推送给APP建立推送服务器">
+                <i class="fa fa-chevron-left"></i> 怎么在极光推送给APP建立推送服务器
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/12/20/堆排序/" rel="prev" title="堆排序">
+                堆排序 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2015/10/20/开源HYBSnapkitAutoCellHeight自动算行高/"
+     data-title="开源HYBSnapkitAutoCellHeight自动算行高"
+     data-content=""
+     data-url="http://yoursite.com/2015/10/20/开源HYBSnapkitAutoCellHeight自动算行高/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+        </div>
+
+        
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+        
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/10/20/开源HYBSnapkitAutoCellHeight自动算行高/"
+           data-title="开源HYBSnapkitAutoCellHeight自动算行高" data-url="http://yoursite.com/2015/10/20/开源HYBSnapkitAutoCellHeight自动算行高/">
+      </div>
+    
+  </div>
+
+
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="http://img5.duitang.com/uploads/item/201406/26/20140626193943_WGW2n.thumb.700_0.jpeg" alt="YCK" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">YCK</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">愿世界永无Bug！</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">34</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">1</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yckblog/ykcoder" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> github
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/fav?leftnav=1" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> weibo
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_1"><span class="nav-number">1.</span> <span class="nav-text">demo效果</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_2"><span class="nav-number">2.</span> <span class="nav-text">库名HYBSnapkitAutoCellHeight</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_3"><span class="nav-number">3.</span> <span class="nav-text">设计思路</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_4"><span class="nav-number">4.</span> <span class="nav-text">单API</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_5"><span class="nav-number">5.</span> <span class="nav-text">如何在cell中自动布局</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_6"><span class="nav-number">6.</span> <span class="nav-text">如何动态修改约束</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_7"><span class="nav-number">7.</span> <span class="nav-text">如何调用计算行高</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_8"><span class="nav-number">8.</span> <span class="nav-text">version 2.0.0</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_9"><span class="nav-number">9.</span> <span class="nav-text">最后</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_10"><span class="nav-number">10.</span> <span class="nav-text">源代码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_11"><span class="nav-number">11.</span> <span class="nav-text">推荐阅读</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">YCK</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"ykcoder"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+
+
+    
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+<script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+<script type="text/javascript" src="/js/motion.js?v=0.4.5.2" id="motion.global"></script>
+
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    motionMiddleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
+
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+
+  
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/MathJax.js"></script>
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/config/TeX-AMS-MML_HTMLorMML.js"></script>
+  
+
+
+  
+  
+
+</body>
+</html>

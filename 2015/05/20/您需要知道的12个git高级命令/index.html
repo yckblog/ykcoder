@@ -1,0 +1,718 @@
+<!doctype html>
+<html class="theme-next   use-motion ">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
+
+
+
+
+
+
+<meta name="description" content="众所周知，Git目前已经是分布式版本控制领域的翘楚，围绕着Git形成了完整的生态圈。学习Git，首先当然是学习Git的基本工作流。相比 于SVN等传统版本控制系统来说，Git是专为分布式版本控制而生的强大工具。使用Git时常用的命令有pull、commit、push等，貌似很简 单。不过，有时你会遇到合并冲突的情况，Git这时会将冲突标记出来，需要你手工来解决。有时，你会不小心将代码提交到错误的分">
+<meta property="og:type" content="article">
+<meta property="og:title" content="您需要知道的12个git高级命令">
+<meta property="og:url" content="http://yoursite.com/2015/05/20/您需要知道的12个git高级命令/index.html">
+<meta property="og:site_name" content="YKcoder">
+<meta property="og:description" content="众所周知，Git目前已经是分布式版本控制领域的翘楚，围绕着Git形成了完整的生态圈。学习Git，首先当然是学习Git的基本工作流。相比 于SVN等传统版本控制系统来说，Git是专为分布式版本控制而生的强大工具。使用Git时常用的命令有pull、commit、push等，貌似很简 单。不过，有时你会遇到合并冲突的情况，Git这时会将冲突标记出来，需要你手工来解决。有时，你会不小心将代码提交到错误的分">
+<meta property="og:image" content="http://static.oschina.net/uploads/img/201601/31082151_MxuV.jpg">
+<meta property="og:updated_time" content="2016-03-20T14:46:06.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="您需要知道的12个git高级命令">
+<meta name="twitter:description" content="众所周知，Git目前已经是分布式版本控制领域的翘楚，围绕着Git形成了完整的生态圈。学习Git，首先当然是学习Git的基本工作流。相比 于SVN等传统版本控制系统来说，Git是专为分布式版本控制而生的强大工具。使用Git时常用的命令有pull、commit、push等，貌似很简 单。不过，有时你会遇到合并冲突的情况，Git这时会将冲突标记出来，需要你手工来解决。有时，你会不小心将代码提交到错误的分">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post',
+    motion: true
+  };
+</script>
+
+  <title> 您需要知道的12个git高级命令 | YKcoder </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta custom-logo">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">YKcoder</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">没有代码的日子好孤单！</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                您需要知道的12个git高级命令
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-05-20T22:43:45+08:00" content="2015-05-20">
+              2015-05-20
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/05/20/您需要知道的12个git高级命令/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/05/20/您需要知道的12个git高级命令/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p></p><p>众所周知，Git目前已经是分布式版本控制领域的翘楚，围绕着Git形成了完整的生态圈。学习Git，首先当然是学习Git的基本工作流。相比 于SVN等传统版本控制系统来说，Git是专为分布式版本控制而生的强大工具。使用Git时常用的命令有pull、commit、push等，貌似很简 单。不过，有时你会遇到合并冲突的情况，Git这时会将冲突标记出来，需要你手工来解决。有时，你会不小心将代码提交到错误的分支上，并且又推送到了远程 仓库。还有些时候，你需要切换到不同的分支，但Git却不让你这么做，因为还有未保存的修改。如果需要通过另一个分支的提交来为代码打补丁该怎么做呢？本 文就将介绍12个Git高级命令，合理使用这些命令可以大大提升应用Git的效率。</p><p></p>
+<p></p><h1 id="toc_0">1. 使用rebase而非merge来拉取上游修改</h1><p></p>
+<p></p><p>分支合并会被记录为一次合并提交，这种做法是很有意义的。比如说，可以通过这种方式来标识一个新特性被合并到了发布分支中。不过，当多个团队成员工 作在一个项目中并使用常规的git pull来同步分支时，提交时间线就会被不必要的合并提交所污染。更好的做法则是使用git rebase将一个feature分支变基到master分支：</p><p></p>
+<div id="crayon-56eeb43d34f41502748203" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eeb43d34f41502748203-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeb43d34f41502748203-2">2</div><div class="crayon-num" data-line="crayon-56eeb43d34f41502748203-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeb43d34f41502748203-4">4</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eeb43d34f41502748203-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eeb43d34f41502748203-2"><span class="crayon-sy">$</span><span class="crayon-h"> </span><span class="crayon-e">git </span><span class="crayon-e">checkout </span><span class="crayon-v">feature</span></div><div class="crayon-line" id="crayon-56eeb43d34f41502748203-3"><span class="crayon-sy">$</span><span class="crayon-h"> </span><span class="crayon-e">git </span><span class="crayon-e">rebase </span><span class="crayon-v">master</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeb43d34f41502748203-4">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><p>这么做会将整个feature分支移动到master分支的起点，它会合并master分支上所有新的提交。不过，相比于使用合并提交来说，变基会 通过在原来的分支中为每次提交创建全新提交来重写项目历史。变基的主要好处在于你会得到一个更加整洁的项目历史。此外，这里还有关于变基的陷阱的一些讨 论。</p><br><h1 id="toc_1">2. 在执行git rebase后解决合并冲突</h1><br><p>正如能力越大责任就越大一样。在执行git rebase时，你可能会遇到合并冲突的情况。合并冲突表示两个提交修改了同一个文件的同一行，Git不知道该应用哪一个修改。这会导致如下所示的错误消息：</p><br><p><img src="http://static.oschina.net/uploads/img/201601/31082151_MxuV.jpg" alt="image"></p><br><p>Git会为你提供3个选择来修复导致冲突的提交（fa39187）：</p><br><p>可以运行git rebase –abort来完全取消变基。这么做会取消变基修改，并将分支置回到执行git rebase之前的状态。 可以运行git rebase –skip来完全忽略该提交。这样，有问题的提交所引入的变化就不会被添加到历史中。 可以使用与合并冲突相同的标准步骤来解决冲突。</p><br><h1 id="toc_2">3. 临时性保存修改</h1><br><p>在工作进行中时，有些东西常常会处于凌乱的状态。如果这时需要切换到不同的分支该怎么办呢？Git是不允许你这么做的，因为还有尚未保存的修改。坦 率地说，你并不想将半成品提交上去，后面再来修改。这个问题的解决之道就是使用git stash命令。Stash会接收工作目录的当前状态（比如说，修改了的追踪文件与暂存区的修改等），并将其保存到未完成的修改栈中，这样后面随时可以再 来修改。可以通过如下命令来暂存你的工作：</p><br><div id="crayon-56eeb43d34f50817798376" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eeb43d34f50817798376-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeb43d34f50817798376-2">2</div><div class="crayon-num" data-line="crayon-56eeb43d34f50817798376-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeb43d34f50817798376-4">4</div><div class="crayon-num" data-line="crayon-56eeb43d34f50817798376-5">5</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eeb43d34f50817798376-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eeb43d34f50817798376-2"><span class="crayon-sy">$</span><span class="crayon-h"> </span><span class="crayon-e">git </span><span class="crayon-e">stash</span></div><div class="crayon-line" id="crayon-56eeb43d34f50817798376-3"><span class="crayon-t">Saved</span><span class="crayon-h"> </span><span class="crayon-e">working </span><span class="crayon-e">directory </span><span class="crayon-e">and </span><span class="crayon-e">index </span><span class="crayon-e">state </span><span class="crayon-t">WIP</span><span class="crayon-h"> </span><span class="crayon-v">on</span><span class="crayon-h"> </span><span class="crayon-v">feature</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-cn">3fc175f</span><span class="crayon-h"> </span><span class="crayon-e">fix </span><span class="crayon-e">race </span><span class="crayon-e">condition</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeb43d34f50817798376-4"><span class="crayon-t">HEAD</span><span class="crayon-h"> </span><span class="crayon-e">is </span><span class="crayon-e">now </span><span class="crayon-v">at</span><span class="crayon-h"> </span><span class="crayon-cn">3fc175f</span><span class="crayon-h"> </span><span class="crayon-e">fix </span><span class="crayon-e">race </span><span class="crayon-v">condition</span></div><div class="crayon-line" id="crayon-56eeb43d34f50817798376-5">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><p>现在，工作目录就是干净的了：</p><br><div id="crayon-56eeb43d34f55416584823" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eeb43d34f55416584823-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeb43d34f55416584823-2">2</div><div class="crayon-num" data-line="crayon-56eeb43d34f55416584823-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeb43d34f55416584823-4">4</div><div class="crayon-num" data-line="crayon-56eeb43d34f55416584823-5">5</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eeb43d34f55416584823-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eeb43d34f55416584823-2"><span class="crayon-sy">$</span><span class="crayon-h"> </span><span class="crayon-e">git </span><span class="crayon-v">status</span></div><div class="crayon-line" id="crayon-56eeb43d34f55416584823-3"><span class="crayon-p"># On branch feature</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeb43d34f55416584823-4"><span class="crayon-e">nothing </span><span class="crayon-e">to </span><span class="crayon-v">commit</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-e">working </span><span class="crayon-e">directory </span><span class="crayon-v">clean</span></div><div class="crayon-line" id="crayon-56eeb43d34f55416584823-5">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><p>这时就可以安全地切换分支做别的事情了。不过不必担心，暂存的提交依旧还在：</p><br><div id="crayon-56eeb43d34f5a666114669" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eeb43d34f5a666114669-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeb43d34f5a666114669-2">2</div><div class="crayon-num" data-line="crayon-56eeb43d34f5a666114669-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeb43d34f5a666114669-4">4</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eeb43d34f5a666114669-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eeb43d34f5a666114669-2"><span class="crayon-sy">$</span><span class="crayon-h"> </span><span class="crayon-e">git </span><span class="crayon-e">stash </span><span class="crayon-e">list</span></div><div class="crayon-line" id="crayon-56eeb43d34f5a666114669-3"><span class="crayon-v">stash</span><span class="crayon-sy">@</span><span class="crayon-sy">{</span><span class="crayon-cn">0</span><span class="crayon-sy">}</span><span class="crayon-v">: WIP</span><span class="crayon-h"> </span><span class="crayon-v">on</span><span class="crayon-h"> </span><span class="crayon-v">feature</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-cn">3fc175f</span><span class="crayon-h"> </span><span class="crayon-e">fix </span><span class="crayon-e">race </span><span class="crayon-v">condition</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeb43d34f5a666114669-4">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><p>稍后，在回到feature分支后，你就可以取回所有暂存的变更了：</p><br><div id="crayon-56eeb43d34f5e173351870" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eeb43d34f5e173351870-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeb43d34f5e173351870-2">2</div><div class="crayon-num" data-line="crayon-56eeb43d34f5e173351870-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeb43d34f5e173351870-4">4</div><div class="crayon-num" data-line="crayon-56eeb43d34f5e173351870-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeb43d34f5e173351870-6">6</div><div class="crayon-num" data-line="crayon-56eeb43d34f5e173351870-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeb43d34f5e173351870-8">8</div><div class="crayon-num" data-line="crayon-56eeb43d34f5e173351870-9">9</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eeb43d34f5e173351870-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eeb43d34f5e173351870-2"><span class="crayon-sy">$</span><span class="crayon-h"> </span><span class="crayon-e">git </span><span class="crayon-e">stash </span><span class="crayon-e">pop</span></div><div class="crayon-line" id="crayon-56eeb43d34f5e173351870-3"><span class="crayon-t">On</span><span class="crayon-h"> </span><span class="crayon-e">branch </span><span class="crayon-e">feature</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeb43d34f5e173351870-4"><span class="crayon-t">Changes</span><span class="crayon-h"> </span><span class="crayon-e">not </span><span class="crayon-e">staged </span><span class="crayon-v">for</span><span class="crayon-e "> commit</span><span class="crayon-o">:</span></div><div class="crayon-line" id="crayon-56eeb43d34f5e173351870-5"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-sy">(</span><span class="crayon-v">use</span><span class="crayon-h"> </span><span class="crayon-s">“git add …”</span><span class="crayon-h"> </span><span class="crayon-e">to </span><span class="crayon-e">update </span><span class="crayon-e">what </span><span class="crayon-e">will </span><span class="crayon-e">be </span><span class="crayon-t ">committed</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeb43d34f5e173351870-6">&nbsp;</div><div class="crayon-line" id="crayon-56eeb43d34f5e173351870-7"><span class="crayon-e ">&nbsp;&nbsp;&nbsp;&nbsp; modified</span><span class="crayon-v">:&nbsp;&nbsp; index</span><span class="crayon-sy">.</span><span class="crayon-e">html</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeb43d34f5e173351870-8"><span class="crayon-t">Dropped</span><span class="crayon-h"> </span><span class="crayon-v">refs</span><span class="crayon-o">/</span><span class="crayon-v">stash</span><span class="crayon-sy">@</span><span class="crayon-sy">{</span><span class="crayon-cn">0</span><span class="crayon-sy">}</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">ac2321cc3a33ba712b8e50c99a99d3c20da9d6b8</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-56eeb43d34f5e173351870-9">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><p>关于暂存，还有其他一些选项可用，如下所示：</p><br><div id="crayon-56eeb43d34f62104874261" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eeb43d34f62104874261-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeb43d34f62104874261-2">2</div><div class="crayon-num" data-line="crayon-56eeb43d34f62104874261-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeb43d34f62104874261-4">4</div><div class="crayon-num" data-line="crayon-56eeb43d34f62104874261-5">5</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eeb43d34f62104874261-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eeb43d34f62104874261-2"><span class="crayon-sy">$</span><span class="crayon-h"> </span><span class="crayon-e">git </span><span class="crayon-e">stash </span><span class="crayon-v">save</span><span class="crayon-h"> </span><span class="crayon-s">“describe it”</span><span class="crayon-h">&nbsp;&nbsp; </span><span class="crayon-p"># give the stash a name</span></div><div class="crayon-line" id="crayon-56eeb43d34f62104874261-3"><span class="crayon-sy">$</span><span class="crayon-h"> </span><span class="crayon-e">git </span><span class="crayon-e">stash </span><span class="crayon-v">clear</span><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-p"># delete a stashed commit</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeb43d34f62104874261-4"><span class="crayon-sy">$</span><span class="crayon-h"> </span><span class="crayon-e">git </span><span class="crayon-e">stash </span><span class="crayon-v">save</span><span class="crayon-h"> </span><span class="crayon-o">–</span><span class="crayon-v">keep</span><span class="crayon-o">-</span><span class="crayon-v">index</span><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-p"># stash only unstaged files</span></div><div class="crayon-line" id="crayon-56eeb43d34f62104874261-5">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><p></p><br><h1 id="toc_3">4. 克隆一个特定的远程分支</h1><br><p>如果想要从远程仓库中克隆一个特定的分支该怎么做呢？通常你会使用git clone，不过这么做会将所有其他分支都一并克隆下来。一个便捷的方式是使用git remote add：</p><br><div id="crayon-56eeb43d34f67662967258" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eeb43d34f67662967258-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeb43d34f67662967258-2">2</div><div class="crayon-num" data-line="crayon-56eeb43d34f67662967258-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeb43d34f67662967258-4">4</div><div class="crayon-num" data-line="crayon-56eeb43d34f67662967258-5">5</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eeb43d34f67662967258-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eeb43d34f67662967258-2"><span class="crayon-sy">$</span><span class="crayon-h"> </span><span class="crayon-e">git </span><span class="crayon-v">init</span><span class="crayon-h">&nbsp;&nbsp;</span></div><div class="crayon-line" id="crayon-56eeb43d34f67662967258-3"><span class="crayon-sy">$</span><span class="crayon-h"> </span><span class="crayon-e">git </span><span class="crayon-e">remote </span><span class="crayon-v">add</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-v">t</span><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-o">-</span><span class="crayon-v">f</span><span class="crayon-h"> </span><span class="crayon-v">origin</span><span class="crayon-h"> </span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeb43d34f67662967258-4"><span class="crayon-sy">$</span><span class="crayon-h"> </span><span class="crayon-e">git </span><span class="crayon-v">checkout</span></div><div class="crayon-line" id="crayon-56eeb43d34f67662967258-5">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><p></p><br><h1 id="toc_4">5. 将cherry-pick远程提交合并到自己的分支中</h1><br><p>更有甚者，如果只想将远程仓库的一个特定提交合并到自己的分支中该怎么做呢？可以使用git cherry-pick 来选择给定SHA值的提交，然后将其合并到当前分支中：</p><br><div id="crayon-56eeb43d34f6b565804146" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eeb43d34f6b565804146-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeb43d34f6b565804146-2">2</div><div class="crayon-num" data-line="crayon-56eeb43d34f6b565804146-3">3</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eeb43d34f6b565804146-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eeb43d34f6b565804146-2"><span class="crayon-sy">$</span><span class="crayon-h"> </span><span class="crayon-e">git </span><span class="crayon-v">cherry</span><span class="crayon-o">-</span><span class="crayon-v">pick</span></div><div class="crayon-line" id="crayon-56eeb43d34f6b565804146-3">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><p></p><br><h1 id="toc_5">6. 应用来自于不相关的本地仓库的补丁</h1><br><p>如果需要将另一个不相关的本地仓库的提交补丁应用到当前仓库该怎么做呢？答案就是下面这条命令：</p><br><div id="crayon-56eeb43d34f6f499007892" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eeb43d34f6f499007892-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeb43d34f6f499007892-2">2</div><div class="crayon-num" data-line="crayon-56eeb43d34f6f499007892-3">3</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eeb43d34f6f499007892-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eeb43d34f6f499007892-2"><span class="crayon-sy">$</span><span class="crayon-h"> </span><span class="crayon-v">git</span><span class="crayon-h"> </span><span class="crayon-o">–</span><span class="crayon-v">git</span><span class="crayon-o">-</span><span class="crayon-v">dir</span><span class="crayon-o">=</span><span class="crayon-o">/</span><span class="crayon-sy">.</span><span class="crayon-e">git </span><span class="crayon-v">format</span><span class="crayon-o">-</span><span class="crayon-v">patch</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-v">k</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-cn">1</span><span class="crayon-h"> </span><span class="crayon-o">–</span><span class="crayon-v">stdout</span><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-o">|</span><span class="crayon-h"> </span><span class="crayon-e">git </span><span class="crayon-v">am</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-cn">3</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-v">k</span></div><div class="crayon-line" id="crayon-56eeb43d34f6f499007892-3">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><p></p><br><h1 id="toc_6">7. 忽略追踪文件中的变更</h1><br><p>如果你和你的同事操纵的是相同分支，那么很有可能需要频繁执行git merge或是git rebase。不过，这么做可能会重置一些与环境相关的配置文件，这样在每次合并后都需要修改。与之相反，你可以通过如下命令永久性地告诉Git不要管某个本地文件：</p><br><div id="crayon-56eeb43d34f73786085078" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eeb43d34f73786085078-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeb43d34f73786085078-2">2</div><div class="crayon-num" data-line="crayon-56eeb43d34f73786085078-3">3</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eeb43d34f73786085078-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eeb43d34f73786085078-2"><span class="crayon-sy">$</span><span class="crayon-h"> </span><span class="crayon-e">git </span><span class="crayon-v">update</span><span class="crayon-o">-</span><span class="crayon-v">index</span><span class="crayon-h"> </span><span class="crayon-o">–</span><span class="crayon-v">assume</span><span class="crayon-o">-</span><span class="crayon-v">unchanged</span></div><div class="crayon-line" id="crayon-56eeb43d34f73786085078-3">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><p></p><br><h1 id="toc_7">8. 每隔X秒运行一次git pull</h1><br><p>通常，合并冲突出现的原因在于你正在工作的本地仓库不再反映远程仓库的当前状态。这正是我们为什么每天早晨要首先执行一次git pull的缘故。此外，你还可以在后台通过脚本（或是使用GNU Screen）每隔X秒调用一次git pull：</p><br><div id="crayon-56eeb43d34f77993496341" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eeb43d34f77993496341-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeb43d34f77993496341-2">2</div><div class="crayon-num" data-line="crayon-56eeb43d34f77993496341-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeb43d34f77993496341-4">4</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eeb43d34f77993496341-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eeb43d34f77993496341-2"><span class="crayon-sy">$</span><span class="crayon-h"> </span><span class="crayon-v">screen</span></div><div class="crayon-line" id="crayon-56eeb43d34f77993496341-3"><span class="crayon-sy">$</span><span class="crayon-h"> </span><span class="crayon-e">for</span><span class="crayon-sy">(</span><span class="crayon-sy">(</span><span class="crayon-v">i</span><span class="crayon-o">=</span><span class="crayon-cn">1</span><span class="crayon-sy">;</span><span class="crayon-v">i</span><span class="crayon-o">&lt;=</span><span class="crayon-cn">10000</span><span class="crayon-sy">;</span><span class="crayon-v">i</span><span class="crayon-o">+=</span><span class="crayon-cn">1</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-st">do</span><span class="crayon-h"> </span><span class="crayon-v">sleep</span><span class="crayon-h"> </span><span class="crayon-v">X</span><span class="crayon-h"> </span><span class="crayon-o">&amp;&amp;</span><span class="crayon-h"> </span><span class="crayon-e">git </span><span class="crayon-v">pull</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-v">done</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeb43d34f77993496341-4">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><p></p><br><h1 id="toc_8">9. 将子目录分隔为新的仓库</h1><br><p>有时，你可能需要将Git仓库中某个特定的目录转换为一个全新的仓库。这可以通过git filter-branch来实现：</p><br><div id="crayon-56eeb43d34f7c510050907" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eeb43d34f7c510050907-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeb43d34f7c510050907-2">2</div><div class="crayon-num" data-line="crayon-56eeb43d34f7c510050907-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeb43d34f7c510050907-4">4</div><div class="crayon-num" data-line="crayon-56eeb43d34f7c510050907-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeb43d34f7c510050907-6">6</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eeb43d34f7c510050907-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eeb43d34f7c510050907-2"><span class="crayon-sy">$</span><span class="crayon-h"> </span><span class="crayon-e">git </span><span class="crayon-v">filter</span><span class="crayon-o">-</span><span class="crayon-v">branch</span><span class="crayon-h"> </span><span class="crayon-o">–</span><span class="crayon-v">prune</span><span class="crayon-o">-</span><span class="crayon-v">empty</span><span class="crayon-h"> </span><span class="crayon-o">–</span><span class="crayon-v">subdirectory</span><span class="crayon-o">-</span><span class="crayon-e">filter&nbsp;&nbsp;</span><span class="crayon-v">master</span></div><div class="crayon-line" id="crayon-56eeb43d34f7c510050907-3"><span class="crayon-p"># Filter the master branch to your directory and remove empty commits</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeb43d34f7c510050907-4"><span class="crayon-t">Rewrite</span><span class="crayon-h"> </span><span class="crayon-cn">48dc599c80e20527ed902928085e7861e6b3cbe6</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-cn">89</span><span class="crayon-o">/</span><span class="crayon-cn">89</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-56eeb43d34f7c510050907-5"><span class="crayon-t">Ref</span><span class="crayon-h"> </span><span class="crayon-s">‘refs/heads/master’</span><span class="crayon-h"> </span><span class="crayon-e">was </span><span class="crayon-v">rewritten</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeb43d34f7c510050907-6">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><p>现在，仓库会包含指定子目录中的所有文件。虽然之前的所有文件都会被删除，但他们依旧存在于Git历史中。现在可以将新的本地仓库推送到远程了。</p><br><h1 id="toc_9">10. 清理</h1><br><p>有时，Git会提示“untracked working tree files”会“overwritten by checkout”。造成这种情况的原因有很多。不过通常来说，我们可以使用如下命令来保持工作树的整洁，从而防止这种情况的发生：</p><br><div id="crayon-56eeb43d34f80735868681" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eeb43d34f80735868681-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeb43d34f80735868681-2">2</div><div class="crayon-num" data-line="crayon-56eeb43d34f80735868681-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeb43d34f80735868681-4">4</div><div class="crayon-num" data-line="crayon-56eeb43d34f80735868681-5">5</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eeb43d34f80735868681-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eeb43d34f80735868681-2"><span class="crayon-sy">$</span><span class="crayon-h"> </span><span class="crayon-e">git </span><span class="crayon-v">clean</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-v">f</span><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-p"># remove untracked files</span></div><div class="crayon-line" id="crayon-56eeb43d34f80735868681-3"><span class="crayon-sy">$</span><span class="crayon-h"> </span><span class="crayon-e">git </span><span class="crayon-v">clean</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-v">fd</span><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-p"># remove untracked files/directories</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeb43d34f80735868681-4"><span class="crayon-sy">$</span><span class="crayon-h"> </span><span class="crayon-e">git </span><span class="crayon-v">clean</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-v">nfd</span><span class="crayon-h">&nbsp;&nbsp; </span><span class="crayon-p"># list all files/directories that would be removed</span></div><div class="crayon-line" id="crayon-56eeb43d34f80735868681-5">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><p></p><br><h1 id="toc_10">11. 将项目文件打成tar包，并且排除.git目录</h1><br><p>有时，你需要将项目副本提供给无法访问GitHub仓库的外部成员。最简单的方式就是使用tar或zip来打包所有的项目文件。不过，如果不小心， 隐藏的.git目录就会包含到tar文件中，这会导致文件体积变大；同时，如果里面的文件与接收者自己的Git仓库弄混了，那就更加令人头疼了。轻松的做 法则是自动从tar文件中排除掉.git目录：</p><br><div id="crayon-56eeb43d34f85650368884" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eeb43d34f85650368884-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeb43d34f85650368884-2">2</div><div class="crayon-num" data-line="crayon-56eeb43d34f85650368884-3">3</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eeb43d34f85650368884-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eeb43d34f85650368884-2"><span class="crayon-sy">$</span><span class="crayon-h"> </span><span class="crayon-e">tar </span><span class="crayon-v">cJf</span><span class="crayon-h"> </span><span class="crayon-sy">.</span><span class="crayon-v">tar</span><span class="crayon-sy">.</span><span class="crayon-v">xz</span><span class="crayon-h"> </span><span class="crayon-o">/</span><span class="crayon-h"> </span><span class="crayon-o">–</span><span class="crayon-v">exclude</span><span class="crayon-o">-</span><span class="crayon-v">vcs</span></div><div class="crayon-line" id="crayon-56eeb43d34f85650368884-3">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><p></p><br><h1 id="toc_11">12. 查找修改者</h1><br><p>最后，如果出现混乱的情况，你一定想要找出是谁造成的。如果生产服务器宕机，那么找到罪魁祸首是比较容易的事情：只需执行git blame。该命令会显示出文件中每一行的作者，提交hash则会找出该行的上一次修改，还能看到提交的时间戳：</p><br><div id="crayon-56eeb43d34f89165171108" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eeb43d34f89165171108-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeb43d34f89165171108-2">2</div><div class="crayon-num" data-line="crayon-56eeb43d34f89165171108-3">3</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eeb43d34f89165171108-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eeb43d34f89165171108-2"><span class="crayon-sy">$</span><span class="crayon-h"> </span><span class="crayon-e">git </span><span class="crayon-v">blame</span></div><div class="crayon-line" id="crayon-56eeb43d34f89165171108-3">&nbsp;</div></div></td><br></tr><br></table><br></div></div></span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/04/20/插入排序/" rel="next" title="插入排序">
+                <i class="fa fa-chevron-left"></i> 插入排序
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/05/22/选择排序/" rel="prev" title="选择排序">
+                选择排序 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2015/05/20/您需要知道的12个git高级命令/"
+     data-title="您需要知道的12个git高级命令"
+     data-content=""
+     data-url="http://yoursite.com/2015/05/20/您需要知道的12个git高级命令/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+        </div>
+
+        
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+        
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/05/20/您需要知道的12个git高级命令/"
+           data-title="您需要知道的12个git高级命令" data-url="http://yoursite.com/2015/05/20/您需要知道的12个git高级命令/">
+      </div>
+    
+  </div>
+
+
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="http://img5.duitang.com/uploads/item/201406/26/20140626193943_WGW2n.thumb.700_0.jpeg" alt="YCK" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">YCK</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">愿世界永无Bug！</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">34</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">1</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yckblog/ykcoder" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> github
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/fav?leftnav=1" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> weibo
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_0"><span class="nav-number">1.</span> <span class="nav-text">1. 使用rebase而非merge来拉取上游修改</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_1"><span class="nav-number">2.</span> <span class="nav-text">2. 在执行git rebase后解决合并冲突</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_2"><span class="nav-number">3.</span> <span class="nav-text">3. 临时性保存修改</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_3"><span class="nav-number">4.</span> <span class="nav-text">4. 克隆一个特定的远程分支</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_4"><span class="nav-number">5.</span> <span class="nav-text">5. 将cherry-pick远程提交合并到自己的分支中</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_5"><span class="nav-number">6.</span> <span class="nav-text">6. 应用来自于不相关的本地仓库的补丁</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_6"><span class="nav-number">7.</span> <span class="nav-text">7. 忽略追踪文件中的变更</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_7"><span class="nav-number">8.</span> <span class="nav-text">8. 每隔X秒运行一次git pull</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_8"><span class="nav-number">9.</span> <span class="nav-text">9. 将子目录分隔为新的仓库</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_9"><span class="nav-number">10.</span> <span class="nav-text">10. 清理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_10"><span class="nav-number">11.</span> <span class="nav-text">11. 将项目文件打成tar包，并且排除.git目录</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_11"><span class="nav-number">12.</span> <span class="nav-text">12. 查找修改者</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">YCK</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"ykcoder"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+
+
+    
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+<script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+<script type="text/javascript" src="/js/motion.js?v=0.4.5.2" id="motion.global"></script>
+
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    motionMiddleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
+
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+
+  
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/MathJax.js"></script>
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/config/TeX-AMS-MML_HTMLorMML.js"></script>
+  
+
+
+  
+  
+
+</body>
+</html>

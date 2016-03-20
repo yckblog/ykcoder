@@ -1,0 +1,727 @@
+<!doctype html>
+<html class="theme-next   use-motion ">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
+
+
+
+
+
+
+<meta name="description" content="Android端Encode问题
+在安卓端，他们直接调用URLEncoder.encode(text, encodeType)这样的函数来进行encode，可是他们这个函数对空格进行encode后，得到的是+号，而不是%20。我们看到在浏览器里空格是转换成%20的。另外，安卓这个API并不是对所有的特殊字符都进行转码，这样就有问题了…生成sign签名时，如果都encode了，那么结果就会不一样iO">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS/Android/Web Url Encode空格处理">
+<meta property="og:url" content="http://yoursite.com/2015/06/20/iOS-Android-Web-Url-Encode空格处理/index.html">
+<meta property="og:site_name" content="YKcoder">
+<meta property="og:description" content="Android端Encode问题
+在安卓端，他们直接调用URLEncoder.encode(text, encodeType)这样的函数来进行encode，可是他们这个函数对空格进行encode后，得到的是+号，而不是%20。我们看到在浏览器里空格是转换成%20的。另外，安卓这个API并不是对所有的特殊字符都进行转码，这样就有问题了…生成sign签名时，如果都encode了，那么结果就会不一样iO">
+<meta property="og:updated_time" content="2016-03-20T14:40:23.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS/Android/Web Url Encode空格处理">
+<meta name="twitter:description" content="Android端Encode问题
+在安卓端，他们直接调用URLEncoder.encode(text, encodeType)这样的函数来进行encode，可是他们这个函数对空格进行encode后，得到的是+号，而不是%20。我们看到在浏览器里空格是转换成%20的。另外，安卓这个API并不是对所有的特殊字符都进行转码，这样就有问题了…生成sign签名时，如果都encode了，那么结果就会不一样iO">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post',
+    motion: true
+  };
+</script>
+
+  <title> iOS/Android/Web Url Encode空格处理 | YKcoder </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta custom-logo">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">YKcoder</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">没有代码的日子好孤单！</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                iOS/Android/Web Url Encode空格处理
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-06-20T22:36:50+08:00" content="2015-06-20">
+              2015-06-20
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/06/20/iOS-Android-Web-Url-Encode空格处理/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/06/20/iOS-Android-Web-Url-Encode空格处理/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p></p><h1 id="toc_1">Android端Encode问题</h1><p></p>
+<p>在安卓端，他们直接调用<code>URLEncoder.encode(text, encodeType)</code>这样的函数来进行encode，可是他们这个函数对空格进行encode后，得到的是+号，而不是%20。我们看到在浏览器里空格是转换成%20的。另外，安卓这个API并不是对所有的特殊字符都进行转码，这样就有问题了…生成sign签名时，如果都encode了，那么结果就会不一样</p><br><h1 id="toc_2">iOS端Encode问题</h1><br><p>在iOS端，我们直接使用系统NSString的API进行转码的话，不会对一些比较特殊的字符进行转码。系统NSString的转码API：</p><br><div id="crayon-56eea1f3d7b5f033157645" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-mac print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eea1f3d7b5f033157645-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1f3d7b5f033157645-2">2</div><div class="crayon-num" data-line="crayon-56eea1f3d7b5f033157645-3">3</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eea1f3d7b5f033157645-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eea1f3d7b5f033157645-2"><span class="crayon-sy">[</span><span class="crayon-v">str</span><span class="crayon-e "> stringByAddingPercentEscapesUsingEncoding</span><span class="crayon-v">:NSUTF8StringEncoding</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56eea1f3d7b5f033157645-3">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><p>这样并不对特殊的字符，像<code>、!、:等字符并不会转码，那怎么办呢？我们通常会自己写一个API，调用C底层的API，可以指定对哪里特殊字符也转码(给NSString扩展)：&lt;/p&gt;
+&lt;div id=&quot;crayon-56eea1f3d7b6b036299237&quot; class=&quot;crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-mac print-yes notranslate&quot; data-settings=&quot; minimize scroll-always disable-anim&quot; style=&quot; margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;&quot;&gt;
+&lt;div class=&quot;crayon-plain-wrap&quot;&gt;&lt;/div&gt;
+&lt;div class=&quot;crayon-main&quot; style=&quot;&quot;&gt;
+&lt;table class=&quot;crayon-table&quot;&gt;
+&lt;tr class=&quot;crayon-row&quot;&gt;
+&lt;td class=&quot;crayon-nums &quot; data-settings=&quot;show&quot;&gt;
+&lt;div class=&quot;crayon-nums-content&quot; style=&quot;font-size: 15px !important; line-height: 20px !important;&quot;&gt;&lt;div class=&quot;crayon-num&quot; data-line=&quot;crayon-56eea1f3d7b6b036299237-1&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;crayon-num crayon-striped-num&quot; data-line=&quot;crayon-56eea1f3d7b6b036299237-2&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;crayon-num&quot; data-line=&quot;crayon-56eea1f3d7b6b036299237-3&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;crayon-num crayon-striped-num&quot; data-line=&quot;crayon-56eea1f3d7b6b036299237-4&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;crayon-num&quot; data-line=&quot;crayon-56eea1f3d7b6b036299237-5&quot;&gt;5&lt;/div&gt;&lt;div class=&quot;crayon-num crayon-striped-num&quot; data-line=&quot;crayon-56eea1f3d7b6b036299237-6&quot;&gt;6&lt;/div&gt;&lt;div class=&quot;crayon-num&quot; data-line=&quot;crayon-56eea1f3d7b6b036299237-7&quot;&gt;7&lt;/div&gt;&lt;div class=&quot;crayon-num crayon-striped-num&quot; data-line=&quot;crayon-56eea1f3d7b6b036299237-8&quot;&gt;8&lt;/div&gt;&lt;div class=&quot;crayon-num&quot; data-line=&quot;crayon-56eea1f3d7b6b036299237-9&quot;&gt;9&lt;/div&gt;&lt;div class=&quot;crayon-num crayon-striped-num&quot; data-line=&quot;crayon-56eea1f3d7b6b036299237-10&quot;&gt;10&lt;/div&gt;&lt;div class=&quot;crayon-num&quot; data-line=&quot;crayon-56eea1f3d7b6b036299237-11&quot;&gt;11&lt;/div&gt;&lt;div class=&quot;crayon-num crayon-striped-num&quot; data-line=&quot;crayon-56eea1f3d7b6b036299237-12&quot;&gt;12&lt;/div&gt;&lt;div class=&quot;crayon-num&quot; data-line=&quot;crayon-56eea1f3d7b6b036299237-13&quot;&gt;13&lt;/div&gt;&lt;div class=&quot;crayon-num crayon-striped-num&quot; data-line=&quot;crayon-56eea1f3d7b6b036299237-14&quot;&gt;14&lt;/div&gt;&lt;/div&gt;
+&lt;/td&gt;
+&lt;td class=&quot;crayon-code&quot;&gt;&lt;div class=&quot;crayon-pre&quot; style=&quot;font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;&quot;&gt;&lt;div class=&quot;crayon-line&quot; id=&quot;crayon-56eea1f3d7b6b036299237-1&quot;&gt;&amp;nbsp;&lt;/div&gt;&lt;div class=&quot;crayon-line crayon-striped-line&quot; id=&quot;crayon-56eea1f3d7b6b036299237-2&quot;&gt;&lt;span class=&quot;crayon-o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;crayon-h&quot;&gt; &lt;/span&gt;&lt;span class=&quot;crayon-sy&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;crayon-t&quot;&gt;NSString&lt;/span&gt;&lt;span class=&quot;crayon-h&quot;&gt; &lt;/span&gt;&lt;span class=&quot;crayon-t &quot;&gt;*&lt;/span&gt;&lt;span class=&quot;crayon-sy&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;crayon-v&quot;&gt;hyb&lt;/span&gt;&lt;span class=&quot;crayon-sy&quot;&gt;_&lt;/span&gt;&lt;span class=&quot;crayon-v&quot;&gt;URLEncode&lt;/span&gt;&lt;span class=&quot;crayon-h&quot;&gt; &lt;/span&gt;&lt;span class=&quot;crayon-sy&quot;&gt;{&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;crayon-line&quot; id=&quot;crayon-56eea1f3d7b6b036299237-3&quot;&gt;&lt;span class=&quot;crayon-h&quot;&gt;&amp;nbsp;&amp;nbsp;&lt;/span&gt;&lt;span class=&quot;crayon-t&quot;&gt;NSString&lt;/span&gt;&lt;span class=&quot;crayon-h&quot;&gt; &lt;/span&gt;&lt;span class=&quot;crayon-v&quot;&gt;*newString&lt;/span&gt;&lt;span class=&quot;crayon-h&quot;&gt; &lt;/span&gt;&lt;span class=&quot;crayon-o&quot;&gt;=&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;crayon-line crayon-striped-line&quot; id=&quot;crayon-56eea1f3d7b6b036299237-4&quot;&gt;&lt;span class=&quot;crayon-h&quot;&gt;&amp;nbsp;&amp;nbsp;&lt;/span&gt;&lt;span class=&quot;crayon-t&quot;&gt;CFBridgingRelease&lt;/span&gt;&lt;span class=&quot;crayon-sy&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;crayon-t&quot;&gt;CFURLCreateStringByAddingPercentEscapes&lt;/span&gt;&lt;span class=&quot;crayon-sy&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;crayon-v&quot;&gt;kCFAllocatorDefault&lt;/span&gt;&lt;span class=&quot;crayon-sy&quot;&gt;,&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;crayon-line&quot; id=&quot;crayon-56eea1f3d7b6b036299237-5&quot;&gt;&lt;span class=&quot;crayon-h&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;/span&gt;&lt;span class=&quot;crayon-sy&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;crayon-t&quot;&gt;CFStringRef&lt;/span&gt;&lt;span class=&quot;crayon-sy&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;crayon-r&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;crayon-sy&quot;&gt;,&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;crayon-line crayon-striped-line&quot; id=&quot;crayon-56eea1f3d7b6b036299237-6&quot;&gt;&lt;span class=&quot;crayon-h&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;/span&gt;&lt;span class=&quot;crayon-t&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;crayon-sy&quot;&gt;,&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;crayon-line&quot; id=&quot;crayon-56eea1f3d7b6b036299237-7&quot;&gt;&lt;span class=&quot;crayon-h&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;/span&gt;&lt;span class=&quot;crayon-t&quot;&gt;CFSTR&lt;/span&gt;&lt;span class=&quot;crayon-sy&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;crayon-s&quot;&gt;&quot;:/?#[]@!$ &amp;amp;&#39;()*+,;=\&quot;&amp;lt;&amp;gt;%{}|\\^~</code>“<span class="crayon-sy">)</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-t">CFStringConvertNSStringEncodingToEncoding</span><span class="crayon-sy">(</span><span class="crayon-t">NSUTF8StringEncoding</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span><div class="crayon-line crayon-striped-line" id="crayon-56eea1f3d7b6b036299237-8"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">newString</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56eea1f3d7b6b036299237-9"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">return</span><span class="crayon-h"> </span><span class="crayon-v">newString</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1f3d7b6b036299237-10"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56eea1f3d7b6b036299237-11"><span class="crayon-h"> </span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1f3d7b6b036299237-12"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-st">return</span><span class="crayon-h"> </span><span class="crayon-r">self</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56eea1f3d7b6b036299237-13"><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1f3d7b6b036299237-14">&nbsp;</div><br><br><br><br></p><p>这样就可以对所有特殊字符都转码了。而解码则是非常简单的，只是对空格进行特殊处理：</p><br><div id="crayon-56eea1f3d7b71403362959" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-mac print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eea1f3d7b71403362959-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1f3d7b71403362959-2">2</div><div class="crayon-num" data-line="crayon-56eea1f3d7b71403362959-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1f3d7b71403362959-4">4</div><div class="crayon-num" data-line="crayon-56eea1f3d7b71403362959-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1f3d7b71403362959-6">6</div><div class="crayon-num" data-line="crayon-56eea1f3d7b71403362959-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1f3d7b71403362959-8">8</div><div class="crayon-num" data-line="crayon-56eea1f3d7b71403362959-9">9</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1f3d7b71403362959-10">10</div><div class="crayon-num" data-line="crayon-56eea1f3d7b71403362959-11">11</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1f3d7b71403362959-12">12</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eea1f3d7b71403362959-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eea1f3d7b71403362959-2"><span class="crayon-o">-</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-t">NSString</span><span class="crayon-h"> </span><span class="crayon-t "><em></em></span><span class="crayon-sy">)</span><span class="crayon-v">hyb</span><span class="crayon-sy">_</span><span class="crayon-v">URLDecode</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56eea1f3d7b71403362959-3"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-t">NSString</span><span class="crayon-h"> </span><span class="crayon-v">input</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-r">self</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1f3d7b71403362959-4"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-t">NSMutableString</span><span class="crayon-h"> </span><span class="crayon-v">*outputStr</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-t">NSMutableString</span><span class="crayon-e "> stringWithString</span><span class="crayon-v">:input</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56eea1f3d7b71403362959-5"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-sy">[</span><span class="crayon-v">outputStr</span><span class="crayon-e "> replaceOccurrencesOfString</span><span class="crayon-o">:</span><span class="crayon-s">@”+”</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1f3d7b71403362959-6"><span class="crayon-e ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; withString</span><span class="crayon-o">:</span><span class="crayon-s">@” “</span></div><div class="crayon-line" id="crayon-56eea1f3d7b71403362959-7"><span class="crayon-e ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;options</span><span class="crayon-v">:NSLiteralSearch</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1f3d7b71403362959-8"><span class="crayon-e ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;range</span><span class="crayon-v">:NSMakeRange</span><span class="crayon-sy">(</span><span class="crayon-cn">0</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-e">outputStr </span><span class="crayon-v">length</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56eea1f3d7b71403362959-9"><span class="crayon-h">&nbsp;&nbsp;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1f3d7b71403362959-10"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-st">return</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-v">outputStr</span><span class="crayon-e "> stringByReplacingPercentEscapesUsingEncoding</span><span class="crayon-v">:NSUTF8StringEncoding</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56eea1f3d7b71403362959-11"><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1f3d7b71403362959-12">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><p>在iOS端，对空格转码得到%20，对+转码得到%2b，但是在服务端和android端对空格转码得到的是+，而对+转码得到的也是%2b。问题就出在这里了…</p><br><h1 id="toc_3">怎么生成sign</h1><br><p>通常的做法是对所有参数按key排序，然后拼接成a=x&amp;b=y…这样的字符串，然后md5一下。但是如果encode一下，iOS端和安卓端出现不同的结果，那么服务端拿到以后是可以得到原串的，但是服务端encode一下所得到的结果会不一样，那么校验sign就会失败。</p><br><p>但是，如果不对每个value进行转码，在服务端就无法通过&amp;来分割了，因为value中有&amp;时，若不转码就会出问题，因此encode是必须的。</p><br><h1 id="toc_4">如何解决</h1><br><p>生成sign时，是遍历所有的key-value，然后拼接，最后md5。那么，生成sign时，我们只要不对value进行encode，而其他上传的参数值都encode，这样就可以解决我们的问题了。</p><br><p>解决方案：</p><br><p>生成sign时，遍历parameters，对每个value都不进行encode，直接拼接然后md5（前提是一定要Asc或者Desc排序一下）。</p><br><p>而其他参数在拼接时，就正常使用encode，一切就可以解决了！</p></span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/06/20/iOS图解多线程/" rel="next" title="iOS图解多线程">
+                <i class="fa fa-chevron-left"></i> iOS图解多线程
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/07/20/webView图片自适应屏幕/" rel="prev" title="webView图片自适应屏幕">
+                webView图片自适应屏幕 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2015/06/20/iOS-Android-Web-Url-Encode空格处理/"
+     data-title="iOS/Android/Web Url Encode空格处理"
+     data-content=""
+     data-url="http://yoursite.com/2015/06/20/iOS-Android-Web-Url-Encode空格处理/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+        </div>
+
+        
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+        
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/06/20/iOS-Android-Web-Url-Encode空格处理/"
+           data-title="iOS/Android/Web Url Encode空格处理" data-url="http://yoursite.com/2015/06/20/iOS-Android-Web-Url-Encode空格处理/">
+      </div>
+    
+  </div>
+
+
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="http://img5.duitang.com/uploads/item/201406/26/20140626193943_WGW2n.thumb.700_0.jpeg" alt="YCK" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">YCK</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">愿世界永无Bug！</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">34</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">1</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yckblog/ykcoder" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> github
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/fav?leftnav=1" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> weibo
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_1"><span class="nav-number">1.</span> <span class="nav-text">Android端Encode问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_2"><span class="nav-number">2.</span> <span class="nav-text">iOS端Encode问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_3"><span class="nav-number">3.</span> <span class="nav-text">怎么生成sign</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_4"><span class="nav-number">4.</span> <span class="nav-text">如何解决</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">YCK</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"ykcoder"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+
+
+    
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+<script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+<script type="text/javascript" src="/js/motion.js?v=0.4.5.2" id="motion.global"></script>
+
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    motionMiddleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
+
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+
+  
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/MathJax.js"></script>
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/config/TeX-AMS-MML_HTMLorMML.js"></script>
+  
+
+
+  
+  
+
+</body>
+</html>

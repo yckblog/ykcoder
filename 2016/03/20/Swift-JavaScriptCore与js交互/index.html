@@ -1,0 +1,714 @@
+<!doctype html>
+<html class="theme-next   use-motion ">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
+
+
+
+
+
+
+<meta name="description" content="Swift与Js交互是常见的需求，可对于新手或者所谓的高手而言，其实并不是那么简单明了。这里只介绍iOS7.0后出来的JavaScriptCore framework。关于JavaScriptCore本教程中所涉及到的几种类型：JSContext, JSContext是代表JS的执行环境，通过-evaluateScript:方法就可以执行一JS代码JSValue, JSValue封装了JS与Obj">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Swift JavaScriptCore与js交互">
+<meta property="og:url" content="http://yoursite.com/2016/03/20/Swift-JavaScriptCore与js交互/index.html">
+<meta property="og:site_name" content="YKcoder">
+<meta property="og:description" content="Swift与Js交互是常见的需求，可对于新手或者所谓的高手而言，其实并不是那么简单明了。这里只介绍iOS7.0后出来的JavaScriptCore framework。关于JavaScriptCore本教程中所涉及到的几种类型：JSContext, JSContext是代表JS的执行环境，通过-evaluateScript:方法就可以执行一JS代码JSValue, JSValue封装了JS与Obj">
+<meta property="og:updated_time" content="2016-03-20T14:06:13.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Swift JavaScriptCore与js交互">
+<meta name="twitter:description" content="Swift与Js交互是常见的需求，可对于新手或者所谓的高手而言，其实并不是那么简单明了。这里只介绍iOS7.0后出来的JavaScriptCore framework。关于JavaScriptCore本教程中所涉及到的几种类型：JSContext, JSContext是代表JS的执行环境，通过-evaluateScript:方法就可以执行一JS代码JSValue, JSValue封装了JS与Obj">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post',
+    motion: true
+  };
+</script>
+
+  <title> Swift JavaScriptCore与js交互 | YKcoder </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta custom-logo">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">YKcoder</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">没有代码的日子好孤单！</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Swift JavaScriptCore与js交互
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-03-20T22:04:38+08:00" content="2016-03-20">
+              2016-03-20
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/03/20/Swift-JavaScriptCore与js交互/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/20/Swift-JavaScriptCore与js交互/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>Swift与Js交互是常见的需求，可对于新手或者所谓的高手而言，其实并不是那么简单明了。这里只介绍iOS7.0后出来的JavaScriptCore framework。</p><br><h2 id="toc_1">关于JavaScriptCore</h2><br><p>本教程中所涉及到的几种类型：</p><br><ul><br><li><strong>JSContext</strong>, JSContext是代表JS的执行环境，通过-evaluateScript:方法就可以执行一JS代码</li><br><li><strong>JSValue</strong>, JSValue封装了JS与ObjC中的对应的类型，以及调用JS的API等</li><br><li><strong>JSExport</strong>, JSExport是一个协议，遵守此协议，就可以定义我们自己的协议，在协议中声明的API都会在JS中暴露出来，才能调用</li><br></ul><br><h2 id="toc_2">Swift与JS交互方式</h2><br><p>通过JSContext，我们有两种调用JS代码的方法：</p><br><ul><br><li>1、直接调用JS代码</li><br><li>2、在Swift中通过JSContext<strong>注入模型</strong>，然后调用模型的方法</li><br></ul><br><h3 id="toc_3">直接调用JS代码</h3><br><p>我们可以不通过模型来调用方法，也可以直接调用方法</p><br><div id="crayon-56eeade51c4e2222698170" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-mac print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eeade51c4e2222698170-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeade51c4e2222698170-2">2</div><div class="crayon-num" data-line="crayon-56eeade51c4e2222698170-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeade51c4e2222698170-4">4</div><div class="crayon-num" data-line="crayon-56eeade51c4e2222698170-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeade51c4e2222698170-6">6</div><div class="crayon-num" data-line="crayon-56eeade51c4e2222698170-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeade51c4e2222698170-8">8</div><div class="crayon-num" data-line="crayon-56eeade51c4e2222698170-9">9</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeade51c4e2222698170-10">10</div><div class="crayon-num" data-line="crayon-56eeade51c4e2222698170-11">11</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeade51c4e2222698170-12">12</div><div class="crayon-num" data-line="crayon-56eeade51c4e2222698170-13">13</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eeade51c4e2222698170-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eeade51c4e2222698170-2"><span class="crayon-e">let </span><span class="crayon-v">context</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-t">JSContext</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-h"> </span></div><div class="crayon-line" id="crayon-56eeade51c4e2222698170-3"><span class="crayon-v">context</span><span class="crayon-sy">.</span><span class="crayon-e">evaluateScript</span><span class="crayon-sy">(</span>“<span class="crayon-e">var </span><span class="crayon-v">num</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">10</span>”<span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeade51c4e2222698170-4"><span class="crayon-v">context</span><span class="crayon-sy">.</span><span class="crayon-e">evaluateScript</span><span class="crayon-sy">(</span>“<span class="crayon-e">function </span><span class="crayon-e">square</span><span class="crayon-sy">(</span><span class="crayon-v">value</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span><span class="crayon-h"> </span><span class="crayon-st">return</span><span class="crayon-h"> </span><span class="crayon-t ">value </span><span class="crayon-o"><em></em></span><span class="crayon-h"> </span><span class="crayon-cn">2</span><span class="crayon-sy">}</span>”<span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-56eeade51c4e2222698170-5">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eeade51c4e2222698170-6"><span class="crayon-c">// 直接调用</span></div><div class="crayon-line" id="crayon-56eeade51c4e2222698170-7"><span class="crayon-e">let </span><span class="crayon-v">squareValue</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">context</span><span class="crayon-sy">.</span><span class="crayon-e">evaluateScript</span><span class="crayon-sy">(</span>“<span class="crayon-e">square</span><span class="crayon-sy">(</span><span class="crayon-v">num</span><span class="crayon-sy">)</span>”<span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeade51c4e2222698170-8"><span class="crayon-e">print</span><span class="crayon-sy">(</span><span class="crayon-v">squareValue</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-56eeade51c4e2222698170-9">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eeade51c4e2222698170-10"><span class="crayon-c">// 通过下标来获取到JS方法。</span></div><div class="crayon-line" id="crayon-56eeade51c4e2222698170-11"><span class="crayon-e">let </span><span class="crayon-v">squareFunc</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">context</span><span class="crayon-sy">.</span><span class="crayon-e">objectForKeyedSubscript</span><span class="crayon-sy">(</span>“<span class="crayon-v">square</span>”<span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeade51c4e2222698170-12"><span class="crayon-e">print</span><span class="crayon-sy">(</span><span class="crayon-v">squareFunc</span><span class="crayon-sy">.</span><span class="crayon-e">callWithArguments</span><span class="crayon-sy">(</span><span class="crayon-sy">[</span>“<span class="crayon-cn">10</span>”<span class="crayon-sy">]</span><span class="crayon-sy">)</span><span class="crayon-sy">.</span><span class="crayon-e">toString</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56eeade51c4e2222698170-13">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><p>这种方式是没有注入模型到JS中的。这种方式使用起来不太合适，通常在JS中有很多全局的函数，为了防止名字重名，使用模型的方式是最好不过了。通过我们协商好的模型名称，在JS中直接通过模型来调用我们在Swift中所定义的模型所公开的API。</p><br><h2 id="toc_4">注入模型的交互</h2><br><p>首先，我们需要先定义一个协议，而且这个协议必须要遵守JSExport协议。</p><br><p>All methods that should apply in Javascript,should be in the following protocol.注意，<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="32da8dabdbb5bed78db7db9389d68f8dd5a69a725d505851">[email&#160;protected]</a><script data-cfhash="f9e31" type="text/javascript">/</em> &lt;![CDATA[ <em>/!function(t,e,r,n,c,a,p){try{t=document.currentScript||function(){for(t=document.getElementsByTagName(‘script’),e=t.length;e–;)if(t[e].getAttribute(‘data-cfhash’))return t[e]}();if(t&amp;&amp;(c=t.previousSibling)){p=t.parentNode;if(a=c.getAttribute(‘data-cfemail’)){for(e=’’,r=’0x’+a.substr(0,2)|0,n=2;a.length-n;n+=2)e+=’%’+(‘0’+(‘0x’+a.substr(n,2)^r).toString(16)).slice(-2);p.replaceChild(document.createTextNode(decodeURIComponent(e)),c)}p.removeChild(t)}}catch(u){}}()/</em> ]]&gt; <em>/</script>，<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="12f789b2f6aaa8587364734171607b6266517d6077f7a881f48abd5d70787771667b647751f59b9af48ebef58896f19290f7b490f48c8ef6aa9ff798b2527d707871">[email&#160;protected]</a><script data-cfhash="f9e31" type="text/javascript">/</em> &lt;![CDATA[ <em>/!function(t,e,r,n,c,a,p){try{t=document.currentScript||function(){for(t=document.getElementsByTagName(‘script’),e=t.length;e–;)if(t[e].getAttribute(‘data-cfhash’))return t[e]}();if(t&amp;&amp;(c=t.previousSibling)){p=t.parentNode;if(a=c.getAttribute(‘data-cfemail’)){for(e=’’,r=’0x’+a.substr(0,2)|0,n=2;a.length-n;n+=2)e+=’%’+(‘0’+(‘0x’+a.substr(n,2)^r).toString(16)).slice(-2);p.replaceChild(document.createTextNode(decodeURIComponent(e)),c)}p.removeChild(t)}}catch(u){}}()/</em> ]]&gt; */</script>，则调用无效果。</p><br><div id="crayon-56eeade51c4f1341278719" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-mac print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eeade51c4f1341278719-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeade51c4f1341278719-2">2</div><div class="crayon-num" data-line="crayon-56eeade51c4f1341278719-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeade51c4f1341278719-4">4</div><div class="crayon-num" data-line="crayon-56eeade51c4f1341278719-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeade51c4f1341278719-6">6</div><div class="crayon-num" data-line="crayon-56eeade51c4f1341278719-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeade51c4f1341278719-8">8</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eeade51c4f1341278719-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eeade51c4f1341278719-2"><span class="crayon-sy">@</span><span class="crayon-e">objc </span><span class="crayon-t">protocol</span><span class="crayon-e "> JavaScriptSwiftDelegate</span><span class="crayon-v">: JSExport</span><span class="crayon-h"> </span><span class="crayon-sy">{</span><span class="crayon-h"> </span></div><div class="crayon-line" id="crayon-56eeade51c4f1341278719-3"><span class="crayon-h"> </span><span class="crayon-e">func </span><span class="crayon-e">callSystemCamera</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeade51c4f1341278719-4"><span class="crayon-h"> </span><span class="crayon-e">func </span><span class="crayon-e">showAlert</span><span class="crayon-sy">(</span><span class="crayon-e ">title</span><span class="crayon-v">: String</span><span class="crayon-sy">,</span><span class="crayon-e "> msg</span><span class="crayon-v">: String</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56eeade51c4f1341278719-5"><span class="crayon-h"> </span><span class="crayon-e">func </span><span class="crayon-e">callWithDict</span><span class="crayon-sy">(</span><span class="crayon-e ">dict</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-t">String</span><span class="crayon-v">: AnyObject</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeade51c4f1341278719-6"><span class="crayon-h"> </span><span class="crayon-e">func </span><span class="crayon-e">jsCallObjcAndObjcCallJsWithDict</span><span class="crayon-sy">(</span><span class="crayon-e ">dict</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-t">String</span><span class="crayon-v">: AnyObject</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56eeade51c4f1341278719-7"><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeade51c4f1341278719-8">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><p>接下来，我们还需要定义一个模型：</p><br><div id="crayon-56eeade51c4f6777698271" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-mac print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eeade51c4f6777698271-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeade51c4f6777698271-2">2</div><div class="crayon-num" data-line="crayon-56eeade51c4f6777698271-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeade51c4f6777698271-4">4</div><div class="crayon-num" data-line="crayon-56eeade51c4f6777698271-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeade51c4f6777698271-6">6</div><div class="crayon-num" data-line="crayon-56eeade51c4f6777698271-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeade51c4f6777698271-8">8</div><div class="crayon-num" data-line="crayon-56eeade51c4f6777698271-9">9</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeade51c4f6777698271-10">10</div><div class="crayon-num" data-line="crayon-56eeade51c4f6777698271-11">11</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeade51c4f6777698271-12">12</div><div class="crayon-num" data-line="crayon-56eeade51c4f6777698271-13">13</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeade51c4f6777698271-14">14</div><div class="crayon-num" data-line="crayon-56eeade51c4f6777698271-15">15</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeade51c4f6777698271-16">16</div><div class="crayon-num" data-line="crayon-56eeade51c4f6777698271-17">17</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeade51c4f6777698271-18">18</div><div class="crayon-num" data-line="crayon-56eeade51c4f6777698271-19">19</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeade51c4f6777698271-20">20</div><div class="crayon-num" data-line="crayon-56eeade51c4f6777698271-21">21</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeade51c4f6777698271-22">22</div><div class="crayon-num" data-line="crayon-56eeade51c4f6777698271-23">23</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeade51c4f6777698271-24">24</div><div class="crayon-num" data-line="crayon-56eeade51c4f6777698271-25">25</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeade51c4f6777698271-26">26</div><div class="crayon-num" data-line="crayon-56eeade51c4f6777698271-27">27</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeade51c4f6777698271-28">28</div><div class="crayon-num" data-line="crayon-56eeade51c4f6777698271-29">29</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeade51c4f6777698271-30">30</div><div class="crayon-num" data-line="crayon-56eeade51c4f6777698271-31">31</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeade51c4f6777698271-32">32</div><div class="crayon-num" data-line="crayon-56eeade51c4f6777698271-33">33</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eeade51c4f6777698271-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eeade51c4f6777698271-2"><span class="crayon-sy">@</span><span class="crayon-v">objc</span><span class="crayon-e "> classJSObjCModel</span><span class="crayon-v">: NSObject</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-t">JavaScriptSwiftDelegate</span><span class="crayon-h"> </span><span class="crayon-sy">{</span><span class="crayon-h"> </span></div><div class="crayon-line" id="crayon-56eeade51c4f6777698271-3"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-m">weak</span><span class="crayon-h"> </span><span class="crayon-v">var</span><span class="crayon-e "> controller</span><span class="crayon-v">: UIViewController</span><span class="crayon-sy">?</span><span class="crayon-h"> </span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeade51c4f6777698271-4"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-m">weak</span><span class="crayon-h"> </span><span class="crayon-v">var</span><span class="crayon-e "> jsContext</span><span class="crayon-v">: JSContext</span><span class="crayon-sy">?</span><span class="crayon-h"> </span></div><div class="crayon-line" id="crayon-56eeade51c4f6777698271-5"><span class="crayon-h">&nbsp;&nbsp;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeade51c4f6777698271-6"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-e">func </span><span class="crayon-e">callSystemCamera</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span><span class="crayon-h">&nbsp;&nbsp; </span></div><div class="crayon-line" id="crayon-56eeade51c4f6777698271-7"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">print</span><span class="crayon-sy">(</span>“<span class="crayon-e">js </span><span class="crayon-e">call </span><span class="crayon-v">objc</span><span class="crayon-e "> method</span><span class="crayon-v">: callSystemCamera</span>”<span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeade51c4f6777698271-8"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">let </span><span class="crayon-v">jsFunc</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-v">jsContext</span><span class="crayon-sy">?</span><span class="crayon-sy">.</span><span class="crayon-e">objectForKeyedSubscript</span><span class="crayon-sy">(</span>“<span class="crayon-v">jsFunc</span>”<span class="crayon-sy">)</span><span class="crayon-sy">;</span><span class="crayon-h"> </span></div><div class="crayon-line" id="crayon-56eeade51c4f6777698271-9"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">jsFunc</span><span class="crayon-sy">?</span><span class="crayon-sy">.</span><span class="crayon-e">callWithArguments</span><span class="crayon-sy">(</span><span class="crayon-sy">[</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span><span class="crayon-h">&nbsp;&nbsp;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeade51c4f6777698271-10"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56eeade51c4f6777698271-11">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eeade51c4f6777698271-12"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-e">func </span><span class="crayon-e">showAlert</span><span class="crayon-sy">(</span><span class="crayon-e ">title</span><span class="crayon-v">: String</span><span class="crayon-sy">,</span><span class="crayon-e "> msg</span><span class="crayon-v">: String</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp; </span></div><div class="crayon-line" id="crayon-56eeade51c4f6777698271-13"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">dispatch_async</span><span class="crayon-sy">(</span><span class="crayon-e">dispatch_get_main_queue</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">-&gt;</span><span class="crayon-h"> </span><span class="crayon-t">Void</span><span class="crayon-h"> </span><span class="crayon-m">in</span><span class="crayon-h">&nbsp;&nbsp; </span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeade51c4f6777698271-14"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">let </span><span class="crayon-v">alert</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-t">UIAlertController</span><span class="crayon-sy">(</span><span class="crayon-e ">title</span><span class="crayon-v">: title</span><span class="crayon-sy">,</span><span class="crayon-e "> message</span><span class="crayon-v">: msg</span><span class="crayon-sy">,</span><span class="crayon-e "> preferredStyle</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-sy">.</span><span class="crayon-t">Alert</span><span class="crayon-sy">)</span><span class="crayon-h">&nbsp;&nbsp; </span></div><div class="crayon-line" id="crayon-56eeade51c4f6777698271-15"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">alert</span><span class="crayon-sy">.</span><span class="crayon-e">addAction</span><span class="crayon-sy">(</span><span class="crayon-t">UIAlertAction</span><span class="crayon-sy">(</span><span class="crayon-e ">title</span><span class="crayon-o">:</span><span class="crayon-h"> </span>“<span class="crayon-v">ok</span>”<span class="crayon-sy">,</span><span class="crayon-e "> style</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-sy">.</span><span class="crayon-t">Default</span><span class="crayon-sy">,</span><span class="crayon-e "> handler</span><span class="crayon-v">: nil</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeade51c4f6777698271-16"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-v">controller</span><span class="crayon-sy">?</span><span class="crayon-sy">.</span><span class="crayon-e">presentViewController</span><span class="crayon-sy">(</span><span class="crayon-v">alert</span><span class="crayon-sy">,</span><span class="crayon-e "> animated</span><span class="crayon-v">: true</span><span class="crayon-sy">,</span><span class="crayon-e "> completion</span><span class="crayon-v">: nil</span><span class="crayon-sy">)</span><span class="crayon-h">&nbsp;&nbsp; </span></div><div class="crayon-line" id="crayon-56eeade51c4f6777698271-17"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span><span class="crayon-h">&nbsp;&nbsp; </span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeade51c4f6777698271-18"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-sy">}</span><span class="crayon-h">&nbsp;&nbsp;</span></div><div class="crayon-line" id="crayon-56eeade51c4f6777698271-19"><span class="crayon-h">&nbsp;&nbsp;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeade51c4f6777698271-20"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-c">// JS调用了我们的方法&nbsp;&nbsp; </span></div><div class="crayon-line" id="crayon-56eeade51c4f6777698271-21"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-e">func </span><span class="crayon-e">callWithDict</span><span class="crayon-sy">(</span><span class="crayon-e ">dict</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-t">String</span><span class="crayon-h"> </span><span class="crayon-v">: AnyObject</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span><span class="crayon-h">&nbsp;&nbsp; </span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeade51c4f6777698271-22"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">print</span><span class="crayon-sy">(</span>“<span class="crayon-e">js </span><span class="crayon-e">call </span><span class="crayon-v">objc</span><span class="crayon-e "> method</span><span class="crayon-v">: callWithDict</span><span class="crayon-sy">,</span><span class="crayon-e "> args</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-o">%</span><span class="crayon-sy">@</span>”<span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">dict</span><span class="crayon-sy">)</span><span class="crayon-h"> </span></div><div class="crayon-line" id="crayon-56eeade51c4f6777698271-23"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeade51c4f6777698271-24"><span class="crayon-h">&nbsp;&nbsp;</span></div><div class="crayon-line" id="crayon-56eeade51c4f6777698271-25"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-c">// JS调用了我们的就去&nbsp;&nbsp;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeade51c4f6777698271-26"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-e">func </span><span class="crayon-e">jsCallObjcAndObjcCallJsWithDict</span><span class="crayon-sy">(</span><span class="crayon-e ">dict</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-t">String</span><span class="crayon-h"> </span><span class="crayon-v">: AnyObject</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp; </span></div><div class="crayon-line" id="crayon-56eeade51c4f6777698271-27"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">print</span><span class="crayon-sy">(</span>“<span class="crayon-e">js </span><span class="crayon-e">call </span><span class="crayon-v">objc</span><span class="crayon-e "> method</span><span class="crayon-v">: jsCallObjcAndObjcCallJsWithDict</span><span class="crayon-sy">,</span><span class="crayon-e "> args</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-o">%</span><span class="crayon-sy">@</span>”<span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">dict</span><span class="crayon-sy">)</span><span class="crayon-h"> </span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeade51c4f6777698271-28"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">let </span><span class="crayon-v">jsParamFunc</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-v">jsContext</span><span class="crayon-sy">?</span><span class="crayon-sy">.</span><span class="crayon-e">objectForKeyedSubscript</span><span class="crayon-sy">(</span>“<span class="crayon-v">jsParamFunc</span>”<span class="crayon-sy">)</span><span class="crayon-sy">;</span><span class="crayon-h"> </span></div><div class="crayon-line" id="crayon-56eeade51c4f6777698271-29"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">let </span><span class="crayon-v">dict</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-t">NSDictionary</span><span class="crayon-sy">(</span><span class="crayon-v">dictionary</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-sy">[</span>“<span class="crayon-v">age</span>”<span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-cn">18</span><span class="crayon-sy">,</span><span class="crayon-h"> </span>“<span class="crayon-v">height</span>”<span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-cn">168</span><span class="crayon-sy">,</span><span class="crayon-h"> </span>“<span class="crayon-v">name</span>”<span class="crayon-o">:</span><span class="crayon-h"> </span>“<span class="crayon-v">lili</span>”<span class="crayon-sy">]</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeade51c4f6777698271-30"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">jsParamFunc</span><span class="crayon-sy">?</span><span class="crayon-sy">.</span><span class="crayon-e">callWithArguments</span><span class="crayon-sy">(</span><span class="crayon-sy">[</span><span class="crayon-v">dict</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span><span class="crayon-h"> </span></div><div class="crayon-line" id="crayon-56eeade51c4f6777698271-31"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeade51c4f6777698271-32"><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56eeade51c4f6777698271-33">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><p>接下来，我们在controller中在webview加载完成的代理中，给JS注入模型。</p><br><div id="crayon-56eeade51c4fc425425556" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-mac print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eeade51c4fc425425556-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeade51c4fc425425556-2">2</div><div class="crayon-num" data-line="crayon-56eeade51c4fc425425556-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeade51c4fc425425556-4">4</div><div class="crayon-num" data-line="crayon-56eeade51c4fc425425556-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeade51c4fc425425556-6">6</div><div class="crayon-num" data-line="crayon-56eeade51c4fc425425556-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeade51c4fc425425556-8">8</div><div class="crayon-num" data-line="crayon-56eeade51c4fc425425556-9">9</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeade51c4fc425425556-10">10</div><div class="crayon-num" data-line="crayon-56eeade51c4fc425425556-11">11</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeade51c4fc425425556-12">12</div><div class="crayon-num" data-line="crayon-56eeade51c4fc425425556-13">13</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeade51c4fc425425556-14">14</div><div class="crayon-num" data-line="crayon-56eeade51c4fc425425556-15">15</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeade51c4fc425425556-16">16</div><div class="crayon-num" data-line="crayon-56eeade51c4fc425425556-17">17</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eeade51c4fc425425556-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eeade51c4fc425425556-2"><span class="crayon-c">// MARK: - UIWebViewDelegate</span></div><div class="crayon-line" id="crayon-56eeade51c4fc425425556-3"><span class="crayon-e">func </span><span class="crayon-e">webViewDidFinishLoad</span><span class="crayon-sy">(</span><span class="crayon-e ">webView</span><span class="crayon-v">: UIWebView</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeade51c4fc425425556-4"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-e">let </span><span class="crayon-v">context</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">webView</span><span class="crayon-sy">.</span><span class="crayon-e">valueForKeyPath</span><span class="crayon-sy">(</span>“<span class="crayon-v">documentView</span><span class="crayon-sy">.</span><span class="crayon-v">webView</span><span class="crayon-sy">.</span><span class="crayon-v">mainFrame</span><span class="crayon-sy">.</span><span class="crayon-v">javaScriptContext</span>”<span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-v">as</span><span class="crayon-sy">?</span><span class="crayon-h"> </span><span class="crayon-t">JSContextlet</span><span class="crayon-h"> </span></div><div class="crayon-line" id="crayon-56eeade51c4fc425425556-5"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">model</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-t">JSObjCModel</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-h"> </span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeade51c4fc425425556-6"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">model</span><span class="crayon-sy">.</span><span class="crayon-v">controller</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-r">self</span></div><div class="crayon-line" id="crayon-56eeade51c4fc425425556-7"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">model</span><span class="crayon-sy">.</span><span class="crayon-v">jsContext</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">context</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeade51c4fc425425556-8"><span class="crayon-e">&nbsp;&nbsp;</span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-v">jsContext</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">context</span></div><div class="crayon-line" id="crayon-56eeade51c4fc425425556-9">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eeade51c4fc425425556-10"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-c">// 这一步是将OCModel这个模型注入到JS中，在JS就</span></div><div class="crayon-line" id="crayon-56eeade51c4fc425425556-11"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-c">// 可以通过OCModel调用我们公暴露的方法了。</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeade51c4fc425425556-12"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-v">jsContext</span><span class="crayon-sy">?</span><span class="crayon-sy">.</span><span class="crayon-e">setObject</span><span class="crayon-sy">(</span><span class="crayon-v">model</span><span class="crayon-sy">,</span><span class="crayon-e "> forKeyedSubscript</span><span class="crayon-o">:</span><span class="crayon-h"> </span>“<span class="crayon-t">OCModel</span>”<span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-56eeade51c4fc425425556-13"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-v">jsContext</span><span class="crayon-sy">?</span><span class="crayon-sy">.</span><span class="crayon-v">exceptionHandler</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">{</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">context</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">exception</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-m">in</span><span class="crayon-h"> </span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeade51c4fc425425556-14"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-e">print</span><span class="crayon-sy">(</span>“<span class="crayon-v">exception</span><span class="crayon-h"> </span><span class="crayon-sy">@</span>”<span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">exception</span><span class="crayon-sy">)</span><span class="crayon-h"> </span></div><div class="crayon-line" id="crayon-56eeade51c4fc425425556-15"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeade51c4fc425425556-16"><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56eeade51c4fc425425556-17">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><p>我们是通过webView的valueForKeyPath获取的，其路径为documentView.webView.mainFrame.javaScriptContext。 这样就可以获取到JS的context，然后为这个context注入我们的模型对象。 我们先写两个JS方法：</p><br><div id="crayon-56eeade51c501230884879" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-mac print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eeade51c501230884879-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeade51c501230884879-2">2</div><div class="crayon-num" data-line="crayon-56eeade51c501230884879-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeade51c501230884879-4">4</div><div class="crayon-num" data-line="crayon-56eeade51c501230884879-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeade51c501230884879-6">6</div><div class="crayon-num" data-line="crayon-56eeade51c501230884879-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeade51c501230884879-8">8</div><div class="crayon-num" data-line="crayon-56eeade51c501230884879-9">9</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeade51c501230884879-10">10</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eeade51c501230884879-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eeade51c501230884879-2"><span class="crayon-e">var </span><span class="crayon-v">jsFunc</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">function</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56eeade51c501230884879-3"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-e">alert</span><span class="crayon-sy">(</span>‘<span class="crayon-t">Objective</span><span class="crayon-o">-</span><span class="crayon-v">C</span><span class="crayon-h"> </span><span class="crayon-e">call </span><span class="crayon-e">js </span><span class="crayon-e">to </span><span class="crayon-e">show </span><span class="crayon-v">alert</span>’<span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeade51c501230884879-4"><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56eeade51c501230884879-5">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eeade51c501230884879-6"><span class="crayon-e">var </span><span class="crayon-v">jsParamFunc</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">function</span><span class="crayon-sy">(</span><span class="crayon-v">argument</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56eeade51c501230884879-7"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">document</span><span class="crayon-sy">.</span><span class="crayon-e">getElementById</span><span class="crayon-sy">(</span>‘<span class="crayon-v">jsParamFuncSpan</span>’<span class="crayon-sy">)</span><span class="crayon-sy">.</span><span class="crayon-v">innerHTML</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeade51c501230884879-8"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">argument</span><span class="crayon-sy">[</span>‘<span class="crayon-v">name</span>’<span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56eeade51c501230884879-9"><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeade51c501230884879-10">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><p>这里我们定义了两个JS方法，一个是jsFunc，不带参数。 另一个是jsParamFunc，带一个参数。 接下来，我们在html中的body中添加以下代码：</p><br><p><code>Test how to use objective-c call js</code></p><br><p>现在就可以测试代码了。</p><br><p>当我们点击第一个按钮：Call ObjC system camera时， 通过OCModel.callSystemCamera()，就可以在HTML中通过JS调用OC的方法。 在Swift代码中，我们的callSystemCamera方法体中，添加了以下两行代码，就是获取HTML中所定义的JS就去jsFunc，然后调用它。</p><br><div id="crayon-56eeade51c506996751217" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-mac print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eeade51c506996751217-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeade51c506996751217-2">2</div><div class="crayon-num" data-line="crayon-56eeade51c506996751217-3">3</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eeade51c506996751217-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eeade51c506996751217-2"><span class="crayon-e">let </span><span class="crayon-v">jsFunc</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-v">jsContext</span><span class="crayon-sy">?</span><span class="crayon-sy">.</span><span class="crayon-e">objectForKeyedSubscript</span><span class="crayon-sy">(</span>“<span class="crayon-v">jsFunc</span>”<span class="crayon-sy">)</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-v">jsFunc</span><span class="crayon-sy">?</span><span class="crayon-sy">.</span><span class="crayon-e">callWithArguments</span><span class="crayon-sy">(</span><span class="crayon-sy">[</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56eeade51c506996751217-3">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><p>这样就可以在JS调用Siwft方法时，也让Swift反馈给JS。 注意：这里是通过objectForKeyedSubscript方法来获取变量jsFunc。 方法也是变量。看看下面传字典参数：</p><br><div id="crayon-56eeade51c50b601435640" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-mac print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eeade51c50b601435640-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeade51c50b601435640-2">2</div><div class="crayon-num" data-line="crayon-56eeade51c50b601435640-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeade51c50b601435640-4">4</div><div class="crayon-num" data-line="crayon-56eeade51c50b601435640-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeade51c50b601435640-6">6</div><div class="crayon-num" data-line="crayon-56eeade51c50b601435640-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eeade51c50b601435640-8">8</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eeade51c50b601435640-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eeade51c50b601435640-2"><span class="crayon-sy">(</span><span class="crayon-t">void</span><span class="crayon-sy">)</span><span class="crayon-e ">jsCallObjcAndObjcCallJsWithDict</span><span class="crayon-o">:</span><span class="crayon-sy">(</span><span class="crayon-t">NSDictionary</span><span class="crayon-h"> </span><span class="crayon-sy">)</span><span class="crayon-v">params</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56eeade51c50b601435640-3"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-t">NSLog</span><span class="crayon-sy">(</span><span class="crayon-sy">@</span>”<span class="crayon-e">jsCallObjcAndObjcCallJsWithDict </span><span class="crayon-e">was </span><span class="crayon-v">called</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-e">params </span><span class="crayon-v">is</span><span class="crayon-h"> </span><span class="crayon-o">%</span><span class="crayon-sy">@</span>”<span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">params</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeade51c50b601435640-4"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c">// 调用JS的方法</span></div><div class="crayon-line" id="crayon-56eeade51c50b601435640-5"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-t">JSValue</span><span class="crayon-h"> </span><span class="crayon-v">jsParamFunc</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-v">jsContext</span><span class="crayon-sy">[</span><span class="crayon-sy">@</span>”<span class="crayon-v">jsParamFunc</span>”<span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeade51c50b601435640-6"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">[</span><span class="crayon-v">jsParamFunc</span><span class="crayon-e "> callWithArguments</span><span class="crayon-o">:</span><span class="crayon-sy">@</span><span class="crayon-sy">[</span><span class="crayon-sy">@</span><span class="crayon-sy">{</span><span class="crayon-sy">@</span>”<span class="crayon-v">age</span>”<span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-sy">@</span><span class="crayon-cn">10</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-sy">@</span>”<span class="crayon-v">name</span>”<span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-sy">@</span>”<span class="crayon-v">lili</span>”<span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-sy">@</span>”<span class="crayon-v">height</span>”<span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-sy">@</span><span class="crayon-cn">158</span><span class="crayon-sy">}</span><span class="crayon-sy">]</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56eeade51c50b601435640-7"><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eeade51c50b601435640-8">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><p>获取我们在HTML中定义的jsParamFunc方法，然后调用它并传了一个字典作为参数。</p></span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/03/20/iOS-Native加载H5中的图片/" rel="next" title="iOS Native加载H5中的图片">
+                <i class="fa fa-chevron-left"></i> iOS Native加载H5中的图片
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/03/20/AFNetworking3-0网络封装/" rel="prev" title="">
+                 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2016/03/20/Swift-JavaScriptCore与js交互/"
+     data-title="Swift JavaScriptCore与js交互"
+     data-content=""
+     data-url="http://yoursite.com/2016/03/20/Swift-JavaScriptCore与js交互/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+        </div>
+
+        
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+        
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/03/20/Swift-JavaScriptCore与js交互/"
+           data-title="Swift JavaScriptCore与js交互" data-url="http://yoursite.com/2016/03/20/Swift-JavaScriptCore与js交互/">
+      </div>
+    
+  </div>
+
+
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="http://img5.duitang.com/uploads/item/201406/26/20140626193943_WGW2n.thumb.700_0.jpeg" alt="YCK" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">YCK</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">愿世界永无Bug！</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">34</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">1</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yckblog/ykcoder" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> github
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/fav?leftnav=1" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> weibo
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#toc_1"><span class="nav-number">1.</span> <span class="nav-text">关于JavaScriptCore</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#toc_2"><span class="nav-number">2.</span> <span class="nav-text">Swift与JS交互方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#toc_3"><span class="nav-number">2.1.</span> <span class="nav-text">直接调用JS代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#toc_4"><span class="nav-number">3.</span> <span class="nav-text">注入模型的交互</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">YCK</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"ykcoder"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+
+
+    
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+<script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+<script type="text/javascript" src="/js/motion.js?v=0.4.5.2" id="motion.global"></script>
+
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    motionMiddleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
+
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+
+  
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/MathJax.js"></script>
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/config/TeX-AMS-MML_HTMLorMML.js"></script>
+  
+
+
+  
+  
+
+</body>
+</html>
