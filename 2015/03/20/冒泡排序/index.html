@@ -1,0 +1,733 @@
+<!doctype html>
+<html class="theme-next   use-motion ">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
+
+
+
+
+
+
+<meta name="description" content="本篇一起来学习冒泡排序的算法，它可是面试中经常会问到的哦，而且挺常使用的。今天跟大家一起来回忆回忆大学那些年所学过的冒泡排序算法。
+本篇将会使用C语言、ObjC和Swift分别来实现冒泡排序，并通过ObjC来举一个模型类冒泡排序的小例子，希望对大家在开发中应用算法有所帮助。
+冒泡排序核心思想
+算法最讲究的就是算法的思想，只要将算法思想想明白了，就可以通过伪代码来写出算法，那么再使用对应的语言来实现">
+<meta property="og:type" content="article">
+<meta property="og:title" content="冒泡排序">
+<meta property="og:url" content="http://yoursite.com/2015/03/20/冒泡排序/index.html">
+<meta property="og:site_name" content="YKcoder">
+<meta property="og:description" content="本篇一起来学习冒泡排序的算法，它可是面试中经常会问到的哦，而且挺常使用的。今天跟大家一起来回忆回忆大学那些年所学过的冒泡排序算法。
+本篇将会使用C语言、ObjC和Swift分别来实现冒泡排序，并通过ObjC来举一个模型类冒泡排序的小例子，希望对大家在开发中应用算法有所帮助。
+冒泡排序核心思想
+算法最讲究的就是算法的思想，只要将算法思想想明白了，就可以通过伪代码来写出算法，那么再使用对应的语言来实现">
+<meta property="og:updated_time" content="2016-03-20T13:06:27.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="冒泡排序">
+<meta name="twitter:description" content="本篇一起来学习冒泡排序的算法，它可是面试中经常会问到的哦，而且挺常使用的。今天跟大家一起来回忆回忆大学那些年所学过的冒泡排序算法。
+本篇将会使用C语言、ObjC和Swift分别来实现冒泡排序，并通过ObjC来举一个模型类冒泡排序的小例子，希望对大家在开发中应用算法有所帮助。
+冒泡排序核心思想
+算法最讲究的就是算法的思想，只要将算法思想想明白了，就可以通过伪代码来写出算法，那么再使用对应的语言来实现">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post',
+    motion: true
+  };
+</script>
+
+  <title> 冒泡排序 | YKcoder </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta custom-logo">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">YKcoder</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">没有代码的日子好孤单！</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                冒泡排序
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-03-20T21:04:34+08:00" content="2015-03-20">
+              2015-03-20
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/03/20/冒泡排序/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/03/20/冒泡排序/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p></p><p>本篇一起来学习冒泡排序的算法，它可是面试中经常会问到的哦，而且挺常使用的。今天跟大家一起来回忆回忆大学那些年所学过的冒泡排序算法。</p><p></p>
+<p></p><p>本篇将会使用C语言、ObjC和Swift分别来实现冒泡排序，并通过ObjC来举一个模型类冒泡排序的小例子，希望对大家在开发中应用算法有所帮助。</p><p></p>
+<p></p><h1 id="toc_1">冒泡排序核心思想</h1><p></p>
+<p></p><p>算法最讲究的就是算法的思想，只要将算法思想想明白了，就可以通过伪代码来写出算法，那么再使用对应的语言来实现就可以了。</p><p></p>
+<p></p><p>冒泡排序的核心思想就是通过与相邻元素的比较和交换，把小的数交换到最前面。因为这个过程类似于水泡向上升一样，因此被命名为冒泡排序。</p><p></p>
+<p></p><p>举个小例子：对5,3,8,6,4这个无序序列进行冒泡排序。</p><p></p>
+<p></p><p>首先从后向前冒泡，4和6比较，把4交换到前面，序列变成5,3,8,4,6。同理4和8交换，变成5,3,4,8,6,3和4无需交换。5和3交换，变成3,5,4,8,6.这样一次冒泡就完了，把最小的数3排到最前面了。对剩下的序列依次冒泡就会得到一个有序序列。</p><div><script type="text/javascript">var cpro_id = “u2513605”;</script><script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script></div><p></p>
+<p></p><p>其过程大概是这样的：</p><p></p>
+<p></p><p>第一趟：</p><p></p>
+<div><br><div id="crayon-56ee9eafc0a93076742292" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56ee9eafc0a93076742292-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee9eafc0a93076742292-2">2</div><div class="crayon-num" data-line="crayon-56ee9eafc0a93076742292-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee9eafc0a93076742292-4">4</div><div class="crayon-num" data-line="crayon-56ee9eafc0a93076742292-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee9eafc0a93076742292-6">6</div><div class="crayon-num" data-line="crayon-56ee9eafc0a93076742292-7">7</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56ee9eafc0a93076742292-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56ee9eafc0a93076742292-2"><span class="crayon-cn">5</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">3</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">8</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">6</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">4</span><span class="crayon-h"> </span>（开始）</div><div class="crayon-line" id="crayon-56ee9eafc0a93076742292-3"><span class="crayon-cn">5</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">3</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">8</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">4</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">6</span><span class="crayon-h"> </span>（<span class="crayon-cn">6</span>和<span class="crayon-cn">4</span>交换）</div><div class="crayon-line crayon-striped-line" id="crayon-56ee9eafc0a93076742292-4"><span class="crayon-cn">5</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">3</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">4</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">8</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">6</span><span class="crayon-h"> </span>（<span class="crayon-cn">8</span>和<span class="crayon-cn">4</span>交换）</div><div class="crayon-line" id="crayon-56ee9eafc0a93076742292-5"><span class="crayon-cn">5</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">3</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">4</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">8</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">6</span><span class="crayon-h"> </span>（<span class="crayon-cn">3</span>和<span class="crayon-cn">4</span>不用交换）</div><div class="crayon-line crayon-striped-line" id="crayon-56ee9eafc0a93076742292-6"><span class="crayon-cn">3</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">5</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">4</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">8</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">6</span><span class="crayon-h"> </span>（<span class="crayon-cn">5</span>和<span class="crayon-cn">3</span>交换）</div><div class="crayon-line" id="crayon-56ee9eafc0a93076742292-7">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><br></div><br><p>第二趟：</p><br><div><br><div id="crayon-56ee9eafc0aa0658289912" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56ee9eafc0aa0658289912-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee9eafc0aa0658289912-2">2</div><div class="crayon-num" data-line="crayon-56ee9eafc0aa0658289912-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee9eafc0aa0658289912-4">4</div><div class="crayon-num" data-line="crayon-56ee9eafc0aa0658289912-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee9eafc0aa0658289912-6">6</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56ee9eafc0aa0658289912-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56ee9eafc0aa0658289912-2"><span class="crayon-cn">3</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">5</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">4</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">6</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">8</span><span class="crayon-h"> </span>（<span class="crayon-cn">8</span>和<span class="crayon-cn">6</span>交换）</div><div class="crayon-line" id="crayon-56ee9eafc0aa0658289912-3"><span class="crayon-cn">3</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">5</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">4</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">6</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">8</span><span class="crayon-h"> </span>（<span class="crayon-cn">4</span>和<span class="crayon-cn">6</span>不用交换）</div><div class="crayon-line crayon-striped-line" id="crayon-56ee9eafc0aa0658289912-4"><span class="crayon-cn">3</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">4</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">5</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">6</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">8</span><span class="crayon-h"> </span>（<span class="crayon-cn">5</span>和<span class="crayon-cn">4</span>交换）</div><div class="crayon-line" id="crayon-56ee9eafc0aa0658289912-5"><span class="crayon-cn">3</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">4</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">5</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">6</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">8</span><span class="crayon-h"> </span>（<span class="crayon-cn">3</span>和<span class="crayon-cn">4</span>不用交换）</div><div class="crayon-line crayon-striped-line" id="crayon-56ee9eafc0aa0658289912-6">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><br></div><br><p>这里只需要两趟就可以排序完成了。</p><br><h1 id="toc_2">时间复杂度</h1><br><p>从算法思想可知，冒泡排序需要两个循环来控制遍历，也就是需要n * n趟才能判断、交换完成。</p><br><p>冒泡排序的时间复杂度为O ( n<sup>2</sup> )。</p><br><h1 id="toc_3">伪代码</h1><br><div><br><div id="crayon-56ee9eafc0aa6142055108" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56ee9eafc0aa6142055108-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee9eafc0aa6142055108-2">2</div><div class="crayon-num" data-line="crayon-56ee9eafc0aa6142055108-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee9eafc0aa6142055108-4">4</div><div class="crayon-num" data-line="crayon-56ee9eafc0aa6142055108-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee9eafc0aa6142055108-6">6</div><div class="crayon-num" data-line="crayon-56ee9eafc0aa6142055108-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee9eafc0aa6142055108-8">8</div><div class="crayon-num" data-line="crayon-56ee9eafc0aa6142055108-9">9</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee9eafc0aa6142055108-10">10</div><div class="crayon-num" data-line="crayon-56ee9eafc0aa6142055108-11">11</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee9eafc0aa6142055108-12">12</div><div class="crayon-num" data-line="crayon-56ee9eafc0aa6142055108-13">13</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee9eafc0aa6142055108-14">14</div><div class="crayon-num" data-line="crayon-56ee9eafc0aa6142055108-15">15</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee9eafc0aa6142055108-16">16</div><div class="crayon-num" data-line="crayon-56ee9eafc0aa6142055108-17">17</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56ee9eafc0aa6142055108-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56ee9eafc0aa6142055108-2"><span class="crayon-t">void</span><span class="crayon-h"> </span><span class="crayon-e">bubbleSort</span><span class="crayon-sy">(</span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">a</span><span class="crayon-sy">[</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">len</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56ee9eafc0aa6142055108-3"><span class="crayon-h">&nbsp;&nbsp; </span><span class="crayon-v">for</span><span class="crayon-h"> </span><span class="crayon-v">i</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">0</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-v">i</span><span class="crayon-h"> </span><span class="crayon-o">&lt;</span><span class="crayon-h"> </span><span class="crayon-v">len</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-o">++</span><span class="crayon-v">i</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee9eafc0aa6142055108-4"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">for</span><span class="crayon-h"> </span><span class="crayon-v">j</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">len</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-v">j</span><span class="crayon-h"> </span><span class="crayon-o">&gt;</span><span class="crayon-h"> </span><span class="crayon-v">i</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-o">–</span><span class="crayon-v">j</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56ee9eafc0aa6142055108-5"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-v">a</span><span class="crayon-sy">[</span><span class="crayon-v">j</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">&lt;</span><span class="crayon-h"> </span><span class="crayon-v">a</span><span class="crayon-sy">[</span><span class="crayon-v">j</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee9eafc0aa6142055108-6"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">swap</span><span class="crayon-sy">(</span><span class="crayon-v">a</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">j</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">j</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56ee9eafc0aa6142055108-7"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee9eafc0aa6142055108-8"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56ee9eafc0aa6142055108-9"><span class="crayon-h">&nbsp;&nbsp; </span><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee9eafc0aa6142055108-10"><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56ee9eafc0aa6142055108-11">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56ee9eafc0aa6142055108-12"><span class="crayon-t">void</span><span class="crayon-h"> </span><span class="crayon-e">swap</span><span class="crayon-sy">(</span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">a</span><span class="crayon-sy">[</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">i</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">j</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56ee9eafc0aa6142055108-13"><span class="crayon-h">&nbsp;&nbsp; </span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">temp</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">a</span><span class="crayon-sy">[</span><span class="crayon-v">i</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee9eafc0aa6142055108-14"><span class="crayon-h">&nbsp;&nbsp; </span><span class="crayon-v">a</span><span class="crayon-sy">[</span><span class="crayon-v">i</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">a</span><span class="crayon-sy">[</span><span class="crayon-v">j</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56ee9eafc0aa6142055108-15"><span class="crayon-h">&nbsp;&nbsp; </span><span class="crayon-v">a</span><span class="crayon-sy">[</span><span class="crayon-v">j</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">temp</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee9eafc0aa6142055108-16"><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56ee9eafc0aa6142055108-17">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><br></div><br><h1 id="toc_4">C语言版</h1><br><div><br><div id="crayon-56ee9eafc0aab716062226" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56ee9eafc0aab716062226-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee9eafc0aab716062226-2">2</div><div class="crayon-num" data-line="crayon-56ee9eafc0aab716062226-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee9eafc0aab716062226-4">4</div><div class="crayon-num" data-line="crayon-56ee9eafc0aab716062226-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee9eafc0aab716062226-6">6</div><div class="crayon-num" data-line="crayon-56ee9eafc0aab716062226-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee9eafc0aab716062226-8">8</div><div class="crayon-num" data-line="crayon-56ee9eafc0aab716062226-9">9</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee9eafc0aab716062226-10">10</div><div class="crayon-num" data-line="crayon-56ee9eafc0aab716062226-11">11</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee9eafc0aab716062226-12">12</div><div class="crayon-num" data-line="crayon-56ee9eafc0aab716062226-13">13</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee9eafc0aab716062226-14">14</div><div class="crayon-num" data-line="crayon-56ee9eafc0aab716062226-15">15</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee9eafc0aab716062226-16">16</div><div class="crayon-num" data-line="crayon-56ee9eafc0aab716062226-17">17</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee9eafc0aab716062226-18">18</div><div class="crayon-num" data-line="crayon-56ee9eafc0aab716062226-19">19</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee9eafc0aab716062226-20">20</div><div class="crayon-num" data-line="crayon-56ee9eafc0aab716062226-21">21</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee9eafc0aab716062226-22">22</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56ee9eafc0aab716062226-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56ee9eafc0aab716062226-2"><span class="crayon-t">void</span><span class="crayon-h"> </span><span class="crayon-e">bubbleSortUsingC</span><span class="crayon-sy">(</span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">arr</span><span class="crayon-sy">[</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">len</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56ee9eafc0aab716062226-3"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-c">// 代表走多少趟，最后一趟就不用再走了</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee9eafc0aab716062226-4"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-e">for</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">i</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">0</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-v">i</span><span class="crayon-h"> </span><span class="crayon-o">&lt;</span><span class="crayon-h"> </span><span class="crayon-v">len</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-o">++</span><span class="crayon-v">i</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56ee9eafc0aab716062226-5"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee9eafc0aab716062226-6"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c">// 从后往前走，相当于泡从水底冒出来到水面</span></div><div class="crayon-line" id="crayon-56ee9eafc0aab716062226-7"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">for</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">j</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">len</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-v">j</span><span class="crayon-h"> </span><span class="crayon-o">&gt;</span><span class="crayon-h"> </span><span class="crayon-v">i</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-o">–</span><span class="crayon-v">j</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee9eafc0aab716062226-8"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line" id="crayon-56ee9eafc0aab716062226-9"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c">// 如果后面的比前面一个的值还要小，则需要交换</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee9eafc0aab716062226-10"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">arr</span><span class="crayon-sy">[</span><span class="crayon-v">j</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">&lt;</span><span class="crayon-h"> </span><span class="crayon-v">arr</span><span class="crayon-sy">[</span><span class="crayon-v">j</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56ee9eafc0aab716062226-11"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">swap</span><span class="crayon-sy">(</span><span class="crayon-v">arr</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">j</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">j</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee9eafc0aab716062226-12"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56ee9eafc0aab716062226-13"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee9eafc0aab716062226-14"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56ee9eafc0aab716062226-15"><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee9eafc0aab716062226-16">&nbsp;</div><div class="crayon-line" id="crayon-56ee9eafc0aab716062226-17"><span class="crayon-t">void</span><span class="crayon-h"> </span><span class="crayon-e">swap</span><span class="crayon-sy">(</span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">arr</span><span class="crayon-sy">[</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">i</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">j</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee9eafc0aab716062226-18"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">temp</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">arr</span><span class="crayon-sy">[</span><span class="crayon-v">i</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56ee9eafc0aab716062226-19"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">arr</span><span class="crayon-sy">[</span><span class="crayon-v">i</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">arr</span><span class="crayon-sy">[</span><span class="crayon-v">j</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee9eafc0aab716062226-20"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">arr</span><span class="crayon-sy">[</span><span class="crayon-v">j</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">temp</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56ee9eafc0aab716062226-21"><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee9eafc0aab716062226-22">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><br></div><br><p>测试一下：</p><br><div><br><div id="crayon-56ee9eafc0ab0807341989" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56ee9eafc0ab0807341989-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee9eafc0ab0807341989-2">2</div><div class="crayon-num" data-line="crayon-56ee9eafc0ab0807341989-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee9eafc0ab0807341989-4">4</div><div class="crayon-num" data-line="crayon-56ee9eafc0ab0807341989-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee9eafc0ab0807341989-6">6</div><div class="crayon-num" data-line="crayon-56ee9eafc0ab0807341989-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee9eafc0ab0807341989-8">8</div><div class="crayon-num" data-line="crayon-56ee9eafc0ab0807341989-9">9</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee9eafc0ab0807341989-10">10</div><div class="crayon-num" data-line="crayon-56ee9eafc0ab0807341989-11">11</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56ee9eafc0ab0807341989-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56ee9eafc0ab0807341989-2"><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">a</span><span class="crayon-sy">[</span><span class="crayon-cn">5</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">{</span><span class="crayon-cn">5</span><span class="crayon-sy">,</span><span class="crayon-cn">3</span><span class="crayon-sy">,</span><span class="crayon-cn">8</span><span class="crayon-sy">,</span><span class="crayon-cn">6</span><span class="crayon-sy">,</span><span class="crayon-cn">4</span><span class="crayon-sy">}</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56ee9eafc0ab0807341989-3"><span class="crayon-h">&nbsp;&nbsp;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee9eafc0ab0807341989-4"><span class="crayon-e">bubbleSortUsingC</span><span class="crayon-sy">(</span><span class="crayon-v">a</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-r">sizeof</span><span class="crayon-sy">(</span><span class="crayon-v">a</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">/</span><span class="crayon-h"> </span><span class="crayon-r">sizeof</span><span class="crayon-sy">(</span><span class="crayon-t">int</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56ee9eafc0ab0807341989-5">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56ee9eafc0ab0807341989-6"><span class="crayon-e">for</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">i</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">0</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-v">i</span><span class="crayon-h"> </span><span class="crayon-o">&lt;</span><span class="crayon-h"> </span><span class="crayon-r">sizeof</span><span class="crayon-sy">(</span><span class="crayon-v">a</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">/</span><span class="crayon-h"> </span><span class="crayon-r">sizeof</span><span class="crayon-sy">(</span><span class="crayon-t">int</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-o">++</span><span class="crayon-v">i</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56ee9eafc0ab0807341989-7"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-t">NSLog</span><span class="crayon-sy">(</span><span class="crayon-s">@”%d”</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">a</span><span class="crayon-sy">[</span><span class="crayon-v">i</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee9eafc0ab0807341989-8"><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56ee9eafc0ab0807341989-9">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56ee9eafc0ab0807341989-10"><span class="crayon-c">// 打印: 3, 4, 5, 6, 8 初步如期效果</span></div><div class="crayon-line" id="crayon-56ee9eafc0ab0807341989-11">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><br></div><br><h1 id="toc_5">ObjC版</h1><br><div><br><div id="crayon-56ee9eafc0ab5062164931" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56ee9eafc0ab5062164931-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee9eafc0ab5062164931-2">2</div><div class="crayon-num" data-line="crayon-56ee9eafc0ab5062164931-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee9eafc0ab5062164931-4">4</div><div class="crayon-num" data-line="crayon-56ee9eafc0ab5062164931-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee9eafc0ab5062164931-6">6</div><div class="crayon-num" data-line="crayon-56ee9eafc0ab5062164931-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee9eafc0ab5062164931-8">8</div><div class="crayon-num" data-line="crayon-56ee9eafc0ab5062164931-9">9</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee9eafc0ab5062164931-10">10</div><div class="crayon-num" data-line="crayon-56ee9eafc0ab5062164931-11">11</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee9eafc0ab5062164931-12">12</div><div class="crayon-num" data-line="crayon-56ee9eafc0ab5062164931-13">13</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee9eafc0ab5062164931-14">14</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56ee9eafc0ab5062164931-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56ee9eafc0ab5062164931-2"><span class="crayon-o">-</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-t">void</span><span class="crayon-sy">)</span><span class="crayon-e ">bubbleSort</span><span class="crayon-o">:</span><span class="crayon-sy">(</span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span><span class="crayon-v">array</span><span class="crayon-e "> len</span><span class="crayon-o">:</span><span class="crayon-sy">(</span><span class="crayon-t ">size<em>t</em></span><span class="crayon-sy">)</span><span class="crayon-v">len</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56ee9eafc0ab5062164931-3"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-e">for</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">size</span><span class="crayon-sy"></span><span class="crayon-v">t</span><span class="crayon-h"> </span><span class="crayon-v">i</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">0</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-v">i</span><span class="crayon-h"> </span><span class="crayon-o">&lt;</span><span class="crayon-h"> </span><span class="crayon-v">len</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-o">++</span><span class="crayon-v">i</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee9eafc0ab5062164931-4"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">for</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">size</span><span class="crayon-sy">_</span><span class="crayon-v">t</span><span class="crayon-h"> </span><span class="crayon-v">j</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">len</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-v">j</span><span class="crayon-h"> </span><span class="crayon-o">&gt;</span><span class="crayon-h"> </span><span class="crayon-v">i</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-o">–</span><span class="crayon-v">j</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56ee9eafc0ab5062164931-5"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">array</span><span class="crayon-sy">[</span><span class="crayon-v">j</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">&lt;</span><span class="crayon-h"> </span><span class="crayon-v">array</span><span class="crayon-sy">[</span><span class="crayon-v">j</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee9eafc0ab5062164931-6"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c">// 交换</span></div><div class="crayon-line" id="crayon-56ee9eafc0ab5062164931-7"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">temp</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">array</span><span class="crayon-sy">[</span><span class="crayon-v">j</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee9eafc0ab5062164931-8"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">array</span><span class="crayon-sy">[</span><span class="crayon-v">j</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">array</span><span class="crayon-sy">[</span><span class="crayon-v">j</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56ee9eafc0ab5062164931-9"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">array</span><span class="crayon-sy">[</span><span class="crayon-v">j</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">temp</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee9eafc0ab5062164931-10"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56ee9eafc0ab5062164931-11"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee9eafc0ab5062164931-12"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56ee9eafc0ab5062164931-13"><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee9eafc0ab5062164931-14">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><br></div><br><p>测试使用：</p><br><div><br><div id="crayon-56ee9eafc0ab9992542862" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56ee9eafc0ab9992542862-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee9eafc0ab9992542862-2">2</div><div class="crayon-num" data-line="crayon-56ee9eafc0ab9992542862-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee9eafc0ab9992542862-4">4</div><div class="crayon-num" data-line="crayon-56ee9eafc0ab9992542862-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee9eafc0ab9992542862-6">6</div><div class="crayon-num" data-line="crayon-56ee9eafc0ab9992542862-7">7</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56ee9eafc0ab9992542862-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56ee9eafc0ab9992542862-2"><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">a</span><span class="crayon-sy">[</span><span class="crayon-cn">5</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">{</span><span class="crayon-cn">5</span><span class="crayon-sy">,</span><span class="crayon-cn">3</span><span class="crayon-sy">,</span><span class="crayon-cn">8</span><span class="crayon-sy">,</span><span class="crayon-cn">6</span><span class="crayon-sy">,</span><span class="crayon-cn">4</span><span class="crayon-sy">}</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56ee9eafc0ab9992542862-3"><span class="crayon-sy">[</span><span class="crayon-r">self</span><span class="crayon-e "> bubbleSort</span><span class="crayon-v">:a</span><span class="crayon-e "> len</span><span class="crayon-v">:sizeof</span><span class="crayon-sy">(</span><span class="crayon-v">a</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">/</span><span class="crayon-h"> </span><span class="crayon-r">sizeof</span><span class="crayon-sy">(</span><span class="crayon-t">int</span><span class="crayon-sy">)</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee9eafc0ab9992542862-4"><span class="crayon-e">for</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">i</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">0</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-v">i</span><span class="crayon-h"> </span><span class="crayon-o">&lt;</span><span class="crayon-h"> </span><span class="crayon-r">sizeof</span><span class="crayon-sy">(</span><span class="crayon-v">a</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">/</span><span class="crayon-h"> </span><span class="crayon-r">sizeof</span><span class="crayon-sy">(</span><span class="crayon-t">int</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-o">++</span><span class="crayon-v">i</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56ee9eafc0ab9992542862-5"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-t">NSLog</span><span class="crayon-sy">(</span><span class="crayon-s">@”%d”</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">a</span><span class="crayon-sy">[</span><span class="crayon-v">i</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee9eafc0ab9992542862-6"><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56ee9eafc0ab9992542862-7">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><br></div><br><h1 id="toc_6">Swift版</h1><br><div><br><div id="crayon-56ee9eafc0abe468388150" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56ee9eafc0abe468388150-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee9eafc0abe468388150-2">2</div><div class="crayon-num" data-line="crayon-56ee9eafc0abe468388150-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee9eafc0abe468388150-4">4</div><div class="crayon-num" data-line="crayon-56ee9eafc0abe468388150-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee9eafc0abe468388150-6">6</div><div class="crayon-num" data-line="crayon-56ee9eafc0abe468388150-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee9eafc0abe468388150-8">8</div><div class="crayon-num" data-line="crayon-56ee9eafc0abe468388150-9">9</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee9eafc0abe468388150-10">10</div><div class="crayon-num" data-line="crayon-56ee9eafc0abe468388150-11">11</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee9eafc0abe468388150-12">12</div><div class="crayon-num" data-line="crayon-56ee9eafc0abe468388150-13">13</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee9eafc0abe468388150-14">14</div><div class="crayon-num" data-line="crayon-56ee9eafc0abe468388150-15">15</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee9eafc0abe468388150-16">16</div><div class="crayon-num" data-line="crayon-56ee9eafc0abe468388150-17">17</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee9eafc0abe468388150-18">18</div><div class="crayon-num" data-line="crayon-56ee9eafc0abe468388150-19">19</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee9eafc0abe468388150-20">20</div><div class="crayon-num" data-line="crayon-56ee9eafc0abe468388150-21">21</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56ee9eafc0abe468388150-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56ee9eafc0abe468388150-2"><span class="crayon-e">func </span><span class="crayon-e">bubbleSort</span><span class="crayon-sy">(</span><span class="crayon-v">var</span><span class="crayon-e "> arr</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-t">Int</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">-&gt;</span><span class="crayon-sy">[</span><span class="crayon-t">Int</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56ee9eafc0abe468388150-3"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-c">// 走多少趟</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee9eafc0abe468388150-4"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-e">for </span><span class="crayon-v">var</span><span class="crayon-h"> </span><span class="crayon-v">i</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">0</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-v">i</span><span class="crayon-h"> </span><span class="crayon-o">&lt;</span><span class="crayon-h"> </span><span class="crayon-v">arr</span><span class="crayon-sy">.</span><span class="crayon-v">count</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-o">++</span><span class="crayon-v">i</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56ee9eafc0abe468388150-5"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee9eafc0abe468388150-6"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c">// 从后往前</span></div><div class="crayon-line" id="crayon-56ee9eafc0abe468388150-7"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">for </span><span class="crayon-v">var</span><span class="crayon-h"> </span><span class="crayon-v">j</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">arr</span><span class="crayon-sy">.</span><span class="crayon-v">count</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-v">j</span><span class="crayon-h"> </span><span class="crayon-o">&gt;</span><span class="crayon-h"> </span><span class="crayon-v">i</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-o">–</span><span class="crayon-v">j</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee9eafc0abe468388150-8"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line" id="crayon-56ee9eafc0abe468388150-9"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c">// 后者 &lt; 前者 ？ 交换 ： 不交换</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee9eafc0abe468388150-10"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-v">arr</span><span class="crayon-sy">[</span><span class="crayon-v">j</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">&lt;</span><span class="crayon-h"> </span><span class="crayon-v">arr</span><span class="crayon-sy">[</span><span class="crayon-v">j</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56ee9eafc0abe468388150-11"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">let </span><span class="crayon-v">temp</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">arr</span><span class="crayon-sy">[</span><span class="crayon-v">j</span><span class="crayon-sy">]</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee9eafc0abe468388150-12"><span class="crayon-e ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line" id="crayon-56ee9eafc0abe468388150-13"><span class="crayon-e ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arr</span><span class="crayon-sy">[</span><span class="crayon-v">j</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">arr</span><span class="crayon-sy">[</span><span class="crayon-v">j</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">]</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee9eafc0abe468388150-14"><span class="crayon-e ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arr</span><span class="crayon-sy">[</span><span class="crayon-v">j</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">temp</span></div><div class="crayon-line" id="crayon-56ee9eafc0abe468388150-15"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee9eafc0abe468388150-16"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56ee9eafc0abe468388150-17"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee9eafc0abe468388150-18"><span class="crayon-h">&nbsp;&nbsp;</span></div><div class="crayon-line" id="crayon-56ee9eafc0abe468388150-19"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-st">return</span><span class="crayon-h"> </span><span class="crayon-v">arr</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee9eafc0abe468388150-20"><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56ee9eafc0abe468388150-21">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><br></div><br><p>测试使用：</p><br><div><br><div id="crayon-56ee9eafc0ac3659955314" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56ee9eafc0ac3659955314-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee9eafc0ac3659955314-2">2</div><div class="crayon-num" data-line="crayon-56ee9eafc0ac3659955314-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee9eafc0ac3659955314-4">4</div><div class="crayon-num" data-line="crayon-56ee9eafc0ac3659955314-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee9eafc0ac3659955314-6">6</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56ee9eafc0ac3659955314-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56ee9eafc0ac3659955314-2"><span class="crayon-c">// 由于swift中数组也是结构体，是值类型，因此需要接收返回值才能得到排序后的数组</span></div><div class="crayon-line" id="crayon-56ee9eafc0ac3659955314-3"><span class="crayon-e">var </span><span class="crayon-v">arr</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-cn">5</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">3</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">8</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">6</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">4</span><span class="crayon-sy">]</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee9eafc0ac3659955314-4"><span class="crayon-e ">arr</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">bubbleSort</span><span class="crayon-sy">(</span><span class="crayon-v">arr</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-56ee9eafc0ac3659955314-5"><span class="crayon-e">print</span><span class="crayon-sy">(</span><span class="crayon-v">arr</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee9eafc0ac3659955314-6">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><br></div>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/03/20/iOS-Block循环引用精讲/" rel="next" title="iOS Block循环引用精讲">
+                <i class="fa fa-chevron-left"></i> iOS Block循环引用精讲
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/03/21/Masonry的基本使用方法/" rel="prev" title="Masonry的基本使用方法">
+                Masonry的基本使用方法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2015/03/20/冒泡排序/"
+     data-title="冒泡排序"
+     data-content=""
+     data-url="http://yoursite.com/2015/03/20/冒泡排序/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+        </div>
+
+        
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+        
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/03/20/冒泡排序/"
+           data-title="冒泡排序" data-url="http://yoursite.com/2015/03/20/冒泡排序/">
+      </div>
+    
+  </div>
+
+
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="http://img5.duitang.com/uploads/item/201406/26/20140626193943_WGW2n.thumb.700_0.jpeg" alt="YCK" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">YCK</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">愿世界永无Bug！</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">28</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">1</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yckblog/ykcoder" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> github
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/fav?leftnav=1" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> weibo
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_1"><span class="nav-number">1.</span> <span class="nav-text">冒泡排序核心思想</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_2"><span class="nav-number">2.</span> <span class="nav-text">时间复杂度</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_3"><span class="nav-number">3.</span> <span class="nav-text">伪代码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_4"><span class="nav-number">4.</span> <span class="nav-text">C语言版</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_5"><span class="nav-number">5.</span> <span class="nav-text">ObjC版</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_6"><span class="nav-number">6.</span> <span class="nav-text">Swift版</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">YCK</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"ykcoder"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+
+
+    
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+<script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+<script type="text/javascript" src="/js/motion.js?v=0.4.5.2" id="motion.global"></script>
+
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    motionMiddleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
+
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+
+  
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/MathJax.js"></script>
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/config/TeX-AMS-MML_HTMLorMML.js"></script>
+  
+
+
+  
+  
+
+</body>
+</html>

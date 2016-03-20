@@ -1,0 +1,747 @@
+<!doctype html>
+<html class="theme-next   use-motion ">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
+
+
+
+
+
+
+<meta name="description" content="快速排序是在面试中经常问到的算法题，也比较难掌握，特别是没有经常写算法的人儿。记得在大学的时候，我真的没有真正地理解快速排序，主要是那个时候对递归的理解不深，然后再加上对算法的理解能力不够强，导致当年百度二面被刷了。
+下面就让笔者来带大家回忆回忆大学那些年到底是怎么学的~
+算法思想
+用笔者所理解的话来说，其算法思想是利用分而治之的思想，每一趟都保证左边比基准小，右边比基准大，而且递归划分排序。
+一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="快速排序">
+<meta property="og:url" content="http://yoursite.com/2015/04/20/快速排序/index.html">
+<meta property="og:site_name" content="YKcoder">
+<meta property="og:description" content="快速排序是在面试中经常问到的算法题，也比较难掌握，特别是没有经常写算法的人儿。记得在大学的时候，我真的没有真正地理解快速排序，主要是那个时候对递归的理解不深，然后再加上对算法的理解能力不够强，导致当年百度二面被刷了。
+下面就让笔者来带大家回忆回忆大学那些年到底是怎么学的~
+算法思想
+用笔者所理解的话来说，其算法思想是利用分而治之的思想，每一趟都保证左边比基准小，右边比基准大，而且递归划分排序。
+一">
+<meta property="og:updated_time" content="2016-03-20T09:31:42.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="快速排序">
+<meta name="twitter:description" content="快速排序是在面试中经常问到的算法题，也比较难掌握，特别是没有经常写算法的人儿。记得在大学的时候，我真的没有真正地理解快速排序，主要是那个时候对递归的理解不深，然后再加上对算法的理解能力不够强，导致当年百度二面被刷了。
+下面就让笔者来带大家回忆回忆大学那些年到底是怎么学的~
+算法思想
+用笔者所理解的话来说，其算法思想是利用分而治之的思想，每一趟都保证左边比基准小，右边比基准大，而且递归划分排序。
+一">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post',
+    motion: true
+  };
+</script>
+
+  <title> 快速排序 | YKcoder </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta custom-logo">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">YKcoder</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">没有代码的日子好孤单！</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                快速排序
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-04-20T17:29:24+08:00" content="2015-04-20">
+              2015-04-20
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/04/20/快速排序/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/20/快速排序/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p></p><p>快速排序是在面试中经常问到的算法题，也比较难掌握，特别是没有经常写算法的人儿。记得在大学的时候，我真的没有真正地理解快速排序，主要是那个时候对递归的理解不深，然后再加上对算法的理解能力不够强，导致当年百度二面被刷了。</p><p></p>
+<p></p><p>下面就让笔者来带大家回忆回忆大学那些年到底是怎么学的~</p><p></p>
+<p></p><h1 id="toc_1">算法思想</h1><p></p>
+<p></p><p>用笔者所理解的话来说，其算法思想是利用分而治之的思想，每一趟都保证左边比基准小，右边比基准大，而且递归划分排序。</p><p></p>
+<p></p><p>一趟快速排序的算法是：</p><p></p>
+<p><ol></ol></p>
+<p><li>设置两个变量i、j，排序开始的时候：i=0，j=N-1；</li></p>
+<p><li>以第一个数组元素作为基准数据，赋值给key，即key=A[0]；</li></p>
+<p><li>从j开始向前搜索，即由后开始向前搜索(j=j-1)，找到第一个小于key的值A[j]，将A[j]和A[i]互换；</li></p>
+<p><li>从i开始向后搜索，即由前开始向后搜索(i++)，找到第一个大于key的A[i]，将A[i]和A[j]互换；</li></p>
+<p><li>重复第3、4步，直到i=j； (3,4步中，没找到符合条件的值，即3中A[j]不小于key,4中A[i]不大于key的时候改变j、i的值，使得j=j-1，i=i+1，直至找到为止。找到符合条件的值，进行交换的时候i， j指针位置不变。另外，i==j这一过程一定正好是i+或j-完成的时候，此时令循环结束）。</li><br></p>
+<p></p><p>举个例子：</p><p></p>
+<p><ol></ol></p>
+<p><li>对5,3,8,6,4这个无序序列进行快速排序，思路是右指针找比基准数小的，左指针找比基准数大的，然后交换之并更新基准位置。</li></p>
+<p><li>5,3,8,6,4 用5作为比较的基准，right往左找，4&lt;5,找到了4，left往右找，8&gt;5，找到了8，然后交换，然后变成了5,3,4,6,8，同时新的基准位置修改为left，也就是4的位置，交换后变成4, 3, 5, 6, 8，而新的基准位置就是5的位置了</li></p>
+<p><li>4,3,5,6,8 然后以5为基准划分成两个小组（4, 3）和（5, 6, 8），第一个小组和第二个小组分别进入到步骤1，最后形成（3，4）而（5，6，8）因为已经有序，所以整个过程就完成了。最终形成（3,4,5,6,8）</li><br></p>
+<p></p><p>上面留下来了一个问题为什么一定要j指针先动呢？首先这也不是绝对的，这取决于基准数的位置，因为在最后两个指针相遇的时候，要交换基准数到相遇的位置。一般选取第一个数作为基准数，那么就是在左边，所以最后相遇的数要和基准数交换，那么相遇的数一定要比基准数小。所以j指针先移动才能先找到比基准数小的数。</p><p></p>
+<p></p><h1 id="toc_2">时间复杂度</h1><p></p>
+<p></p><p>快速排序是不稳定的，其时间平均时间复杂度是O ( nlgn )。</p><p></p>
+<p></p><h1 id="toc_3">伪代码</h1><p></p>
+<div><br><div id="crayon-56ee1d6715e42647962696" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-mac print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56ee1d6715e42647962696-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e42647962696-2">2</div><div class="crayon-num" data-line="crayon-56ee1d6715e42647962696-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e42647962696-4">4</div><div class="crayon-num" data-line="crayon-56ee1d6715e42647962696-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e42647962696-6">6</div><div class="crayon-num" data-line="crayon-56ee1d6715e42647962696-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e42647962696-8">8</div><div class="crayon-num" data-line="crayon-56ee1d6715e42647962696-9">9</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e42647962696-10">10</div><div class="crayon-num" data-line="crayon-56ee1d6715e42647962696-11">11</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e42647962696-12">12</div><div class="crayon-num" data-line="crayon-56ee1d6715e42647962696-13">13</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e42647962696-14">14</div><div class="crayon-num" data-line="crayon-56ee1d6715e42647962696-15">15</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e42647962696-16">16</div><div class="crayon-num" data-line="crayon-56ee1d6715e42647962696-17">17</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e42647962696-18">18</div><div class="crayon-num" data-line="crayon-56ee1d6715e42647962696-19">19</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e42647962696-20">20</div><div class="crayon-num" data-line="crayon-56ee1d6715e42647962696-21">21</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e42647962696-22">22</div><div class="crayon-num" data-line="crayon-56ee1d6715e42647962696-23">23</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e42647962696-24">24</div><div class="crayon-num" data-line="crayon-56ee1d6715e42647962696-25">25</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e42647962696-26">26</div><div class="crayon-num" data-line="crayon-56ee1d6715e42647962696-27">27</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e42647962696-28">28</div><div class="crayon-num" data-line="crayon-56ee1d6715e42647962696-29">29</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e42647962696-30">30</div><div class="crayon-num" data-line="crayon-56ee1d6715e42647962696-31">31</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e42647962696-32">32</div><div class="crayon-num" data-line="crayon-56ee1d6715e42647962696-33">33</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e42647962696-34">34</div><div class="crayon-num" data-line="crayon-56ee1d6715e42647962696-35">35</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e42647962696-36">36</div><div class="crayon-num" data-line="crayon-56ee1d6715e42647962696-37">37</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e42647962696-38">38</div><div class="crayon-num" data-line="crayon-56ee1d6715e42647962696-39">39</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e42647962696-40">40</div><div class="crayon-num" data-line="crayon-56ee1d6715e42647962696-41">41</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e42647962696-42">42</div><div class="crayon-num" data-line="crayon-56ee1d6715e42647962696-43">43</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e42647962696-44">44</div><div class="crayon-num" data-line="crayon-56ee1d6715e42647962696-45">45</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e42647962696-46">46</div><div class="crayon-num" data-line="crayon-56ee1d6715e42647962696-47">47</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e42647962696-48">48</div><div class="crayon-num" data-line="crayon-56ee1d6715e42647962696-49">49</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e42647962696-50">50</div><div class="crayon-num" data-line="crayon-56ee1d6715e42647962696-51">51</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56ee1d6715e42647962696-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e42647962696-2"><span class="crayon-t">void</span><span class="crayon-h"> </span><span class="crayon-e">quickSort</span><span class="crayon-sy">(</span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">a</span><span class="crayon-sy">[</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">len</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">left</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">right</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56ee1d6715e42647962696-3"><span class="crayon-h">&nbsp;&nbsp; </span><span class="crayon-c">// 所有都排序完毕了，就退出递归</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e42647962696-4"><span class="crayon-h">&nbsp;&nbsp; </span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-v">left</span><span class="crayon-h"> </span><span class="crayon-o">&gt;=</span><span class="crayon-h"> </span><span class="crayon-v">right</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56ee1d6715e42647962696-5"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-st">return</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e42647962696-6"><span class="crayon-h">&nbsp;&nbsp; </span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56ee1d6715e42647962696-7"><span class="crayon-h">&nbsp;&nbsp; </span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e42647962696-8"><span class="crayon-h">&nbsp;&nbsp; </span><span class="crayon-c">// 每一趟划分，使左边的比基准小，右边的比基准大，并返回新的基准的位置</span></div><div class="crayon-line" id="crayon-56ee1d6715e42647962696-9"><span class="crayon-h">&nbsp;&nbsp; </span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">baseIndex</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">partition</span><span class="crayon-sy">(</span><span class="crayon-v">a</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">len</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">left</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">right</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e42647962696-10"><span class="crayon-h">&nbsp;&nbsp; </span></div><div class="crayon-line" id="crayon-56ee1d6715e42647962696-11"><span class="crayon-h">&nbsp;&nbsp; </span><span class="crayon-c">// 递归排序左部分</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e42647962696-12"><span class="crayon-h">&nbsp;&nbsp; </span><span class="crayon-e">quickSort</span><span class="crayon-sy">(</span><span class="crayon-v">a</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">len</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">left</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">baseIndex</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56ee1d6715e42647962696-13"><span class="crayon-h">&nbsp;&nbsp; </span><span class="crayon-c">// 递归排序右部分</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e42647962696-14"><span class="crayon-h">&nbsp;&nbsp; </span><span class="crayon-e">quickSort</span><span class="crayon-sy">(</span><span class="crayon-v">a</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">len</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">baseIndex</span><span class="crayon-h"> </span><span class="crayon-o">+</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">right</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-56ee1d6715e42647962696-15"><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e42647962696-16">&nbsp;</div><div class="crayon-line" id="crayon-56ee1d6715e42647962696-17"><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-e">partition</span><span class="crayon-sy">(</span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">a</span><span class="crayon-sy">[</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">len</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">left</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">right</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e42647962696-18"><span class="crayon-h">&nbsp;&nbsp; </span><span class="crayon-c">// 记录哪个是基准数</span></div><div class="crayon-line" id="crayon-56ee1d6715e42647962696-19"><span class="crayon-h">&nbsp;&nbsp; </span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">base</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">a</span><span class="crayon-sy">[</span><span class="crayon-v">left</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e42647962696-20"><span class="crayon-h">&nbsp;&nbsp; </span><span class="crayon-c">// 记录当前基准数的位置</span></div><div class="crayon-line" id="crayon-56ee1d6715e42647962696-21"><span class="crayon-h">&nbsp;&nbsp; </span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">baseIndex</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">left</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e42647962696-22"><span class="crayon-h">&nbsp;&nbsp; </span></div><div class="crayon-line" id="crayon-56ee1d6715e42647962696-23"><span class="crayon-h">&nbsp;&nbsp; </span><span class="crayon-st">while</span><span class="crayon-h"> </span><span class="crayon-v">left</span><span class="crayon-h"> </span><span class="crayon-o">&lt;</span><span class="crayon-h"> </span><span class="crayon-v">right</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e42647962696-24"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-c">// 先从右边往左边扫描，找到第一个比base还要小的数，但是不能与left相遇</span></div><div class="crayon-line" id="crayon-56ee1d6715e42647962696-25"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-st">while</span><span class="crayon-h"> </span><span class="crayon-v">left</span><span class="crayon-h"> </span><span class="crayon-o">&lt;</span><span class="crayon-h"> </span><span class="crayon-v">right</span><span class="crayon-h"> </span><span class="crayon-o">&amp;&amp;</span><span class="crayon-h"> </span><span class="crayon-v">a</span><span class="crayon-sy">[</span><span class="crayon-v">right</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">&gt;=</span><span class="crayon-h"> </span><span class="crayon-v">base</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e42647962696-26"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-v">right</span><span class="crayon-o">–</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56ee1d6715e42647962696-27"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e42647962696-28"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp; </span></div><div class="crayon-line" id="crayon-56ee1d6715e42647962696-29"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-c">// 再从左边往右边扫描，找到第一个比base还要大的数，但是不能与right相遇</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e42647962696-30"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-st">while</span><span class="crayon-h"> </span><span class="crayon-v">left</span><span class="crayon-h"> </span><span class="crayon-o">&lt;</span><span class="crayon-h"> </span><span class="crayon-v">right</span><span class="crayon-h"> </span><span class="crayon-o">&amp;&amp;</span><span class="crayon-h"> </span><span class="crayon-v">a</span><span class="crayon-sy">[</span><span class="crayon-v">left</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">&lt;=</span><span class="crayon-h"> </span><span class="crayon-v">base</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56ee1d6715e42647962696-31"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-v">left</span><span class="crayon-o">++</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e42647962696-32"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56ee1d6715e42647962696-33"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp; </span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e42647962696-34"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-c">// 将所扫描到的第一个比基准数小和第一个比基准数大的数交换</span></div><div class="crayon-line" id="crayon-56ee1d6715e42647962696-35"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-e">swap</span><span class="crayon-sy">(</span><span class="crayon-v">a</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">left</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">right</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e42647962696-36"><span class="crayon-h">&nbsp;&nbsp; </span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56ee1d6715e42647962696-37"><span class="crayon-h">&nbsp;&nbsp; </span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e42647962696-38"><span class="crayon-h">&nbsp;&nbsp; </span><span class="crayon-c">// 交换left与baseIndex对应的元素，将left位置的元素作为新的基准数</span></div><div class="crayon-line" id="crayon-56ee1d6715e42647962696-39"><span class="crayon-h">&nbsp;&nbsp; </span><span class="crayon-e">swap</span><span class="crayon-sy">(</span><span class="crayon-v">a</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">baseIndex</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">left</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e42647962696-40"><span class="crayon-h">&nbsp;&nbsp; </span></div><div class="crayon-line" id="crayon-56ee1d6715e42647962696-41"><span class="crayon-h">&nbsp;&nbsp; </span><span class="crayon-c">// 返回新的基准位置</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e42647962696-42"><span class="crayon-h">&nbsp;&nbsp; </span><span class="crayon-st">return</span><span class="crayon-h"> </span><span class="crayon-v">left</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56ee1d6715e42647962696-43"><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e42647962696-44">&nbsp;</div><div class="crayon-line" id="crayon-56ee1d6715e42647962696-45"><span class="crayon-t">void</span><span class="crayon-h"> </span><span class="crayon-e">swap</span><span class="crayon-sy">(</span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">a</span><span class="crayon-sy">[</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">i</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">j</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e42647962696-46"><span class="crayon-h">&nbsp;&nbsp; </span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">temp</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">a</span><span class="crayon-sy">[</span><span class="crayon-v">i</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56ee1d6715e42647962696-47"><span class="crayon-h">&nbsp;&nbsp; </span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e42647962696-48"><span class="crayon-h">&nbsp;&nbsp; </span><span class="crayon-v">a</span><span class="crayon-sy">[</span><span class="crayon-v">i</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">a</span><span class="crayon-sy">[</span><span class="crayon-v">j</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56ee1d6715e42647962696-49"><span class="crayon-h">&nbsp;&nbsp; </span><span class="crayon-v">a</span><span class="crayon-sy">[</span><span class="crayon-v">j</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">temp</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e42647962696-50"><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56ee1d6715e42647962696-51">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><br></div><br><h1 id="toc_4">C语言版</h1><br><div><br><div id="crayon-56ee1d6715e53886705139" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-mac print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56ee1d6715e53886705139-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e53886705139-2">2</div><div class="crayon-num" data-line="crayon-56ee1d6715e53886705139-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e53886705139-4">4</div><div class="crayon-num" data-line="crayon-56ee1d6715e53886705139-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e53886705139-6">6</div><div class="crayon-num" data-line="crayon-56ee1d6715e53886705139-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e53886705139-8">8</div><div class="crayon-num" data-line="crayon-56ee1d6715e53886705139-9">9</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e53886705139-10">10</div><div class="crayon-num" data-line="crayon-56ee1d6715e53886705139-11">11</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e53886705139-12">12</div><div class="crayon-num" data-line="crayon-56ee1d6715e53886705139-13">13</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e53886705139-14">14</div><div class="crayon-num" data-line="crayon-56ee1d6715e53886705139-15">15</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e53886705139-16">16</div><div class="crayon-num" data-line="crayon-56ee1d6715e53886705139-17">17</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e53886705139-18">18</div><div class="crayon-num" data-line="crayon-56ee1d6715e53886705139-19">19</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e53886705139-20">20</div><div class="crayon-num" data-line="crayon-56ee1d6715e53886705139-21">21</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e53886705139-22">22</div><div class="crayon-num" data-line="crayon-56ee1d6715e53886705139-23">23</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e53886705139-24">24</div><div class="crayon-num" data-line="crayon-56ee1d6715e53886705139-25">25</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e53886705139-26">26</div><div class="crayon-num" data-line="crayon-56ee1d6715e53886705139-27">27</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e53886705139-28">28</div><div class="crayon-num" data-line="crayon-56ee1d6715e53886705139-29">29</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e53886705139-30">30</div><div class="crayon-num" data-line="crayon-56ee1d6715e53886705139-31">31</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e53886705139-32">32</div><div class="crayon-num" data-line="crayon-56ee1d6715e53886705139-33">33</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e53886705139-34">34</div><div class="crayon-num" data-line="crayon-56ee1d6715e53886705139-35">35</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e53886705139-36">36</div><div class="crayon-num" data-line="crayon-56ee1d6715e53886705139-37">37</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e53886705139-38">38</div><div class="crayon-num" data-line="crayon-56ee1d6715e53886705139-39">39</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e53886705139-40">40</div><div class="crayon-num" data-line="crayon-56ee1d6715e53886705139-41">41</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e53886705139-42">42</div><div class="crayon-num" data-line="crayon-56ee1d6715e53886705139-43">43</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e53886705139-44">44</div><div class="crayon-num" data-line="crayon-56ee1d6715e53886705139-45">45</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e53886705139-46">46</div><div class="crayon-num" data-line="crayon-56ee1d6715e53886705139-47">47</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e53886705139-48">48</div><div class="crayon-num" data-line="crayon-56ee1d6715e53886705139-49">49</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e53886705139-50">50</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56ee1d6715e53886705139-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e53886705139-2"><span class="crayon-t">void</span><span class="crayon-h"> </span><span class="crayon-e">quickSort</span><span class="crayon-sy">(</span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">a</span><span class="crayon-sy">[</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">len</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">left</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">right</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56ee1d6715e53886705139-3"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">left</span><span class="crayon-h"> </span><span class="crayon-o">&gt;=</span><span class="crayon-h"> </span><span class="crayon-v">right</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e53886705139-4"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">return</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56ee1d6715e53886705139-5"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e53886705139-6"><span class="crayon-h">&nbsp;&nbsp;</span></div><div class="crayon-line" id="crayon-56ee1d6715e53886705139-7"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-c">// 一次划分后，得到基准数据的位置</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e53886705139-8"><span class="crayon-h"> </span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">baseIndex</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">partition</span><span class="crayon-sy">(</span><span class="crayon-v">a</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">len</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">left</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">right</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56ee1d6715e53886705139-9"><span class="crayon-h">&nbsp;&nbsp;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e53886705139-10"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-c">// 快排左边部分</span></div><div class="crayon-line" id="crayon-56ee1d6715e53886705139-11"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-e">quickSort</span><span class="crayon-sy">(</span><span class="crayon-v">a</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">len</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">left</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">baseIndex</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e53886705139-12"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-c">// 快排右边部分</span></div><div class="crayon-line" id="crayon-56ee1d6715e53886705139-13"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-e">quickSort</span><span class="crayon-sy">(</span><span class="crayon-v">a</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">len</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">baseIndex</span><span class="crayon-h"> </span><span class="crayon-o">+</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">right</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e53886705139-14"><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56ee1d6715e53886705139-15">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e53886705139-16"><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-e">partition</span><span class="crayon-sy">(</span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">a</span><span class="crayon-sy">[</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">len</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">left</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">right</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56ee1d6715e53886705139-17"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-c">// 每一次的划分，都让第一个元素作为基准</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e53886705139-18"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">base</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">a</span><span class="crayon-sy">[</span><span class="crayon-v">left</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56ee1d6715e53886705139-19"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-c">// 记下刚开始的基准的位置， 便于最后相遇时交换</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e53886705139-20"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">baseIndex</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">left</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56ee1d6715e53886705139-21"><span class="crayon-h">&nbsp;&nbsp;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e53886705139-22"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-st">while</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">left</span><span class="crayon-h"> </span><span class="crayon-o">&lt;</span><span class="crayon-h"> </span><span class="crayon-v">right</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56ee1d6715e53886705139-23"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c">// 查找右部分比base还小的元素的下标</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e53886705139-24"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">while</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">left</span><span class="crayon-h"> </span><span class="crayon-o">&lt;</span><span class="crayon-h"> </span><span class="crayon-v">right</span><span class="crayon-h"> </span><span class="crayon-o">&amp;&amp;</span><span class="crayon-h"> </span><span class="crayon-v">a</span><span class="crayon-sy">[</span><span class="crayon-v">right</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">&gt;=</span><span class="crayon-h"> </span><span class="crayon-v">base</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56ee1d6715e53886705139-25"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">right</span><span class="crayon-o">–</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e53886705139-26"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56ee1d6715e53886705139-27"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e53886705139-28"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c">// 查找左部分比base还大的元素的下标</span></div><div class="crayon-line" id="crayon-56ee1d6715e53886705139-29"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">while</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">left</span><span class="crayon-h"> </span><span class="crayon-o">&lt;</span><span class="crayon-h"> </span><span class="crayon-v">right</span><span class="crayon-h"> </span><span class="crayon-o">&amp;&amp;</span><span class="crayon-h"> </span><span class="crayon-v">a</span><span class="crayon-sy">[</span><span class="crayon-v">left</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">&lt;=</span><span class="crayon-h"> </span><span class="crayon-v">base</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e53886705139-30"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">left</span><span class="crayon-o">++</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56ee1d6715e53886705139-31"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e53886705139-32"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line" id="crayon-56ee1d6715e53886705139-33"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c">// 将这一趟比基准大和比基准小的所找到的第一个值，互相交换</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e53886705139-34"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">swap</span><span class="crayon-sy">(</span><span class="crayon-v">a</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">left</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">right</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56ee1d6715e53886705139-35"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e53886705139-36"><span class="crayon-h">&nbsp;&nbsp;</span></div><div class="crayon-line" id="crayon-56ee1d6715e53886705139-37"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-c">// 在left与right相遇时，将基准数与相遇点交换</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e53886705139-38"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-c">// 这样这一次划分，就可以保证左边的比基准数小，右边的比基准数大</span></div><div class="crayon-line" id="crayon-56ee1d6715e53886705139-39"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-e">swap</span><span class="crayon-sy">(</span><span class="crayon-v">a</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">baseIndex</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">left</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e53886705139-40"><span class="crayon-h">&nbsp;&nbsp;</span></div><div class="crayon-line" id="crayon-56ee1d6715e53886705139-41"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-c">// 划分完成后，以left位置的元素作为新的基准，分成左右序列，分别递归排序</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e53886705139-42"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-st">return</span><span class="crayon-h"> </span><span class="crayon-v">left</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56ee1d6715e53886705139-43"><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e53886705139-44">&nbsp;</div><div class="crayon-line" id="crayon-56ee1d6715e53886705139-45"><span class="crayon-t">void</span><span class="crayon-h"> </span><span class="crayon-e">swap</span><span class="crayon-sy">(</span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">a</span><span class="crayon-sy">[</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">i</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">j</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e53886705139-46"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">temp</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">a</span><span class="crayon-sy">[</span><span class="crayon-v">i</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56ee1d6715e53886705139-47"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">a</span><span class="crayon-sy">[</span><span class="crayon-v">i</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">a</span><span class="crayon-sy">[</span><span class="crayon-v">j</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e53886705139-48"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">a</span><span class="crayon-sy">[</span><span class="crayon-v">j</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">temp</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56ee1d6715e53886705139-49"><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e53886705139-50">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><br></div><br><h1 id="toc_5">Swift版</h1><br><div><br><div id="crayon-56ee1d6715e5a007837637" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-mac print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56ee1d6715e5a007837637-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e5a007837637-2">2</div><div class="crayon-num" data-line="crayon-56ee1d6715e5a007837637-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e5a007837637-4">4</div><div class="crayon-num" data-line="crayon-56ee1d6715e5a007837637-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e5a007837637-6">6</div><div class="crayon-num" data-line="crayon-56ee1d6715e5a007837637-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e5a007837637-8">8</div><div class="crayon-num" data-line="crayon-56ee1d6715e5a007837637-9">9</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e5a007837637-10">10</div><div class="crayon-num" data-line="crayon-56ee1d6715e5a007837637-11">11</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e5a007837637-12">12</div><div class="crayon-num" data-line="crayon-56ee1d6715e5a007837637-13">13</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e5a007837637-14">14</div><div class="crayon-num" data-line="crayon-56ee1d6715e5a007837637-15">15</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e5a007837637-16">16</div><div class="crayon-num" data-line="crayon-56ee1d6715e5a007837637-17">17</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e5a007837637-18">18</div><div class="crayon-num" data-line="crayon-56ee1d6715e5a007837637-19">19</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e5a007837637-20">20</div><div class="crayon-num" data-line="crayon-56ee1d6715e5a007837637-21">21</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e5a007837637-22">22</div><div class="crayon-num" data-line="crayon-56ee1d6715e5a007837637-23">23</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e5a007837637-24">24</div><div class="crayon-num" data-line="crayon-56ee1d6715e5a007837637-25">25</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e5a007837637-26">26</div><div class="crayon-num" data-line="crayon-56ee1d6715e5a007837637-27">27</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e5a007837637-28">28</div><div class="crayon-num" data-line="crayon-56ee1d6715e5a007837637-29">29</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e5a007837637-30">30</div><div class="crayon-num" data-line="crayon-56ee1d6715e5a007837637-31">31</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e5a007837637-32">32</div><div class="crayon-num" data-line="crayon-56ee1d6715e5a007837637-33">33</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e5a007837637-34">34</div><div class="crayon-num" data-line="crayon-56ee1d6715e5a007837637-35">35</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e5a007837637-36">36</div><div class="crayon-num" data-line="crayon-56ee1d6715e5a007837637-37">37</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee1d6715e5a007837637-38">38</div><div class="crayon-num" data-line="crayon-56ee1d6715e5a007837637-39">39</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56ee1d6715e5a007837637-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e5a007837637-2"><span class="crayon-e">func </span><span class="crayon-e">quickSort</span><span class="crayon-sy">(</span><span class="crayon-m">inout</span><span class="crayon-e "> a</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-t">Int</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-e "> left</span><span class="crayon-v">: Int</span><span class="crayon-sy">,</span><span class="crayon-e "> right</span><span class="crayon-v">: Int</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56ee1d6715e5a007837637-3"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-v">left</span><span class="crayon-h"> </span><span class="crayon-o">&gt;=</span><span class="crayon-h"> </span><span class="crayon-v">right</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e5a007837637-4"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">return</span></div><div class="crayon-line" id="crayon-56ee1d6715e5a007837637-5"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e5a007837637-6"><span class="crayon-h">&nbsp;&nbsp;</span></div><div class="crayon-line" id="crayon-56ee1d6715e5a007837637-7"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-e">let </span><span class="crayon-v">baseIndex</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">partition</span><span class="crayon-sy">(</span><span class="crayon-o">&amp;</span><span class="crayon-v">a</span><span class="crayon-sy">,</span><span class="crayon-e "> left</span><span class="crayon-v">: left</span><span class="crayon-sy">,</span><span class="crayon-e "> right</span><span class="crayon-v">: right</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e5a007837637-8"><span class="crayon-h">&nbsp;&nbsp;</span></div><div class="crayon-line" id="crayon-56ee1d6715e5a007837637-9"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-e">quickSort</span><span class="crayon-sy">(</span><span class="crayon-o">&amp;</span><span class="crayon-v">a</span><span class="crayon-sy">,</span><span class="crayon-e "> left</span><span class="crayon-v">: left</span><span class="crayon-sy">,</span><span class="crayon-e "> right</span><span class="crayon-v">: baseIndex</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e5a007837637-10"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-e">quickSort</span><span class="crayon-sy">(</span><span class="crayon-o">&amp;</span><span class="crayon-v">a</span><span class="crayon-sy">,</span><span class="crayon-e "> left</span><span class="crayon-v">: baseIndex</span><span class="crayon-h"> </span><span class="crayon-o">+</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">,</span><span class="crayon-e "> right</span><span class="crayon-v">: right</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-56ee1d6715e5a007837637-11"><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e5a007837637-12">&nbsp;</div><div class="crayon-line" id="crayon-56ee1d6715e5a007837637-13"><span class="crayon-e">func </span><span class="crayon-e">partition</span><span class="crayon-sy">(</span><span class="crayon-m">inout</span><span class="crayon-e "> a</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-t">Int</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">var</span><span class="crayon-e "> left</span><span class="crayon-v">: Int</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">var</span><span class="crayon-e "> right</span><span class="crayon-v">: Int</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">-&gt;</span><span class="crayon-t">Int</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e5a007837637-14"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-e">let </span><span class="crayon-v">base</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">a</span><span class="crayon-sy">[</span><span class="crayon-v">left</span><span class="crayon-sy">]</span></div><div class="crayon-line" id="crayon-56ee1d6715e5a007837637-15"><span class="crayon-e ">&nbsp;&nbsp;let</span><span class="crayon-h"> </span><span class="crayon-v">baseIndex</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">left</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e5a007837637-16"><span class="crayon-e">&nbsp;&nbsp;</span></div><div class="crayon-line" id="crayon-56ee1d6715e5a007837637-17"><span class="crayon-e">&nbsp;&nbsp;</span><span class="crayon-st">while</span><span class="crayon-h"> </span><span class="crayon-v">left</span><span class="crayon-h"> </span><span class="crayon-o">&lt;</span><span class="crayon-h"> </span><span class="crayon-v">right</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e5a007837637-18"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">while</span><span class="crayon-h"> </span><span class="crayon-v">left</span><span class="crayon-h"> </span><span class="crayon-o">&lt;</span><span class="crayon-h"> </span><span class="crayon-v">right</span><span class="crayon-h"> </span><span class="crayon-o">&amp;&amp;</span><span class="crayon-h"> </span><span class="crayon-v">a</span><span class="crayon-sy">[</span><span class="crayon-v">right</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">&gt;=</span><span class="crayon-h"> </span><span class="crayon-v">base</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56ee1d6715e5a007837637-19"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">right</span><span class="crayon-o">–</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e5a007837637-20"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56ee1d6715e5a007837637-21"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e5a007837637-22"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">while</span><span class="crayon-h"> </span><span class="crayon-v">left</span><span class="crayon-h"> </span><span class="crayon-o">&lt;</span><span class="crayon-h"> </span><span class="crayon-v">right</span><span class="crayon-h"> </span><span class="crayon-o">&amp;&amp;</span><span class="crayon-h"> </span><span class="crayon-v">a</span><span class="crayon-sy">[</span><span class="crayon-v">left</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">&lt;=</span><span class="crayon-h"> </span><span class="crayon-v">base</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56ee1d6715e5a007837637-23"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">left</span><span class="crayon-o">++</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e5a007837637-24"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56ee1d6715e5a007837637-25"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e5a007837637-26"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">swapInt</span><span class="crayon-sy">(</span><span class="crayon-o">&amp;</span><span class="crayon-v">a</span><span class="crayon-sy">,</span><span class="crayon-e "> i</span><span class="crayon-v">: left</span><span class="crayon-sy">,</span><span class="crayon-e "> j</span><span class="crayon-v">: right</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-56ee1d6715e5a007837637-27"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e5a007837637-28"><span class="crayon-h">&nbsp;&nbsp;</span></div><div class="crayon-line" id="crayon-56ee1d6715e5a007837637-29"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-e">swapInt</span><span class="crayon-sy">(</span><span class="crayon-o">&amp;</span><span class="crayon-v">a</span><span class="crayon-sy">,</span><span class="crayon-e "> i</span><span class="crayon-v">: baseIndex</span><span class="crayon-sy">,</span><span class="crayon-e "> j</span><span class="crayon-v">: left</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e5a007837637-30"><span class="crayon-h">&nbsp;&nbsp;</span></div><div class="crayon-line" id="crayon-56ee1d6715e5a007837637-31"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-st">return</span><span class="crayon-h"> </span><span class="crayon-v">left</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e5a007837637-32"><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56ee1d6715e5a007837637-33">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e5a007837637-34"><span class="crayon-e">func </span><span class="crayon-e">swapInt</span><span class="crayon-sy">(</span><span class="crayon-m">inout</span><span class="crayon-e "> a</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-t">Int</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-e "> i</span><span class="crayon-v">: Int</span><span class="crayon-sy">,</span><span class="crayon-e "> j</span><span class="crayon-v">: Int</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56ee1d6715e5a007837637-35"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-e">let </span><span class="crayon-v">temp</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">a</span><span class="crayon-sy">[</span><span class="crayon-v">i</span><span class="crayon-sy">]</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e5a007837637-36"><span class="crayon-e ">&nbsp;&nbsp;a</span><span class="crayon-sy">[</span><span class="crayon-v">i</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">a</span><span class="crayon-sy">[</span><span class="crayon-v">j</span><span class="crayon-sy">]</span></div><div class="crayon-line" id="crayon-56ee1d6715e5a007837637-37"><span class="crayon-e ">&nbsp;&nbsp;a</span><span class="crayon-sy">[</span><span class="crayon-v">j</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">temp</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee1d6715e5a007837637-38"><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56ee1d6715e5a007837637-39">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><br></div>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/03/21/iOS系统版本条件编译宏/" rel="next" title="iOS系统版本条件编译宏">
+                <i class="fa fa-chevron-left"></i> iOS系统版本条件编译宏
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/04/20/插入排序/" rel="prev" title="插入排序">
+                插入排序 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2015/04/20/快速排序/"
+     data-title="快速排序"
+     data-content=""
+     data-url="http://yoursite.com/2015/04/20/快速排序/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+        </div>
+
+        
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+        
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/04/20/快速排序/"
+           data-title="快速排序" data-url="http://yoursite.com/2015/04/20/快速排序/">
+      </div>
+    
+  </div>
+
+
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="http://img5.duitang.com/uploads/item/201406/26/20140626193943_WGW2n.thumb.700_0.jpeg" alt="YCK" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">YCK</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">愿世界永无Bug！</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">28</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">1</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yckblog/ykcoder" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> github
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/fav?leftnav=1" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> weibo
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_1"><span class="nav-number">1.</span> <span class="nav-text">算法思想</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_2"><span class="nav-number">2.</span> <span class="nav-text">时间复杂度</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_3"><span class="nav-number">3.</span> <span class="nav-text">伪代码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_4"><span class="nav-number">4.</span> <span class="nav-text">C语言版</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_5"><span class="nav-number">5.</span> <span class="nav-text">Swift版</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">YCK</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"ykcoder"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+
+
+    
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+<script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+<script type="text/javascript" src="/js/motion.js?v=0.4.5.2" id="motion.global"></script>
+
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    motionMiddleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
+
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+
+  
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/MathJax.js"></script>
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/config/TeX-AMS-MML_HTMLorMML.js"></script>
+  
+
+
+  
+  
+
+</body>
+</html>

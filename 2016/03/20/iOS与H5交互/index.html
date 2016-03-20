@@ -1,0 +1,722 @@
+<!doctype html>
+<html class="theme-next   use-motion ">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
+
+
+
+
+
+
+<meta name="description" content="iOS与H5交互的方案
+纵观所有iOS与H5交互的方案，有以下几种：
+第一种：有很多的app直接使用在webview的代理中通过拦截的方式与native进行交互，通常是通过拦截url scheme判断是否是我们需要拦截处理的url及其所对应的要处理的功能是什么。任意版本都支持。第二种：iOS7之后出了JavaScriptCore.framework用于与JS交互，但是不支持iOS6，对于还需要支持">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS与H5交互">
+<meta property="og:url" content="http://yoursite.com/2016/03/20/iOS与H5交互/index.html">
+<meta property="og:site_name" content="YKcoder">
+<meta property="og:description" content="iOS与H5交互的方案
+纵观所有iOS与H5交互的方案，有以下几种：
+第一种：有很多的app直接使用在webview的代理中通过拦截的方式与native进行交互，通常是通过拦截url scheme判断是否是我们需要拦截处理的url及其所对应的要处理的功能是什么。任意版本都支持。第二种：iOS7之后出了JavaScriptCore.framework用于与JS交互，但是不支持iOS6，对于还需要支持">
+<meta property="og:updated_time" content="2016-03-20T13:27:08.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS与H5交互">
+<meta name="twitter:description" content="iOS与H5交互的方案
+纵观所有iOS与H5交互的方案，有以下几种：
+第一种：有很多的app直接使用在webview的代理中通过拦截的方式与native进行交互，通常是通过拦截url scheme判断是否是我们需要拦截处理的url及其所对应的要处理的功能是什么。任意版本都支持。第二种：iOS7之后出了JavaScriptCore.framework用于与JS交互，但是不支持iOS6，对于还需要支持">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post',
+    motion: true
+  };
+</script>
+
+  <title> iOS与H5交互 | YKcoder </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta custom-logo">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">YKcoder</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">没有代码的日子好孤单！</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                iOS与H5交互
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-03-20T21:26:21+08:00" content="2016-03-20">
+              2016-03-20
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/03/20/iOS与H5交互/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/20/iOS与H5交互/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p></p><h1 id="toc_2">iOS与H5交互的方案</h1><p></p>
+<p></p><p>纵观所有iOS与H5交互的方案，有以下几种：</p><p></p>
+<ul><br><li>第一种：有很多的app直接使用在webview的代理中通过拦截的方式与native进行交互，通常是通过拦截url scheme判断是否是我们需要拦截处理的url及其所对应的要处理的功能是什么。任意版本都支持。</li><br><li>第二种：iOS7之后出了JavaScriptCore.framework用于与JS交互，但是不支持iOS6，对于还需要支持iOS6的app，就不能考虑这个了。若需要了解，看最后的推荐阅读。</li><br><li>第三种：WebViewJavascriptBridge开源库使用，本质上，它也是通过webview的代理拦截scheme，然后注入相应的JS。</li><br><li>第四种：react-native，这个没玩过（与前三种不同）。</li><br></ul><br><p>本篇文章专讲讲WebViewJavascriptBridge。</p><br><h1 id="toc_3">WebViewJavascriptBridge的基本原理</h1><br><p>我们看看WebViewJavascriptBridge.m中Webview代理拦截的代码：</p><br><div><br><div id="crayon-56eea1a6d73ea930841152" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-mac print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eea1a6d73ea930841152-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d73ea930841152-2">2</div><div class="crayon-num" data-line="crayon-56eea1a6d73ea930841152-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d73ea930841152-4">4</div><div class="crayon-num" data-line="crayon-56eea1a6d73ea930841152-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d73ea930841152-6">6</div><div class="crayon-num" data-line="crayon-56eea1a6d73ea930841152-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d73ea930841152-8">8</div><div class="crayon-num" data-line="crayon-56eea1a6d73ea930841152-9">9</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d73ea930841152-10">10</div><div class="crayon-num" data-line="crayon-56eea1a6d73ea930841152-11">11</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d73ea930841152-12">12</div><div class="crayon-num" data-line="crayon-56eea1a6d73ea930841152-13">13</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d73ea930841152-14">14</div><div class="crayon-num" data-line="crayon-56eea1a6d73ea930841152-15">15</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d73ea930841152-16">16</div><div class="crayon-num" data-line="crayon-56eea1a6d73ea930841152-17">17</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d73ea930841152-18">18</div><div class="crayon-num" data-line="crayon-56eea1a6d73ea930841152-19">19</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d73ea930841152-20">20</div><div class="crayon-num" data-line="crayon-56eea1a6d73ea930841152-21">21</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d73ea930841152-22">22</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eea1a6d73ea930841152-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d73ea930841152-2"><span class="crayon-o">-</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-t">BOOL</span><span class="crayon-sy">)</span><span class="crayon-e ">webView</span><span class="crayon-o">:</span><span class="crayon-sy">(</span><span class="crayon-t">UIWebView</span><span class="crayon-h"> </span><span class="crayon-t "><em></em></span><span class="crayon-sy">)</span><span class="crayon-v">webView</span><span class="crayon-e "> shouldStartLoadWithRequest</span><span class="crayon-o">:</span><span class="crayon-sy">(</span><span class="crayon-t">NSURLRequest</span><span class="crayon-h"> </span><span class="crayon-t "></span><span class="crayon-sy">)</span><span class="crayon-v">request</span><span class="crayon-e "> navigationType</span><span class="crayon-o">:</span><span class="crayon-sy">(</span><span class="crayon-t">UIWebViewNavigationType</span><span class="crayon-sy">)</span><span class="crayon-v">navigationType</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56eea1a6d73ea930841152-3"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">webView</span><span class="crayon-h"> </span><span class="crayon-o">!=</span><span class="crayon-h"> </span><span class="crayon-v">_webView</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span><span class="crayon-h"> </span><span class="crayon-st">return</span><span class="crayon-h"> </span><span class="crayon-t">YES</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d73ea930841152-4"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-t">NSURL</span><span class="crayon-h"> </span><span class="crayon-v"><em>url</em></span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-e">request </span><span class="crayon-t">URL</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56eea1a6d73ea930841152-5"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">__strong </span><span class="crayon-t">WVJB_WEBVIEW_DELEGATE_TYPE</span><span class="crayon-o"></span><span class="crayon-h"> </span><span class="crayon-v">strongDelegate</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">_webViewDelegate</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d73ea930841152-6"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-sy">[</span><span class="crayon-i">_base</span><span class="crayon-e "> isCorrectProcotocolScheme</span><span class="crayon-v">:url</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56eea1a6d73ea930841152-7"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-sy">[</span><span class="crayon-i">_base</span><span class="crayon-e "> isBridgeLoadedURL</span><span class="crayon-v">:url</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d73ea930841152-8"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">[</span><span class="crayon-e">_base </span><span class="crayon-v">injectJavascriptFile</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56eea1a6d73ea930841152-9"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span><span class="crayon-h"> </span><span class="crayon-st">else</span><span class="crayon-h"> </span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-sy">[</span><span class="crayon-i">_base</span><span class="crayon-e "> isQueueMessageURL</span><span class="crayon-v">:url</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d73ea930841152-10"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-t">NSString</span><span class="crayon-h"> </span><span class="crayon-v"><em>messageQueueString</em></span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-r">self</span><span class="crayon-e "> _evaluateJavascript</span><span class="crayon-o">:</span><span class="crayon-sy">[</span><span class="crayon-e">_base </span><span class="crayon-v">webViewJavascriptFetchQueyCommand</span><span class="crayon-sy">]</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56eea1a6d73ea930841152-11"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">[</span><span class="crayon-i">_base</span><span class="crayon-e "> flushMessageQueue</span><span class="crayon-v">:messageQueueString</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d73ea930841152-12"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span><span class="crayon-h"> </span><span class="crayon-st">else</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56eea1a6d73ea930841152-13"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">[</span><span class="crayon-i">_base</span><span class="crayon-e "> logUnkownMessage</span><span class="crayon-v">:url</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d73ea930841152-14"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56eea1a6d73ea930841152-15"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">return</span><span class="crayon-h"> </span><span class="crayon-t">NO</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d73ea930841152-16"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span><span class="crayon-h"> </span><span class="crayon-st">else</span><span class="crayon-h"> </span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">strongDelegate</span><span class="crayon-h"> </span><span class="crayon-o">&amp;&amp;</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-v">strongDelegate</span><span class="crayon-e "> respondsToSelector</span><span class="crayon-o">:</span><span class="crayon-st">@selector</span><span class="crayon-sy">(</span><span class="crayon-e ">webView</span><span class="crayon-v">:shouldStartLoadWithRequest</span><span class="crayon-v">:navigationType</span><span class="crayon-o">:</span><span class="crayon-sy">)</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56eea1a6d73ea930841152-17"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">return</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-v">strongDelegate</span><span class="crayon-e "> webView</span><span class="crayon-v">:webView</span><span class="crayon-e "> shouldStartLoadWithRequest</span><span class="crayon-v">:request</span><span class="crayon-e "> navigationType</span><span class="crayon-v">:navigationType</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d73ea930841152-18"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span><span class="crayon-h"> </span><span class="crayon-st">else</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56eea1a6d73ea930841152-19"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">return</span><span class="crayon-h"> </span><span class="crayon-t">YES</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d73ea930841152-20"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56eea1a6d73ea930841152-21"><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d73ea930841152-22">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><br></div><br><p>在拦截后，通过先通过-isBridgeLoadedURL:方法判断URL是否是需要bridge的URL，若是，则通过injectJavascriptFile方法注入JS；否则判断URL是否是队列消息，若是，则执行查询命令JS并刷新消息队列；最后，URL被识别为未知的消息。</p><br><h1 id="toc_4">JS端如何使用</h1><br><p>下面是本demo的HTML完整代码：</p><br><div><br><div id="crayon-56eea1a6d73f7794846211" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-mac print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eea1a6d73f7794846211-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d73f7794846211-2">2</div><div class="crayon-num" data-line="crayon-56eea1a6d73f7794846211-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d73f7794846211-4">4</div><div class="crayon-num" data-line="crayon-56eea1a6d73f7794846211-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d73f7794846211-6">6</div><div class="crayon-num" data-line="crayon-56eea1a6d73f7794846211-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d73f7794846211-8">8</div><div class="crayon-num" data-line="crayon-56eea1a6d73f7794846211-9">9</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d73f7794846211-10">10</div><div class="crayon-num" data-line="crayon-56eea1a6d73f7794846211-11">11</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d73f7794846211-12">12</div><div class="crayon-num" data-line="crayon-56eea1a6d73f7794846211-13">13</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d73f7794846211-14">14</div><div class="crayon-num" data-line="crayon-56eea1a6d73f7794846211-15">15</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d73f7794846211-16">16</div><div class="crayon-num" data-line="crayon-56eea1a6d73f7794846211-17">17</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d73f7794846211-18">18</div><div class="crayon-num" data-line="crayon-56eea1a6d73f7794846211-19">19</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d73f7794846211-20">20</div><div class="crayon-num" data-line="crayon-56eea1a6d73f7794846211-21">21</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d73f7794846211-22">22</div><div class="crayon-num" data-line="crayon-56eea1a6d73f7794846211-23">23</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d73f7794846211-24">24</div><div class="crayon-num" data-line="crayon-56eea1a6d73f7794846211-25">25</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d73f7794846211-26">26</div><div class="crayon-num" data-line="crayon-56eea1a6d73f7794846211-27">27</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d73f7794846211-28">28</div><div class="crayon-num" data-line="crayon-56eea1a6d73f7794846211-29">29</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d73f7794846211-30">30</div><div class="crayon-num" data-line="crayon-56eea1a6d73f7794846211-31">31</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d73f7794846211-32">32</div><div class="crayon-num" data-line="crayon-56eea1a6d73f7794846211-33">33</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d73f7794846211-34">34</div><div class="crayon-num" data-line="crayon-56eea1a6d73f7794846211-35">35</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d73f7794846211-36">36</div><div class="crayon-num" data-line="crayon-56eea1a6d73f7794846211-37">37</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d73f7794846211-38">38</div><div class="crayon-num" data-line="crayon-56eea1a6d73f7794846211-39">39</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d73f7794846211-40">40</div><div class="crayon-num" data-line="crayon-56eea1a6d73f7794846211-41">41</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d73f7794846211-42">42</div><div class="crayon-num" data-line="crayon-56eea1a6d73f7794846211-43">43</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d73f7794846211-44">44</div><div class="crayon-num" data-line="crayon-56eea1a6d73f7794846211-45">45</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d73f7794846211-46">46</div><div class="crayon-num" data-line="crayon-56eea1a6d73f7794846211-47">47</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d73f7794846211-48">48</div><div class="crayon-num" data-line="crayon-56eea1a6d73f7794846211-49">49</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d73f7794846211-50">50</div><div class="crayon-num" data-line="crayon-56eea1a6d73f7794846211-51">51</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d73f7794846211-52">52</div><div class="crayon-num" data-line="crayon-56eea1a6d73f7794846211-53">53</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d73f7794846211-54">54</div><div class="crayon-num" data-line="crayon-56eea1a6d73f7794846211-55">55</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d73f7794846211-56">56</div><div class="crayon-num" data-line="crayon-56eea1a6d73f7794846211-57">57</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d73f7794846211-58">58</div><div class="crayon-num" data-line="crayon-56eea1a6d73f7794846211-59">59</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d73f7794846211-60">60</div><div class="crayon-num" data-line="crayon-56eea1a6d73f7794846211-61">61</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d73f7794846211-62">62</div><div class="crayon-num" data-line="crayon-56eea1a6d73f7794846211-63">63</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d73f7794846211-64">64</div><div class="crayon-num" data-line="crayon-56eea1a6d73f7794846211-65">65</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d73f7794846211-66">66</div><div class="crayon-num" data-line="crayon-56eea1a6d73f7794846211-67">67</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d73f7794846211-68">68</div><div class="crayon-num" data-line="crayon-56eea1a6d73f7794846211-69">69</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d73f7794846211-70">70</div><div class="crayon-num" data-line="crayon-56eea1a6d73f7794846211-71">71</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d73f7794846211-72">72</div><div class="crayon-num" data-line="crayon-56eea1a6d73f7794846211-73">73</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d73f7794846211-74">74</div><div class="crayon-num" data-line="crayon-56eea1a6d73f7794846211-75">75</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d73f7794846211-76">76</div><div class="crayon-num" data-line="crayon-56eea1a6d73f7794846211-77">77</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d73f7794846211-78">78</div><div class="crayon-num" data-line="crayon-56eea1a6d73f7794846211-79">79</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d73f7794846211-80">80</div><div class="crayon-num" data-line="crayon-56eea1a6d73f7794846211-81">81</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d73f7794846211-82">82</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eea1a6d73f7794846211-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d73f7794846211-2"><span class="crayon-o">&lt;</span><span class="crayon-o">!</span><span class="crayon-e">doctype </span><span class="crayon-v">html</span><span class="crayon-o">&gt;</span></div><div class="crayon-line" id="crayon-56eea1a6d73f7794846211-3"><span class="crayon-n">&lt;html&gt;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d73f7794846211-4"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-n">&lt;head&gt;</span></div><div class="crayon-line" id="crayon-56eea1a6d73f7794846211-5"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-o">&lt;</span><span class="crayon-e">meta </span><span class="crayon-v">name</span><span class="crayon-o">=</span><span class="crayon-s">“viewport”</span><span class="crayon-h"> </span><span class="crayon-v">content</span><span class="crayon-o">=</span><span class="crayon-s">“user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0”</span><span class="crayon-o">&gt;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d73f7794846211-6"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-ta">&lt;style </span><span class="crayon-e ">type</span><span class="crayon-k ">=’text/css’&gt;</span></div><div class="crayon-line" id="crayon-56eea1a6d73f7794846211-7"><span class="crayon-k ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;html </span><span class="crayon-sy">{</span><span class="crayon-h"> </span><span class="crayon-e ">font-family</span><span class="crayon-sy">:</span><span class="crayon-i ">Helvetica</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-e ">color</span><span class="crayon-sy">:</span><span class="crayon-i ">#222</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d73f7794846211-8"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-k ">h1 </span><span class="crayon-sy">{</span><span class="crayon-h"> </span><span class="crayon-e ">color</span><span class="crayon-sy">:</span><span class="crayon-i ">steelblue</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-e ">font-size</span><span class="crayon-sy">:</span><span class="crayon-i ">24px</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-e ">margin-top</span><span class="crayon-sy">:</span><span class="crayon-i ">24px</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56eea1a6d73f7794846211-9"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-k ">button </span><span class="crayon-sy">{</span><span class="crayon-h"> </span><span class="crayon-e ">margin</span><span class="crayon-sy">:</span><span class="crayon-i ">0</span><span class="crayon-h"> </span><span class="crayon-i ">3px</span><span class="crayon-h"> </span><span class="crayon-i ">10px</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-e ">font-size</span><span class="crayon-sy">:</span><span class="crayon-i ">12px</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d73f7794846211-10"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-k ">.logLine </span><span class="crayon-sy">{</span><span class="crayon-h"> </span><span class="crayon-e ">border-bottom</span><span class="crayon-sy">:</span><span class="crayon-i ">1px</span><span class="crayon-h"> </span><span class="crayon-i ">solid</span><span class="crayon-h"> </span><span class="crayon-i ">#ccc</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-e ">padding</span><span class="crayon-sy">:</span><span class="crayon-i ">4px</span><span class="crayon-h"> </span><span class="crayon-i ">2px</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-e ">font-family</span><span class="crayon-sy">:</span><span class="crayon-i ">courier</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-e ">font-size</span><span class="crayon-sy">:</span><span class="crayon-i ">11px</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56eea1a6d73f7794846211-11"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-ta">&lt;/style&gt;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d73f7794846211-12"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-o">&lt;</span><span class="crayon-o">/</span><span class="crayon-v">head</span><span class="crayon-o">&gt;</span></div><div class="crayon-line" id="crayon-56eea1a6d73f7794846211-13"><span class="crayon-h">&nbsp;&nbsp;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d73f7794846211-14"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-n">&lt;body&gt;</span></div><div class="crayon-line" id="crayon-56eea1a6d73f7794846211-15"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-o">&lt;</span><span class="crayon-v">h1</span><span class="crayon-o">&gt;</span><span class="crayon-t">WebViewJavascriptBridge</span><span class="crayon-h"> </span><span class="crayon-t">Demo</span><span class="crayon-o">&lt;</span><span class="crayon-o">/</span><span class="crayon-v">h1</span><span class="crayon-o">&gt;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d73f7794846211-16"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line" id="crayon-56eea1a6d73f7794846211-17"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-ta">&lt;script&gt;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d73f7794846211-18"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">window</span><span class="crayon-sy">.</span><span class="crayon-v">onerror</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-t">function</span><span class="crayon-sy">(</span><span class="crayon-v">err</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56eea1a6d73f7794846211-19"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">log</span><span class="crayon-sy">(</span><span class="crayon-s">‘window.onerror: ‘</span><span class="crayon-h"> </span><span class="crayon-o">+</span><span class="crayon-h"> </span><span class="crayon-v">err</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d73f7794846211-20"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56eea1a6d73f7794846211-21"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d73f7794846211-22"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c">/这段代码是固定的，必须要放到js中<em>/</em></span></div><div class="crayon-line" id="crayon-56eea1a6d73f7794846211-23"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-t">function</span><span class="crayon-h"> </span><span class="crayon-e">setupWebViewJavascriptBridge</span><span class="crayon-sy">(</span><span class="crayon-v">callback</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d73f7794846211-24"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">window</span><span class="crayon-sy">.</span><span class="crayon-v">WebViewJavascriptBridge</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span><span class="crayon-h"> </span><span class="crayon-st">return</span><span class="crayon-h"> </span><span class="crayon-e">callback</span><span class="crayon-sy">(</span><span class="crayon-v">WebViewJavascriptBridge</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56eea1a6d73f7794846211-25"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">window</span><span class="crayon-sy">.</span><span class="crayon-v">WVJBCallbacks</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span><span class="crayon-h"> </span><span class="crayon-st">return</span><span class="crayon-h"> </span><span class="crayon-v">window</span><span class="crayon-sy">.</span><span class="crayon-v">WVJBCallbacks</span><span class="crayon-sy">.</span><span class="crayon-e">push</span><span class="crayon-sy">(</span><span class="crayon-v">callback</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d73f7794846211-26"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">window</span><span class="crayon-sy">.</span><span class="crayon-v">WVJBCallbacks</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-v">callback</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56eea1a6d73f7794846211-27"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-t">var</span><span class="crayon-h"> </span><span class="crayon-v">WVJBIframe</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">document</span><span class="crayon-sy">.</span><span class="crayon-e">createElement</span><span class="crayon-sy">(</span><span class="crayon-s">‘iframe’</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d73f7794846211-28"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">WVJBIframe</span><span class="crayon-sy">.</span><span class="crayon-v">style</span><span class="crayon-sy">.</span><span class="crayon-e ">display</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">‘none’</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56eea1a6d73f7794846211-29"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">WVJBIframe</span><span class="crayon-sy">.</span><span class="crayon-e ">src</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">‘wvjbscheme://<strong>BRIDGE_LOADED</strong>‘</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d73f7794846211-30"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">document</span><span class="crayon-sy">.</span><span class="crayon-v">documentElement</span><span class="crayon-sy">.</span><span class="crayon-e">appendChild</span><span class="crayon-sy">(</span><span class="crayon-v">WVJBIframe</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56eea1a6d73f7794846211-31"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-r">setTimeout</span><span class="crayon-sy">(</span><span class="crayon-t">function</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span><span class="crayon-h"> </span><span class="crayon-v">document</span><span class="crayon-sy">.</span><span class="crayon-v">documentElement</span><span class="crayon-sy">.</span><span class="crayon-e">removeChild</span><span class="crayon-sy">(</span><span class="crayon-v">WVJBIframe</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">}</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">0</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d73f7794846211-32"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56eea1a6d73f7794846211-33"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d73f7794846211-34"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c">/与OC交互的所有JS方法都要放在此处注册，才能调用通过JS调用OC或者让OC调用这里的JS<em>/</em></span></div><div class="crayon-line" id="crayon-56eea1a6d73f7794846211-35"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">setupWebViewJavascriptBridge</span><span class="crayon-sy">(</span><span class="crayon-t">function</span><span class="crayon-sy">(</span><span class="crayon-v">bridge</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d73f7794846211-36"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-t">var</span><span class="crayon-h"> </span><span class="crayon-v">uniqueId</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">1</span></div><div class="crayon-line" id="crayon-56eea1a6d73f7794846211-37"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-t">function</span><span class="crayon-h"> </span><span class="crayon-e">log</span><span class="crayon-sy">(</span><span class="crayon-v">message</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">data</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d73f7794846211-38"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-t">var</span><span class="crayon-h"> </span><span class="crayon-v">log</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">document</span><span class="crayon-sy">.</span><span class="crayon-e">getElementById</span><span class="crayon-sy">(</span><span class="crayon-s">‘log’</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-56eea1a6d73f7794846211-39"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-t">var</span><span class="crayon-h"> </span><span class="crayon-v">el</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">document</span><span class="crayon-sy">.</span><span class="crayon-e">createElement</span><span class="crayon-sy">(</span><span class="crayon-s">‘div’</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d73f7794846211-40"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-v">el</span><span class="crayon-sy">.</span><span class="crayon-e ">className</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">‘logLine’</span></div><div class="crayon-line" id="crayon-56eea1a6d73f7794846211-41"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-v">el</span><span class="crayon-sy">.</span><span class="crayon-v">innerHTML</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">uniqueId</span><span class="crayon-o">++</span><span class="crayon-h"> </span><span class="crayon-o">+</span><span class="crayon-h"> </span><span class="crayon-s">‘. ‘</span><span class="crayon-h"> </span><span class="crayon-o">+</span><span class="crayon-h"> </span><span class="crayon-v">message</span><span class="crayon-h"> </span><span class="crayon-o">+</span><span class="crayon-h"> </span><span class="crayon-s">‘:&lt;br/&gt;’</span><span class="crayon-h"> </span><span class="crayon-o">+</span><span class="crayon-h"> </span><span class="crayon-v">JSON</span><span class="crayon-sy">.</span><span class="crayon-e">stringify</span><span class="crayon-sy">(</span><span class="crayon-v">data</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d73f7794846211-42"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">log</span><span class="crayon-sy">.</span><span class="crayon-v">children</span><span class="crayon-sy">.</span><span class="crayon-v">length</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56eea1a6d73f7794846211-43"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">log</span><span class="crayon-sy">.</span><span class="crayon-e">insertBefore</span><span class="crayon-sy">(</span><span class="crayon-v">el</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">log</span><span class="crayon-sy">.</span><span class="crayon-v">children</span><span class="crayon-sy">[</span><span class="crayon-cn">0</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d73f7794846211-44"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-sy">}</span><span class="crayon-h"> </span><span class="crayon-st">else</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56eea1a6d73f7794846211-45"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-v">log</span><span class="crayon-sy">.</span><span class="crayon-e">appendChild</span><span class="crayon-sy">(</span><span class="crayon-v">el</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d73f7794846211-46"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56eea1a6d73f7794846211-47"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d73f7794846211-48"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-c">/ Initialize your app here <em>/</em></span></div><div class="crayon-line" id="crayon-56eea1a6d73f7794846211-49"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d73f7794846211-50"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-c">/我们在这注册一个js调用OC的方法，不带参数，且不用ObjC端反馈结果给JS：打开本demo对应的博文<em>/</em></span></div><div class="crayon-line" id="crayon-56eea1a6d73f7794846211-51"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-v">bridge</span><span class="crayon-sy">.</span><span class="crayon-e">registerHandler</span><span class="crayon-sy">(</span><span class="crayon-s">‘openWebviewBridgeArticle’</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-t">function</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d73f7794846211-52"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">log</span><span class="crayon-sy">(</span><span class="crayon-s">“openWebviewBridgeArticle was called with by ObjC”</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-56eea1a6d73f7794846211-53"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-sy">}</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d73f7794846211-54"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-c">/JS给ObjC提供公开的API，在ObjC端可以手动调用JS的这个API。接收ObjC传过来的参数，且可以回调ObjC<em>/</em></span></div><div class="crayon-line" id="crayon-56eea1a6d73f7794846211-55"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-v">bridge</span><span class="crayon-sy">.</span><span class="crayon-e">registerHandler</span><span class="crayon-sy">(</span><span class="crayon-s">‘getUserInfos’</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-t">function</span><span class="crayon-sy">(</span><span class="crayon-v">data</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">responseCallback</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d73f7794846211-56"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-e">log</span><span class="crayon-sy">(</span><span class="crayon-s">“Get user information from ObjC: “</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">data</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-56eea1a6d73f7794846211-57"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-e">responseCallback</span><span class="crayon-sy">(</span><span class="crayon-sy">{</span><span class="crayon-s">‘userId’</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-s">‘123456’</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-s">‘blog’</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-s">‘标哥的技术博客’</span><span class="crayon-sy">}</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d73f7794846211-58"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-sy">}</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-56eea1a6d73f7794846211-59"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d73f7794846211-60"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-c">/JS给ObjC提供公开的API，ObjC端通过注册，就可以在JS端调用此API时，得到回调。ObjC端可以在处理完成后，反馈给JS，这样写就是在载入页面完成时就先调用<em>/</em></span></div><div class="crayon-line" id="crayon-56eea1a6d73f7794846211-61"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-v">bridge</span><span class="crayon-sy">.</span><span class="crayon-e">callHandler</span><span class="crayon-sy">(</span><span class="crayon-s">‘getUserIdFromObjC’</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-t">function</span><span class="crayon-sy">(</span><span class="crayon-v">responseData</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d73f7794846211-62"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-e">log</span><span class="crayon-sy">(</span><span class="crayon-s">“JS call ObjC’s getUserIdFromObjC function, and js received response:”</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">responseData</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-56eea1a6d73f7794846211-63"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-sy">}</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d73f7794846211-64">&nbsp;</div><div class="crayon-line" id="crayon-56eea1a6d73f7794846211-65"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-v">document</span><span class="crayon-sy">.</span><span class="crayon-e">getElementById</span><span class="crayon-sy">(</span><span class="crayon-s">‘blogId’</span><span class="crayon-sy">)</span><span class="crayon-sy">.</span><span class="crayon-v">onclick</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-t">function</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">e</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d73f7794846211-66"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-e">log</span><span class="crayon-sy">(</span><span class="crayon-s">‘js call objc: getBlogNameFromObjC’</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-56eea1a6d73f7794846211-67"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-v">bridge</span><span class="crayon-sy">.</span><span class="crayon-e">callHandler</span><span class="crayon-sy">(</span><span class="crayon-s">‘getBlogNameFromObjC’</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-sy">{</span><span class="crayon-s">‘blogURL’</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-s">‘<a href="http://www.henishuo.com" target="_blank" rel="external">http://www.henishuo.com</a>‘</span><span class="crayon-sy">}</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-t">function</span><span class="crayon-sy">(</span><span class="crayon-v">response</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d73f7794846211-68"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">log</span><span class="crayon-sy">(</span><span class="crayon-s">‘JS got response’</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">response</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-56eea1a6d73f7794846211-69"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d73f7794846211-70"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56eea1a6d73f7794846211-71"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-sy">}</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d73f7794846211-72"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></div><div class="crayon-line" id="crayon-56eea1a6d73f7794846211-73"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-ta">&lt;/script&gt;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d73f7794846211-74"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line" id="crayon-56eea1a6d73f7794846211-75"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-o">&lt;</span><span class="crayon-e">div </span><span class="crayon-t">id</span><span class="crayon-o">=</span><span class="crayon-s">‘buttons’</span><span class="crayon-o">&gt;</span><span class="crayon-o">&lt;</span><span class="crayon-o">/</span><span class="crayon-v">div</span><span class="crayon-o">&gt;</span><span class="crayon-h"> </span><span class="crayon-o">&lt;</span><span class="crayon-e">div </span><span class="crayon-t">id</span><span class="crayon-o">=</span><span class="crayon-s">‘log’</span><span class="crayon-o">&gt;</span><span class="crayon-o">&lt;</span><span class="crayon-o">/</span><span class="crayon-v">div</span><span class="crayon-o">&gt;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d73f7794846211-76"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line" id="crayon-56eea1a6d73f7794846211-77"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-n">&lt;div&gt;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d73f7794846211-78"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-o">&lt;</span><span class="crayon-e">input </span><span class="crayon-v">type</span><span class="crayon-o">=</span><span class="crayon-s">“button”</span><span class="crayon-h"> </span><span class="crayon-v">value</span><span class="crayon-o">=</span><span class="crayon-s">“getBlogNameFromObjC”</span><span class="crayon-h"> </span><span class="crayon-t">id</span><span class="crayon-o">=</span><span class="crayon-s">“blogId”</span><span class="crayon-o">/</span><span class="crayon-o">&gt;</span></div><div class="crayon-line" id="crayon-56eea1a6d73f7794846211-79"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-o">&lt;</span><span class="crayon-o">/</span><span class="crayon-v">div</span><span class="crayon-o">&gt;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d73f7794846211-80"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-o">&lt;</span><span class="crayon-o">/</span><span class="crayon-v">body</span><span class="crayon-o">&gt;</span></div><div class="crayon-line" id="crayon-56eea1a6d73f7794846211-81"><span class="crayon-o">&lt;</span><span class="crayon-o">/</span><span class="crayon-v">html</span><span class="crayon-o">&gt;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d73f7794846211-82">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><br></div><br><p>在JS端，嵌入步骤是：</p><br><ul><br><li>第一步：将下面的代码放在JS中：</li><br></ul><br><div><br><div id="crayon-56eea1a6d7401889999585" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-mac print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eea1a6d7401889999585-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d7401889999585-2">2</div><div class="crayon-num" data-line="crayon-56eea1a6d7401889999585-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d7401889999585-4">4</div><div class="crayon-num" data-line="crayon-56eea1a6d7401889999585-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d7401889999585-6">6</div><div class="crayon-num" data-line="crayon-56eea1a6d7401889999585-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d7401889999585-8">8</div><div class="crayon-num" data-line="crayon-56eea1a6d7401889999585-9">9</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d7401889999585-10">10</div><div class="crayon-num" data-line="crayon-56eea1a6d7401889999585-11">11</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d7401889999585-12">12</div><div class="crayon-num" data-line="crayon-56eea1a6d7401889999585-13">13</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eea1a6d7401889999585-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d7401889999585-2"><span class="crayon-c">/这段代码是固定的，必须要放到js中<em>/</em></span></div><div class="crayon-line" id="crayon-56eea1a6d7401889999585-3"><span class="crayon-e">function </span><span class="crayon-e">setupWebViewJavascriptBridge</span><span class="crayon-sy">(</span><span class="crayon-v">callback</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d7401889999585-4"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">window</span><span class="crayon-sy">.</span><span class="crayon-t">WebViewJavascriptBridge</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span><span class="crayon-h"> </span><span class="crayon-st">return</span><span class="crayon-h"> </span><span class="crayon-e">callback</span><span class="crayon-sy">(</span><span class="crayon-t">WebViewJavascriptBridge</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56eea1a6d7401889999585-5"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">window</span><span class="crayon-sy">.</span><span class="crayon-t">WVJBCallbacks</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span><span class="crayon-h"> </span><span class="crayon-st">return</span><span class="crayon-h"> </span><span class="crayon-v">window</span><span class="crayon-sy">.</span><span class="crayon-t">WVJBCallbacks</span><span class="crayon-sy">.</span><span class="crayon-e">push</span><span class="crayon-sy">(</span><span class="crayon-v">callback</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d7401889999585-6"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">window</span><span class="crayon-sy">.</span><span class="crayon-t">WVJBCallbacks</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-v">callback</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56eea1a6d7401889999585-7"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">var </span><span class="crayon-t">WVJBIframe</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">document</span><span class="crayon-sy">.</span><span class="crayon-e">createElement</span><span class="crayon-sy">(</span><span class="crayon-s">‘iframe’</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d7401889999585-8"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-t">WVJBIframe</span><span class="crayon-sy">.</span><span class="crayon-v">style</span><span class="crayon-sy">.</span><span class="crayon-v">display</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">‘none’</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56eea1a6d7401889999585-9"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-t">WVJBIframe</span><span class="crayon-sy">.</span><span class="crayon-v">src</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">‘wvjbscheme://<strong>BRIDGE_LOADED</strong>‘</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d7401889999585-10"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">document</span><span class="crayon-sy">.</span><span class="crayon-v">documentElement</span><span class="crayon-sy">.</span><span class="crayon-e">appendChild</span><span class="crayon-sy">(</span><span class="crayon-t">WVJBIframe</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56eea1a6d7401889999585-11"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">setTimeout</span><span class="crayon-sy">(</span><span class="crayon-e">function</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span><span class="crayon-h"> </span><span class="crayon-v">document</span><span class="crayon-sy">.</span><span class="crayon-v">documentElement</span><span class="crayon-sy">.</span><span class="crayon-e">removeChild</span><span class="crayon-sy">(</span><span class="crayon-t">WVJBIframe</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">}</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">0</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d7401889999585-12"><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56eea1a6d7401889999585-13">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><br></div><br><p>这段代码是固定的，必须要放到js中。</p><br><ul><br><li>第二步：在下面的方法体里写相关JS代码：</li><br></ul><br><div><br><div id="crayon-56eea1a6d7406627034833" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-mac print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eea1a6d7406627034833-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d7406627034833-2">2</div><div class="crayon-num" data-line="crayon-56eea1a6d7406627034833-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d7406627034833-4">4</div><div class="crayon-num" data-line="crayon-56eea1a6d7406627034833-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d7406627034833-6">6</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eea1a6d7406627034833-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d7406627034833-2"><span class="crayon-e">setupWebViewJavascriptBridge</span><span class="crayon-sy">(</span><span class="crayon-e">function</span><span class="crayon-sy">(</span><span class="crayon-v">bridge</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56eea1a6d7406627034833-3"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c">/ Initialize your app here <em>/</em></span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d7406627034833-4"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span>所有与<span class="crayon-v">iOS</span>交互的<span class="crayon-t">JS</span>代码放这里！</div><div class="crayon-line" id="crayon-56eea1a6d7406627034833-5"><span class="crayon-sy">}</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d7406627034833-6">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><br></div><br><h3 id="toc_5">JS如何调用iOS代码</h3><br><p>通过bridge.callHandler来调用：</p><br><div><br><div id="crayon-56eea1a6d740b373772743" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-mac print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eea1a6d740b373772743-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d740b373772743-2">2</div><div class="crayon-num" data-line="crayon-56eea1a6d740b373772743-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d740b373772743-4">4</div><div class="crayon-num" data-line="crayon-56eea1a6d740b373772743-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d740b373772743-6">6</div><div class="crayon-num" data-line="crayon-56eea1a6d740b373772743-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d740b373772743-8">8</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eea1a6d740b373772743-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d740b373772743-2"><span class="crayon-v">bridge</span><span class="crayon-sy">.</span><span class="crayon-e">callHandler</span><span class="crayon-sy">(</span><span class="crayon-s">‘getBlogNameFromObjC’</span><span class="crayon-sy">,</span><span class="crayon-h"> </span></div><div class="crayon-line" id="crayon-56eea1a6d740b373772743-3"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-sy">{</span><span class="crayon-s">‘blogURL’</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-s">‘<a href="http://www.henishuo.com" target="_blank" rel="external">http://www.henishuo.com</a>‘</span><span class="crayon-sy">}</span><span class="crayon-sy">,</span><span class="crayon-h"> </span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d740b373772743-4"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-e">function </span><span class="crayon-e">callback</span><span class="crayon-sy">(</span><span class="crayon-v">response</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56eea1a6d740b373772743-5"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-e">log</span><span class="crayon-sy">(</span><span class="crayon-s">‘JS got response’</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">response</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d740b373772743-6"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56eea1a6d740b373772743-7"><span class="crayon-sy">}</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d740b373772743-8">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><br></div><br><p>其中，各参数说明如下：</p><br><ul><br><li>getBlogNameFromObjC：是iOS端register的handleName，在iOS端注册后，JS就可以直接通过这个handleName与iOS交互。比如，当点击某个按钮时，就执行上面这一段代码，结果就是js端将参数传给了iOS端，iOS端收到参数，然后通过回调给js，js会收到response，然后打印出来</li><br><li>{‘blogURL’: ‘<a href="http://www.henishuo.com'%7D%EF%BC%9A%E8%BF%99%E6%98%AFJSON%E5%AD%97%E7%AC%A6%E4%B8%B2%EF%BC%8C%E4%BC%A0%E5%88%B0iOS%E7%AB%AF%E4%BC%9A%E8%A2%ABWebViewJavascriptBridge%E8%87%AA%E5%8A%A8%E8%BD%AC%E6%8D%A2%E6%88%90id%E5%AF%B9%E8%B1%A1%EF%BC%8C%E7%84%B6%E5%90%8E%E5%9C%A8%E5%9B%9E%E8%B0%83%E5%A4%84%E7%9C%8B%E5%88%B0%E7%9A%84%E5%B0%B1%E6%98%AF%E5%AD%97%E5%85%B8%E5%AF%B9%E8%B1%A1%E4%BA%86%E3%80%82" target="_blank" rel="external">http://www.henishuo.com’}：这是JSON字符串，传到iOS端会被WebViewJavascriptBridge自动转换成id对象，然后在回调处看到的就是字典对象了。</a></li><br><li>callback：这是个js函数名，在iOS端收到回调后，拿到了参数，然后通过闭包回调反馈给js端，这个反馈就是通过callback函数来传值给js。</li><br></ul><br><h3 id="toc_6">JS端加入WebViewJavascriptBridge代码注意事项</h3><br><p>如果在下面的函数体内有任何错误，都不会有打印日志，也不会有任何回调：</p><br><div><br><div id="crayon-56eea1a6d7411230016333" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-mac print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eea1a6d7411230016333-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d7411230016333-2">2</div><div class="crayon-num" data-line="crayon-56eea1a6d7411230016333-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d7411230016333-4">4</div><div class="crayon-num" data-line="crayon-56eea1a6d7411230016333-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d7411230016333-6">6</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eea1a6d7411230016333-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d7411230016333-2"><span class="crayon-e">setupWebViewJavascriptBridge</span><span class="crayon-sy">(</span><span class="crayon-e">function</span><span class="crayon-sy">(</span><span class="crayon-v">bridge</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56eea1a6d7411230016333-3"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c">/ Initialize your app here */</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d7411230016333-4"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span>所有与<span class="crayon-v">iOS</span>交互的<span class="crayon-t">JS</span>代码放这里！</div><div class="crayon-line" id="crayon-56eea1a6d7411230016333-5"><span class="crayon-sy">}</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d7411230016333-6">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><br></div><br><p>因此，如果遇到什么也没有输出，说明你写错了。另外，上面有demo中，log函数是自定义的，不是系统的，因此如果没有加入这个函数的定义，调用它也会导致不能交互。</p><br><h1 id="toc_7">iOS端如何使用</h1><br><ul><br><li>第一步：开启日志</li><br></ul><br><div><br><div id="crayon-56eea1a6d7415003664219" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-mac print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eea1a6d7415003664219-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d7415003664219-2">2</div><div class="crayon-num" data-line="crayon-56eea1a6d7415003664219-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d7415003664219-4">4</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eea1a6d7415003664219-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d7415003664219-2"><span class="crayon-c">// 开启日志，方便调试</span></div><div class="crayon-line" id="crayon-56eea1a6d7415003664219-3"><span class="crayon-sy">[</span><span class="crayon-t">WebViewJavascriptBridge</span><span class="crayon-h"> </span><span class="crayon-v">enableLogging</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d7415003664219-4">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><br></div><br><ul><br><li>第二步：给ObjC与JS建立桥梁</li><br></ul><br><div><br><div id="crayon-56eea1a6d7419895615578" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-mac print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eea1a6d7419895615578-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d7419895615578-2">2</div><div class="crayon-num" data-line="crayon-56eea1a6d7419895615578-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d7419895615578-4">4</div><div class="crayon-num" data-line="crayon-56eea1a6d7419895615578-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d7419895615578-6">6</div><div class="crayon-num" data-line="crayon-56eea1a6d7419895615578-7">7</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eea1a6d7419895615578-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d7419895615578-2"><span class="crayon-c">// 给哪个webview建立JS与OjbC的沟通桥梁</span></div><div class="crayon-line" id="crayon-56eea1a6d7419895615578-3"><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-v">bridge</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-t">WebViewJavascriptBridge</span><span class="crayon-e "> bridgeForWebView</span><span class="crayon-v">:webView</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d7419895615578-4">&nbsp;</div><div class="crayon-line" id="crayon-56eea1a6d7419895615578-5"><span class="crayon-c">// 设置代理，如果不需要实现，可以不设置</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d7419895615578-6"><span class="crayon-sy">[</span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-v">bridge</span><span class="crayon-e "> setWebViewDelegate</span><span class="crayon-v">:self</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56eea1a6d7419895615578-7">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><br></div><br><ul><br><li>第三步：注册HandleName，用于给JS端调用iOS端</li><br></ul><br><div><br><div id="crayon-56eea1a6d741e267312660" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-mac print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eea1a6d741e267312660-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d741e267312660-2">2</div><div class="crayon-num" data-line="crayon-56eea1a6d741e267312660-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d741e267312660-4">4</div><div class="crayon-num" data-line="crayon-56eea1a6d741e267312660-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d741e267312660-6">6</div><div class="crayon-num" data-line="crayon-56eea1a6d741e267312660-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d741e267312660-8">8</div><div class="crayon-num" data-line="crayon-56eea1a6d741e267312660-9">9</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d741e267312660-10">10</div><div class="crayon-num" data-line="crayon-56eea1a6d741e267312660-11">11</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d741e267312660-12">12</div><div class="crayon-num" data-line="crayon-56eea1a6d741e267312660-13">13</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d741e267312660-14">14</div><div class="crayon-num" data-line="crayon-56eea1a6d741e267312660-15">15</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d741e267312660-16">16</div><div class="crayon-num" data-line="crayon-56eea1a6d741e267312660-17">17</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d741e267312660-18">18</div><div class="crayon-num" data-line="crayon-56eea1a6d741e267312660-19">19</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d741e267312660-20">20</div><div class="crayon-num" data-line="crayon-56eea1a6d741e267312660-21">21</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eea1a6d741e267312660-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d741e267312660-2"><span class="crayon-c">// JS主动调用OjbC的方法</span></div><div class="crayon-line" id="crayon-56eea1a6d741e267312660-3"><span class="crayon-c">// 这是JS会调用getUserIdFromObjC方法，这是OC注册给JS调用的</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d741e267312660-4"><span class="crayon-c">// JS需要回调，当然JS也可以传参数过来。data就是JS所传的参数，不一定需要传</span></div><div class="crayon-line" id="crayon-56eea1a6d741e267312660-5"><span class="crayon-c">// OC端通过responseCallback回调JS端，JS就可以得到所需要的数据</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d741e267312660-6"><span class="crayon-sy">[</span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-v">bridge</span><span class="crayon-e "> registerHandler</span><span class="crayon-o">:</span><span class="crayon-s">@”getUserIdFromObjC”</span><span class="crayon-e "> handler</span><span class="crayon-o">:</span><span class="crayon-o">^</span><span class="crayon-sy">(</span><span class="crayon-t">id</span><span class="crayon-h"> </span><span class="crayon-v">data</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-t">WVJBResponseCallback</span><span class="crayon-h"> </span><span class="crayon-v">responseCallback</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56eea1a6d741e267312660-7"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-t">NSLog</span><span class="crayon-sy">(</span><span class="crayon-s">@”js call getUserIdFromObjC, data from js is %@”</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">data</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d741e267312660-8"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">responseCallback</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56eea1a6d741e267312660-9"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c">// 反馈给JS</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d741e267312660-10"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">responseCallback</span><span class="crayon-sy">(</span><span class="crayon-sy">@</span><span class="crayon-sy">{</span><span class="crayon-s">@”userId”</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-s">@”123456”</span><span class="crayon-sy">}</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56eea1a6d741e267312660-11"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d741e267312660-12"><span class="crayon-sy">}</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56eea1a6d741e267312660-13"><span class="crayon-h">&nbsp;&nbsp;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d741e267312660-14"><span class="crayon-sy">[</span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-v">bridge</span><span class="crayon-e "> registerHandler</span><span class="crayon-o">:</span><span class="crayon-s">@”getBlogNameFromObjC”</span><span class="crayon-e "> handler</span><span class="crayon-o">:</span><span class="crayon-o">^</span><span class="crayon-sy">(</span><span class="crayon-t">id</span><span class="crayon-h"> </span><span class="crayon-v">data</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-t">WVJBResponseCallback</span><span class="crayon-h"> </span><span class="crayon-v">responseCallback</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56eea1a6d741e267312660-15"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-t">NSLog</span><span class="crayon-sy">(</span><span class="crayon-s">@”js call getBlogNameFromObjC, data from js is %@”</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">data</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d741e267312660-16"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">responseCallback</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56eea1a6d741e267312660-17"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c">// 反馈给JS</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d741e267312660-18"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">responseCallback</span><span class="crayon-sy">(</span><span class="crayon-sy">@</span><span class="crayon-sy">{</span><span class="crayon-s">@”blogName”</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-s">@”标哥的技术博客”</span><span class="crayon-sy">}</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56eea1a6d741e267312660-19"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d741e267312660-20"><span class="crayon-sy">}</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56eea1a6d741e267312660-21">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><br></div><br><ul><br><li>第四步：直接调用JS端注册的HandleName</li><br></ul><br><div><br><div id="crayon-56eea1a6d7423797243463" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-mac print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eea1a6d7423797243463-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d7423797243463-2">2</div><div class="crayon-num" data-line="crayon-56eea1a6d7423797243463-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea1a6d7423797243463-4">4</div><div class="crayon-num" data-line="crayon-56eea1a6d7423797243463-5">5</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eea1a6d7423797243463-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d7423797243463-2"><span class="crayon-sy">[</span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-v">bridge</span><span class="crayon-e "> callHandler</span><span class="crayon-o">:</span><span class="crayon-s">@”getUserInfos”</span><span class="crayon-e "> data</span><span class="crayon-o">:</span><span class="crayon-sy">@</span><span class="crayon-sy">{</span><span class="crayon-s">@”name”</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-s">@”标哥”</span><span class="crayon-sy">}</span><span class="crayon-e "> responseCallback</span><span class="crayon-o">:</span><span class="crayon-o">^</span><span class="crayon-sy">(</span><span class="crayon-t">id</span><span class="crayon-h"> </span><span class="crayon-v">responseData</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56eea1a6d7423797243463-3"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-t">NSLog</span><span class="crayon-sy">(</span><span class="crayon-s">@”from js: %@”</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">responseData</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea1a6d7423797243463-4"><span class="crayon-sy">}</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56eea1a6d7423797243463-5">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><br></div><br><h1 id="toc_8">源代码</h1><br><p>大家可以到GITHUB下载源代码，喜欢就随手给个Star：<a href="https://github.com/CoderJackyHuang/WebViewJavascriptBridgeDemo" target="_blank" rel="external">WebViewJavascriptBridgeDemo</a></p><br><h1 id="toc_9">最后</h1><br><p>由于很多朋友不太会使用这个库，再加上群里的小伙伴们经常问这个问题，因此决定写一篇文章来教大家如何去使用。其实在此之前，笔者也没有使用过这个东西。</p><br><p>使用这个库有什么缺点？最明显的就是要固定加入相关代码，而且JS代码要放在固定的函数内添加。那么安卓端是否也支持这样呢？如果不支持，那么H5端要分别判断ios、安卓？由于没有在公司使用过，因此只能带着这些疑问，究竟是否通用。</p><br><p>如果大家在公司使用过，那么一定了解安卓是否兼容。还请大家给笔者在评论中说说！谢谢！</p><br><h1 id="toc_10">推荐阅读</h1><br><ul><br><li><a href="http://www.henishuo.com/oc-js/" target="_blank" rel="external">OC JavaScriptCore与js交互</a></li><br><li><a href="http://www.henishuo.com/category/ios-h5-js/" target="_blank" rel="external">Swift JavaScriptCore与js交互</a></li><br><li><a href="http://www.henishuo.com/wkwebview-js/" target="_blank" rel="external">WKWebView新特性及JS交互</a></li><br><li><a href="http://www.henishuo.com/objc-html-img-preview/" target="_blank" rel="external">ObjC点击H5图片Native预览</a></li><br></ul></span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/03/07/ApplePay支付以及使用ApplePay支付开发步骤/" rel="next" title="ApplePay支付以及使用ApplePay支付开发步骤">
+                <i class="fa fa-chevron-left"></i> ApplePay支付以及使用ApplePay支付开发步骤
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/03/20/iOS-Native加载H5中的图片/" rel="prev" title="iOS Native加载H5中的图片">
+                iOS Native加载H5中的图片 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2016/03/20/iOS与H5交互/"
+     data-title="iOS与H5交互"
+     data-content=""
+     data-url="http://yoursite.com/2016/03/20/iOS与H5交互/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+        </div>
+
+        
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+        
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/03/20/iOS与H5交互/"
+           data-title="iOS与H5交互" data-url="http://yoursite.com/2016/03/20/iOS与H5交互/">
+      </div>
+    
+  </div>
+
+
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="http://img5.duitang.com/uploads/item/201406/26/20140626193943_WGW2n.thumb.700_0.jpeg" alt="YCK" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">YCK</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">愿世界永无Bug！</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">28</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">1</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yckblog/ykcoder" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> github
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/fav?leftnav=1" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> weibo
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_2"><span class="nav-number">1.</span> <span class="nav-text">iOS与H5交互的方案</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_3"><span class="nav-number">2.</span> <span class="nav-text">WebViewJavascriptBridge的基本原理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_4"><span class="nav-number">3.</span> <span class="nav-text">JS端如何使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#toc_5"><span class="nav-number">3.0.1.</span> <span class="nav-text">JS如何调用iOS代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#toc_6"><span class="nav-number">3.0.2.</span> <span class="nav-text">JS端加入WebViewJavascriptBridge代码注意事项</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_7"><span class="nav-number">4.</span> <span class="nav-text">iOS端如何使用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_8"><span class="nav-number">5.</span> <span class="nav-text">源代码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_9"><span class="nav-number">6.</span> <span class="nav-text">最后</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_10"><span class="nav-number">7.</span> <span class="nav-text">推荐阅读</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">YCK</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"ykcoder"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+
+
+    
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+<script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+<script type="text/javascript" src="/js/motion.js?v=0.4.5.2" id="motion.global"></script>
+
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    motionMiddleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
+
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+
+  
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/MathJax.js"></script>
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/config/TeX-AMS-MML_HTMLorMML.js"></script>
+  
+
+
+  
+  
+
+</body>
+</html>

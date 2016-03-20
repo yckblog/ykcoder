@@ -1,0 +1,722 @@
+<!doctype html>
+<html class="theme-next   use-motion ">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
+
+
+
+
+
+
+<meta name="description" content="最近iOS App项目中使用Webview加载H5页面比较多，也有不少朋友经常问到这个问题，在这里我也学习学习如何通过iOS原生的方式来加载H5页面中的图片然后让webview显示图片。
+相信有很多朋友也遇到过这样的问题，可是很多朋友都没有思路，不知如何入手。今天，刚好学习了一下，并写了一个简单的demo。下面让我们一起来学习一下吧！
+本篇文章适合哪些人群阅读？
+项目中有类似需求的，而又没有思路的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS Native加载H5中的图片">
+<meta property="og:url" content="http://yoursite.com/2016/03/20/iOS-Native加载H5中的图片/index.html">
+<meta property="og:site_name" content="YKcoder">
+<meta property="og:description" content="最近iOS App项目中使用Webview加载H5页面比较多，也有不少朋友经常问到这个问题，在这里我也学习学习如何通过iOS原生的方式来加载H5页面中的图片然后让webview显示图片。
+相信有很多朋友也遇到过这样的问题，可是很多朋友都没有思路，不知如何入手。今天，刚好学习了一下，并写了一个简单的demo。下面让我们一起来学习一下吧！
+本篇文章适合哪些人群阅读？
+项目中有类似需求的，而又没有思路的">
+<meta property="og:updated_time" content="2016-03-20T13:51:21.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS Native加载H5中的图片">
+<meta name="twitter:description" content="最近iOS App项目中使用Webview加载H5页面比较多，也有不少朋友经常问到这个问题，在这里我也学习学习如何通过iOS原生的方式来加载H5页面中的图片然后让webview显示图片。
+相信有很多朋友也遇到过这样的问题，可是很多朋友都没有思路，不知如何入手。今天，刚好学习了一下，并写了一个简单的demo。下面让我们一起来学习一下吧！
+本篇文章适合哪些人群阅读？
+项目中有类似需求的，而又没有思路的">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post',
+    motion: true
+  };
+</script>
+
+  <title> iOS Native加载H5中的图片 | YKcoder </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta custom-logo">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">YKcoder</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">没有代码的日子好孤单！</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                iOS Native加载H5中的图片
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-03-20T21:34:00+08:00" content="2016-03-20">
+              2016-03-20
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/03/20/iOS-Native加载H5中的图片/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/20/iOS-Native加载H5中的图片/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p></p><p>最近iOS App项目中使用Webview加载H5页面比较多，也有不少朋友经常问到这个问题，在这里我也学习学习如何通过iOS原生的方式来加载H5页面中的图片然后让webview显示图片。</p><p></p>
+<p></p><p>相信有很多朋友也遇到过这样的问题，可是很多朋友都没有思路，不知如何入手。今天，刚好学习了一下，并写了一个简单的demo。下面让我们一起来学习一下吧！</p><p></p>
+<p></p><p><strong>本篇文章适合哪些人群阅读？</strong></p><p></p>
+<ul><br><li>项目中有类似需求的，而又没有思路的</li><br><li>曾经做过类似需求的，可以参考两者的思想有何异同，比较哪种方式更好</li><br><li>没有做过类似需求，且也没有思路入手的，可以参考学习</li><br></ul><br><p>注意：本文有Objective-C版和Swift，根据个人情况看相关章节</p><br><h1 id="toc_1">思路讲解</h1><br><p>这里有两种方式可以实现：</p><br><ul><br><li>直接使用NSData同步加载图片的方式（<strong>Swift版用同步实现</strong>）</li><br><li>通过其他第三方库异步加载图片的方式（<strong>ObjC版用异步实现</strong>）</li><br></ul><br><h1 id="toc_2">Swift版代码讲解</h1><br><p>下面看看我们的核心代码吧：</p><br><div id="crayon-56eea69a24d30739509525" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-mac print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eea69a24d30739509525-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d30739509525-2">2</div><div class="crayon-num" data-line="crayon-56eea69a24d30739509525-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d30739509525-4">4</div><div class="crayon-num" data-line="crayon-56eea69a24d30739509525-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d30739509525-6">6</div><div class="crayon-num" data-line="crayon-56eea69a24d30739509525-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d30739509525-8">8</div><div class="crayon-num" data-line="crayon-56eea69a24d30739509525-9">9</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d30739509525-10">10</div><div class="crayon-num" data-line="crayon-56eea69a24d30739509525-11">11</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d30739509525-12">12</div><div class="crayon-num" data-line="crayon-56eea69a24d30739509525-13">13</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d30739509525-14">14</div><div class="crayon-num" data-line="crayon-56eea69a24d30739509525-15">15</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d30739509525-16">16</div><div class="crayon-num" data-line="crayon-56eea69a24d30739509525-17">17</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d30739509525-18">18</div><div class="crayon-num" data-line="crayon-56eea69a24d30739509525-19">19</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d30739509525-20">20</div><div class="crayon-num" data-line="crayon-56eea69a24d30739509525-21">21</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d30739509525-22">22</div><div class="crayon-num" data-line="crayon-56eea69a24d30739509525-23">23</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d30739509525-24">24</div><div class="crayon-num" data-line="crayon-56eea69a24d30739509525-25">25</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d30739509525-26">26</div><div class="crayon-num" data-line="crayon-56eea69a24d30739509525-27">27</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d30739509525-28">28</div><div class="crayon-num" data-line="crayon-56eea69a24d30739509525-29">29</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d30739509525-30">30</div><div class="crayon-num" data-line="crayon-56eea69a24d30739509525-31">31</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d30739509525-32">32</div><div class="crayon-num" data-line="crayon-56eea69a24d30739509525-33">33</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d30739509525-34">34</div><div class="crayon-num" data-line="crayon-56eea69a24d30739509525-35">35</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d30739509525-36">36</div><div class="crayon-num" data-line="crayon-56eea69a24d30739509525-37">37</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d30739509525-38">38</div><div class="crayon-num" data-line="crayon-56eea69a24d30739509525-39">39</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d30739509525-40">40</div><div class="crayon-num" data-line="crayon-56eea69a24d30739509525-41">41</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d30739509525-42">42</div><div class="crayon-num" data-line="crayon-56eea69a24d30739509525-43">43</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d30739509525-44">44</div><div class="crayon-num" data-line="crayon-56eea69a24d30739509525-45">45</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d30739509525-46">46</div><div class="crayon-num" data-line="crayon-56eea69a24d30739509525-47">47</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d30739509525-48">48</div><div class="crayon-num" data-line="crayon-56eea69a24d30739509525-49">49</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d30739509525-50">50</div><div class="crayon-num" data-line="crayon-56eea69a24d30739509525-51">51</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d30739509525-52">52</div><div class="crayon-num" data-line="crayon-56eea69a24d30739509525-53">53</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d30739509525-54">54</div><div class="crayon-num" data-line="crayon-56eea69a24d30739509525-55">55</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d30739509525-56">56</div><div class="crayon-num" data-line="crayon-56eea69a24d30739509525-57">57</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d30739509525-58">58</div><div class="crayon-num" data-line="crayon-56eea69a24d30739509525-59">59</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d30739509525-60">60</div><div class="crayon-num" data-line="crayon-56eea69a24d30739509525-61">61</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d30739509525-62">62</div><div class="crayon-num" data-line="crayon-56eea69a24d30739509525-63">63</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d30739509525-64">64</div><div class="crayon-num" data-line="crayon-56eea69a24d30739509525-65">65</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d30739509525-66">66</div><div class="crayon-num" data-line="crayon-56eea69a24d30739509525-67">67</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d30739509525-68">68</div><div class="crayon-num" data-line="crayon-56eea69a24d30739509525-69">69</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eea69a24d30739509525-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d30739509525-2"><span class="crayon-e">let </span><span class="crayon-v">path</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-t">NSBundle</span><span class="crayon-sy">.</span><span class="crayon-e">mainBundle</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-sy">.</span><span class="crayon-e">pathForResource</span><span class="crayon-sy">(</span><span class="crayon-s">“test”</span><span class="crayon-sy">,</span><span class="crayon-e "> ofType</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-s">“html”</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-56eea69a24d30739509525-3"><span class="crayon-e">let </span><span class="crayon-v">url</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-t">NSURL</span><span class="crayon-sy">(</span><span class="crayon-e ">fileURLWithPath</span><span class="crayon-v">: path</span><span class="crayon-o">!</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d30739509525-4">&nbsp;</div><div class="crayon-line" id="crayon-56eea69a24d30739509525-5"><span class="crayon-st">do</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d30739509525-6"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-e">let </span><span class="crayon-v">html</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">try </span><span class="crayon-t">String</span><span class="crayon-sy">(</span><span class="crayon-e ">contentsOfURL</span><span class="crayon-v">: url</span><span class="crayon-sy">,</span><span class="crayon-e "> encoding</span><span class="crayon-v">: NSUTF8StringEncoding</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-56eea69a24d30739509525-7"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-c">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print(html)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d30739509525-8"><span class="crayon-h">&nbsp;&nbsp;</span></div><div class="crayon-line" id="crayon-56eea69a24d30739509525-9"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-c">// 获取所有img src中的src链接，并将src更改名称</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d30739509525-10"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-c">// 这里直接采用同步获取数据，异步也是一样的道理，为了方便写demo，仅以同步加载图片为例。</span></div><div class="crayon-line" id="crayon-56eea69a24d30739509525-11"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-c">// 另外，这不考虑清除缓存的问题。</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d30739509525-12"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-st">do</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56eea69a24d30739509525-13"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">let </span><span class="crayon-v">regex</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">try </span><span class="crayon-t">NSRegularExpression</span><span class="crayon-sy">(</span><span class="crayon-e ">pattern</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-s">“&lt;img\ssrc[^&gt;]<em>/&gt;”</em></span><span class="crayon-sy">,</span><span class="crayon-e "> options</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-sy">.</span><span class="crayon-t">AllowCommentsAndWhitespace</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d30739509525-14"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line" id="crayon-56eea69a24d30739509525-15"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">let </span><span class="crayon-v">result</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">regex</span><span class="crayon-sy">.</span><span class="crayon-e">matchesInString</span><span class="crayon-sy">(</span><span class="crayon-v">html</span><span class="crayon-sy">,</span><span class="crayon-e "> options</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-sy">.</span><span class="crayon-t">ReportCompletion</span><span class="crayon-sy">,</span><span class="crayon-e "> range</span><span class="crayon-v">: NSMakeRange</span><span class="crayon-sy">(</span><span class="crayon-cn">0</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">html</span><span class="crayon-sy">.</span><span class="crayon-v">characters</span><span class="crayon-sy">.</span><span class="crayon-v">count</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d30739509525-16"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line" id="crayon-56eea69a24d30739509525-17"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">var </span><span class="crayon-v">content</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">html </span><span class="crayon-e">as </span><span class="crayon-t">NSString</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d30739509525-18"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">var</span><span class="crayon-e "> sourceSrcs</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-t">String</span><span class="crayon-v">: String</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-s">“”</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-s">“”</span><span class="crayon-sy">]</span></div><div class="crayon-line" id="crayon-56eea69a24d30739509525-19"><span class="crayon-e ">&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d30739509525-20"><span class="crayon-e ">&nbsp;&nbsp;&nbsp;&nbsp;for</span><span class="crayon-h"> </span><span class="crayon-e">item </span><span class="crayon-m">in</span><span class="crayon-h"> </span><span class="crayon-v">result</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56eea69a24d30739509525-21"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">let </span><span class="crayon-v">range</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">item</span><span class="crayon-sy">.</span><span class="crayon-e">rangeAtIndex</span><span class="crayon-sy">(</span><span class="crayon-cn">0</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d30739509525-22"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line" id="crayon-56eea69a24d30739509525-23"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">let </span><span class="crayon-v">imgHtml</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">content</span><span class="crayon-sy">.</span><span class="crayon-e">substringWithRange</span><span class="crayon-sy">(</span><span class="crayon-v">range</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-e">as </span><span class="crayon-t">NSString</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d30739509525-24"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">var </span><span class="crayon-v">array</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-s">“”</span><span class="crayon-sy">]</span></div><div class="crayon-line" id="crayon-56eea69a24d30739509525-25"><span class="crayon-e ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d30739509525-26"><span class="crayon-e ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if</span><span class="crayon-h"> </span><span class="crayon-v">imgHtml</span><span class="crayon-sy">.</span><span class="crayon-e">rangeOfString</span><span class="crayon-sy">(</span><span class="crayon-s">“src=\””</span><span class="crayon-sy">)</span><span class="crayon-sy">.</span><span class="crayon-v">location</span><span class="crayon-h"> </span><span class="crayon-o">!=</span><span class="crayon-h"> </span><span class="crayon-t">NSNotFound</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56eea69a24d30739509525-27"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">array</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">imgHtml</span><span class="crayon-sy">.</span><span class="crayon-e">componentsSeparatedByString</span><span class="crayon-sy">(</span><span class="crayon-s">“src=\””</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d30739509525-28"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span><span class="crayon-h"> </span><span class="crayon-st">else</span><span class="crayon-h"> </span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-v">imgHtml</span><span class="crayon-sy">.</span><span class="crayon-e">rangeOfString</span><span class="crayon-sy">(</span><span class="crayon-s">“src=”</span><span class="crayon-sy">)</span><span class="crayon-sy">.</span><span class="crayon-v">location</span><span class="crayon-h"> </span><span class="crayon-o">!=</span><span class="crayon-h"> </span><span class="crayon-t">NSNotFound</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56eea69a24d30739509525-29"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">array</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">imgHtml</span><span class="crayon-sy">.</span><span class="crayon-e">componentsSeparatedByString</span><span class="crayon-sy">(</span><span class="crayon-s">“src=”</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d30739509525-30"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56eea69a24d30739509525-31"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d30739509525-32"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-v">array</span><span class="crayon-sy">.</span><span class="crayon-v">count</span><span class="crayon-h"> </span><span class="crayon-o">&gt;=</span><span class="crayon-h"> </span><span class="crayon-cn">2</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56eea69a24d30739509525-33"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">var </span><span class="crayon-v">src</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">array</span><span class="crayon-sy">[</span><span class="crayon-cn">1</span><span class="crayon-sy">]</span><span class="crayon-e "> as</span><span class="crayon-h"> </span><span class="crayon-t">NSString</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d30739509525-34"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-v">src</span><span class="crayon-sy">.</span><span class="crayon-e">rangeOfString</span><span class="crayon-sy">(</span><span class="crayon-s">“\””</span><span class="crayon-sy">)</span><span class="crayon-sy">.</span><span class="crayon-v">location</span><span class="crayon-h"> </span><span class="crayon-o">!=</span><span class="crayon-h"> </span><span class="crayon-t">NSNotFound</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56eea69a24d30739509525-35"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">src</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">src</span><span class="crayon-sy">.</span><span class="crayon-e">substringToIndex</span><span class="crayon-sy">(</span><span class="crayon-v">src</span><span class="crayon-sy">.</span><span class="crayon-e">rangeOfString</span><span class="crayon-sy">(</span><span class="crayon-s">“\””</span><span class="crayon-sy">)</span><span class="crayon-sy">.</span><span class="crayon-v">location</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d30739509525-36"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line" id="crayon-56eea69a24d30739509525-37"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c">// 图片链接正确解析出来</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d30739509525-38"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">print</span><span class="crayon-sy">(</span><span class="crayon-v">src</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-56eea69a24d30739509525-39"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d30739509525-40"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c">// 加载图片</span></div><div class="crayon-line" id="crayon-56eea69a24d30739509525-41"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c">// 这里不处理重复加载的问题，实际开发中，应该要做一下处理。</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d30739509525-42"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c">// 也就是先判断是否已经加载过，且未清理掉该缓存的图片。如果</span></div><div class="crayon-line" id="crayon-56eea69a24d30739509525-43"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c">// 已经缓存过，否则才执行下面的语句。</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d30739509525-44"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">let </span><span class="crayon-v">data</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-t">NSData</span><span class="crayon-sy">(</span><span class="crayon-e ">contentsOfURL</span><span class="crayon-v">: NSURL</span><span class="crayon-sy">(</span><span class="crayon-e ">string</span><span class="crayon-v">: src</span><span class="crayon-h"> </span><span class="crayon-e">as </span><span class="crayon-t">String</span><span class="crayon-sy">)</span><span class="crayon-o">!</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-56eea69a24d30739509525-45"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">let </span><span class="crayon-v">localUrl</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-e">saveImageData</span><span class="crayon-sy">(</span><span class="crayon-v">data</span><span class="crayon-o">!</span><span class="crayon-sy">,</span><span class="crayon-e "> name</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-e">src </span><span class="crayon-e">as </span><span class="crayon-t">String</span><span class="crayon-sy">)</span><span class="crayon-sy">.</span><span class="crayon-v">md5</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d30739509525-46"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line" id="crayon-56eea69a24d30739509525-47"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c">// 记录下原URL和本地URL</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d30739509525-48"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c">// 如果用异步加载图片的方式，先可以提交将每个URL起好名字，由于这里使用的是原URL的md5作为名称，</span></div><div class="crayon-line" id="crayon-56eea69a24d30739509525-49"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c">// 因此每个URL的名字是固定的。</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d30739509525-50"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">sourceSrcs</span><span class="crayon-sy">[</span><span class="crayon-e">src </span><span class="crayon-e">as </span><span class="crayon-t">String</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">localUrl</span></div><div class="crayon-line" id="crayon-56eea69a24d30739509525-51"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d30739509525-52"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56eea69a24d30739509525-53"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d30739509525-54"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line" id="crayon-56eea69a24d30739509525-55"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">for</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">src</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">localUrl</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-m">in</span><span class="crayon-h"> </span><span class="crayon-v">sourceSrcs</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d30739509525-56"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-o">!</span><span class="crayon-v">localUrl</span><span class="crayon-sy">.</span><span class="crayon-v">isEmpty</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56eea69a24d30739509525-57"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">content</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">content</span><span class="crayon-sy">.</span><span class="crayon-e">stringByReplacingOccurrencesOfString</span><span class="crayon-sy">(</span><span class="crayon-e">src </span><span class="crayon-e">as </span><span class="crayon-t">String</span><span class="crayon-sy">,</span><span class="crayon-e "> withString</span><span class="crayon-v">: localUrl</span><span class="crayon-sy">,</span><span class="crayon-e "> options</span><span class="crayon-v">: NSStringCompareOptions</span><span class="crayon-sy">.</span><span class="crayon-t">LiteralSearch</span><span class="crayon-sy">,</span><span class="crayon-e "> range</span><span class="crayon-v">: NSMakeRange</span><span class="crayon-sy">(</span><span class="crayon-cn">0</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">content</span><span class="crayon-sy">.</span><span class="crayon-v">length</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d30739509525-58"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56eea69a24d30739509525-59"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d30739509525-60"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line" id="crayon-56eea69a24d30739509525-61"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">print</span><span class="crayon-sy">(</span><span class="crayon-e">content </span><span class="crayon-e">as </span><span class="crayon-t">String</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d30739509525-62"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">webView</span><span class="crayon-sy">.</span><span class="crayon-e">loadHTMLString</span><span class="crayon-sy">(</span><span class="crayon-e">content </span><span class="crayon-e">as </span><span class="crayon-t">String</span><span class="crayon-sy">,</span><span class="crayon-e "> baseURL</span><span class="crayon-v">: url</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-56eea69a24d30739509525-63"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-sy">}</span><span class="crayon-h"> </span><span class="crayon-v">catch</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d30739509525-64"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">print</span><span class="crayon-sy">(</span><span class="crayon-s">“match error”</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-56eea69a24d30739509525-65"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d30739509525-66"><span class="crayon-sy">}</span><span class="crayon-h"> </span><span class="crayon-v">catch</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56eea69a24d30739509525-67"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-e">print</span><span class="crayon-sy">(</span><span class="crayon-s">“load html error”</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d30739509525-68"><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56eea69a24d30739509525-69">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><p></p><br><h3 id="toc_3">NSData同步加载图片</h3><br><p>可以直接通过NSData来加载图片，加载完成后，将图片保存到本地：</p><br><div id="crayon-56eea69a24d51194204774" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-mac print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eea69a24d51194204774-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d51194204774-2">2</div><div class="crayon-num" data-line="crayon-56eea69a24d51194204774-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d51194204774-4">4</div><div class="crayon-num" data-line="crayon-56eea69a24d51194204774-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d51194204774-6">6</div><div class="crayon-num" data-line="crayon-56eea69a24d51194204774-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d51194204774-8">8</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eea69a24d51194204774-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d51194204774-2"><span class="crayon-c">// 加载图片</span></div><div class="crayon-line" id="crayon-56eea69a24d51194204774-3"><span class="crayon-c">// 这里不处理重复加载的问题，实际开发中，应该要做一下处理。</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d51194204774-4"><span class="crayon-c">// 也就是先判断是否已经加载过，且未清理掉该缓存的图片。如果</span></div><div class="crayon-line" id="crayon-56eea69a24d51194204774-5"><span class="crayon-c">// 已经缓存过，否则才执行下面的语句。</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d51194204774-6"><span class="crayon-e">let </span><span class="crayon-v">data</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-t">NSData</span><span class="crayon-sy">(</span><span class="crayon-v">contentsOfURL</span><span class="crayon-v">: NSURL</span><span class="crayon-sy">(</span><span class="crayon-v">string</span><span class="crayon-v">: src</span><span class="crayon-h"> </span><span class="crayon-e">as </span><span class="crayon-t">String</span><span class="crayon-sy">)</span><span class="crayon-o">!</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-56eea69a24d51194204774-7"><span class="crayon-e">let </span><span class="crayon-v">localUrl</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-r">self</span><span class="crayon-sy">.</span><span class="crayon-e">saveImageData</span><span class="crayon-sy">(</span><span class="crayon-v">data</span><span class="crayon-o">!</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">name</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-e">src </span><span class="crayon-e">as </span><span class="crayon-t">String</span><span class="crayon-sy">)</span><span class="crayon-sy">.</span><span class="crayon-v">md5</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d51194204774-8">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><p></p><br><h3 id="toc_4">异步加载图片</h3><br><p>这里的Demo中没有使用异步加载图片，其实与同步没有多大的差别，在这里只是说一下思路，具体开发时，也是很容易套用的。这里很巧妙地使用HTML中的原始图片URL作为Key，而原始图片URL的md5值作为图片的名称，但是只要我们将图片都统一存储到同一个沙盒中的同一个目录下，那么每个图片存储到本地后的名称就是固定的了。因此，我们就可以在匹配到所有的<code>&lt;img src=”…”/&gt;</code>之后，取得src的值，然后将这个url进行md5加密，再获取document目录的路径，就可以得到这个url在异步加载好图片后存储下来的名称，那么我们就可以在异步加载图片之前，先修改这个url为本地存储的路径。剩下的就不用多说了吧。</p><br><p>在处理加也需要存储本地图片路径与网页中的图片链接，并通过键值对的方式来关联起来。</p><br><div id="crayon-56eea69a24d57113208392" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-mac print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eea69a24d57113208392-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d57113208392-2">2</div><div class="crayon-num" data-line="crayon-56eea69a24d57113208392-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d57113208392-4">4</div><div class="crayon-num" data-line="crayon-56eea69a24d57113208392-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d57113208392-6">6</div><div class="crayon-num" data-line="crayon-56eea69a24d57113208392-7">7</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eea69a24d57113208392-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d57113208392-2"><span class="crayon-c">// 记录下原URL和本地URL</span></div><div class="crayon-line" id="crayon-56eea69a24d57113208392-3"><span class="crayon-c">// 如果用异步加载图片的方式，先可以提交将每个URL起好名字，</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d57113208392-4"><span class="crayon-c">// 由于这里使用的是原URL的md5作为名称，</span></div><div class="crayon-line" id="crayon-56eea69a24d57113208392-5"><span class="crayon-c">// 因此每个URL的名字是固定的。</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d57113208392-6"><span class="crayon-v">sourceSrcs</span><span class="crayon-sy">[</span><span class="crayon-e">src </span><span class="crayon-e">as </span><span class="crayon-t">String</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">localUrl</span></div><div class="crayon-line" id="crayon-56eea69a24d57113208392-7">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><p>在获取HTML中原始URL与本地图片的存储路径关联值后，就可以将HTML中的所有原始url替换成我们ios沙盒中存储的图片路径，如下：</p><br><div id="crayon-56eea69a24d5c910060426" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-mac print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eea69a24d5c910060426-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d5c910060426-2">2</div><div class="crayon-num" data-line="crayon-56eea69a24d5c910060426-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d5c910060426-4">4</div><div class="crayon-num" data-line="crayon-56eea69a24d5c910060426-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d5c910060426-6">6</div><div class="crayon-num" data-line="crayon-56eea69a24d5c910060426-7">7</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eea69a24d5c910060426-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d5c910060426-2"><span class="crayon-e">for</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">src</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">localUrl</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-m">in</span><span class="crayon-h"> </span><span class="crayon-v">sourceSrcs</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56eea69a24d5c910060426-3"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-o">!</span><span class="crayon-v">localUrl</span><span class="crayon-sy">.</span><span class="crayon-v">isEmpty</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d5c910060426-4"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">content</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">content</span><span class="crayon-sy">.</span><span class="crayon-e">stringByReplacingOccurrencesOfString</span><span class="crayon-sy">(</span><span class="crayon-e">src </span><span class="crayon-e">as </span><span class="crayon-t">String</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">withString</span><span class="crayon-v">: localUrl</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">options</span><span class="crayon-v">: NSStringCompareOptions</span><span class="crayon-sy">.</span><span class="crayon-t">LiteralSearch</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">range</span><span class="crayon-v">: NSMakeRange</span><span class="crayon-sy">(</span><span class="crayon-cn">0</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">content</span><span class="crayon-sy">.</span><span class="crayon-v">length</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-56eea69a24d5c910060426-5"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d5c910060426-6"><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56eea69a24d5c910060426-7">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><p>当我们已经全部将HTML中原始的图片路径都替换成ios沙盒中存储的图片路径后，就可以通过Webview加载了：</p><br><div id="crayon-56eea69a24d64409398068" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-mac print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eea69a24d64409398068-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d64409398068-2">2</div><div class="crayon-num" data-line="crayon-56eea69a24d64409398068-3">3</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eea69a24d64409398068-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d64409398068-2"><span class="crayon-v">webView</span><span class="crayon-sy">.</span><span class="crayon-e">loadHTMLString</span><span class="crayon-sy">(</span><span class="crayon-e">content </span><span class="crayon-e">as </span><span class="crayon-t">String</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">baseURL</span><span class="crayon-v">: url</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-56eea69a24d64409398068-3">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><p></p><br><h1 id="toc_5">ObjC版代码讲解</h1><br><p>首先，我们要获取HTML内容，并通过正则表达式来匹配出所有的<code>&lt;img src=”…”/&gt;</code>的标签：</p><br><div id="crayon-56eea69a24d68075252827" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-mac print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eea69a24d68075252827-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d68075252827-2">2</div><div class="crayon-num" data-line="crayon-56eea69a24d68075252827-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d68075252827-4">4</div><div class="crayon-num" data-line="crayon-56eea69a24d68075252827-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d68075252827-6">6</div><div class="crayon-num" data-line="crayon-56eea69a24d68075252827-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d68075252827-8">8</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eea69a24d68075252827-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d68075252827-2"><span class="crayon-t">NSURL</span><span class="crayon-h"> </span><span class="crayon-v">url</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-sy">[</span><span class="crayon-t">NSBundle</span><span class="crayon-h"> </span><span class="crayon-v">mainBundle</span><span class="crayon-sy">]</span><span class="crayon-e "> URLForResource</span><span class="crayon-o">:</span><span class="crayon-s">@”test”</span><span class="crayon-e "> withExtension</span><span class="crayon-o">:</span><span class="crayon-s">@”html”</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56eea69a24d68075252827-3"><span class="crayon-t">NSString</span><span class="crayon-h"> </span><span class="crayon-v"><em>html</em></span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-sy">[</span><span class="crayon-t">NSString</span><span class="crayon-h"> </span><span class="crayon-r">alloc</span><span class="crayon-sy">]</span><span class="crayon-e "> initWithContentsOfURL</span><span class="crayon-v">:url</span><span class="crayon-e "> encoding</span><span class="crayon-v">:NSUTF8StringEncoding</span><span class="crayon-e "> error</span><span class="crayon-v">:nil</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d68075252827-4"><span class="crayon-h">&nbsp;&nbsp;</span></div><div class="crayon-line" id="crayon-56eea69a24d68075252827-5"><span class="crayon-t">NSRegularExpression</span><span class="crayon-h"> </span><span class="crayon-v">regex</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-t">NSRegularExpression</span><span class="crayon-e "> regularExpressionWithPattern</span><span class="crayon-o">:</span><span class="crayon-s">@”&lt;img\ssrc[^&gt;]<em>/&gt;”</em></span><span class="crayon-e "> options</span><span class="crayon-v">:NSRegularExpressionAllowCommentsAndWhitespace</span><span class="crayon-e "> error</span><span class="crayon-v">:nil</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d68075252827-6"><span class="crayon-h">&nbsp;&nbsp;</span></div><div class="crayon-line" id="crayon-56eea69a24d68075252827-7"><span class="crayon-t">NSArray</span><span class="crayon-h"> </span><span class="crayon-v">result</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-v">regex</span><span class="crayon-e "> matchesInString</span><span class="crayon-v">:html</span><span class="crayon-e "> options</span><span class="crayon-v">:NSMatchingReportCompletion</span><span class="crayon-e "> range</span><span class="crayon-v">:NSMakeRange</span><span class="crayon-sy">(</span><span class="crayon-cn">0</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">html</span><span class="crayon-sy">.</span><span class="crayon-v">length</span><span class="crayon-sy">)</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d68075252827-8">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><p>接下来，我们需要一个字典来存储HTML原始的URL和与之关联的本地URL。由于使用原始URL的md5值作为文件名字，因此本地路径也就唯一确定了。这里就将图片都放到Document下。</p><br><div id="crayon-56eea69a24d6e879952780" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-mac print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eea69a24d6e879952780-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d6e879952780-2">2</div><div class="crayon-num" data-line="crayon-56eea69a24d6e879952780-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d6e879952780-4">4</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eea69a24d6e879952780-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d6e879952780-2"><span class="crayon-t">NSMutableDictionary</span><span class="crayon-h"> </span><span class="crayon-v"><em>urlDicts</em></span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-sy">[</span><span class="crayon-t">NSMutableDictionary</span><span class="crayon-h"> </span><span class="crayon-r">alloc</span><span class="crayon-sy">]</span><span class="crayon-e "> init</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56eea69a24d6e879952780-3"><span class="crayon-t">NSString</span><span class="crayon-h"> </span><span class="crayon-v">docPath</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-t">NSHomeDirectory</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-e "> stringByAppendingPathComponent</span><span class="crayon-o">:</span><span class="crayon-s">@”Documents”</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d6e879952780-4">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><p>然后，我们需要遍历所有匹配到的<code>&lt;img src=”…”/&gt;</code>标签，并提取出Src属性值，也就是我们要的原始URL。将并该URL存储下来，以便下一步替换。</p><br><div id="crayon-56eea69a24d73986012170" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-mac print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eea69a24d73986012170-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d73986012170-2">2</div><div class="crayon-num" data-line="crayon-56eea69a24d73986012170-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d73986012170-4">4</div><div class="crayon-num" data-line="crayon-56eea69a24d73986012170-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d73986012170-6">6</div><div class="crayon-num" data-line="crayon-56eea69a24d73986012170-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d73986012170-8">8</div><div class="crayon-num" data-line="crayon-56eea69a24d73986012170-9">9</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d73986012170-10">10</div><div class="crayon-num" data-line="crayon-56eea69a24d73986012170-11">11</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d73986012170-12">12</div><div class="crayon-num" data-line="crayon-56eea69a24d73986012170-13">13</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d73986012170-14">14</div><div class="crayon-num" data-line="crayon-56eea69a24d73986012170-15">15</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d73986012170-16">16</div><div class="crayon-num" data-line="crayon-56eea69a24d73986012170-17">17</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d73986012170-18">18</div><div class="crayon-num" data-line="crayon-56eea69a24d73986012170-19">19</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d73986012170-20">20</div><div class="crayon-num" data-line="crayon-56eea69a24d73986012170-21">21</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d73986012170-22">22</div><div class="crayon-num" data-line="crayon-56eea69a24d73986012170-23">23</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d73986012170-24">24</div><div class="crayon-num" data-line="crayon-56eea69a24d73986012170-25">25</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d73986012170-26">26</div><div class="crayon-num" data-line="crayon-56eea69a24d73986012170-27">27</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d73986012170-28">28</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eea69a24d73986012170-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d73986012170-2"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-e">for</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-t">NSTextCheckingResult</span><span class="crayon-h"> </span><span class="crayon-v"><em>item</em></span><span class="crayon-h"> </span><span class="crayon-m">in</span><span class="crayon-h"> </span><span class="crayon-v">result</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56eea69a24d73986012170-3"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-t">NSString</span><span class="crayon-h"> </span><span class="crayon-v">imgHtml</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-v">html</span><span class="crayon-e "> substringWithRange</span><span class="crayon-o">:</span><span class="crayon-sy">[</span><span class="crayon-v">item</span><span class="crayon-e "> rangeAtIndex</span><span class="crayon-o">:</span><span class="crayon-cn">0</span><span class="crayon-sy">]</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d73986012170-4"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line" id="crayon-56eea69a24d73986012170-5"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-t">NSArray</span><span class="crayon-h"> </span><span class="crayon-v"><em>tmpArray</em></span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-t">nil</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d73986012170-6"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-sy">[</span><span class="crayon-v">imgHtml</span><span class="crayon-e "> rangeOfString</span><span class="crayon-o">:</span><span class="crayon-s">@”src=\””</span><span class="crayon-sy">]</span><span class="crayon-sy">.</span><span class="crayon-v">location</span><span class="crayon-h"> </span><span class="crayon-o">!=</span><span class="crayon-h"> </span><span class="crayon-t">NSNotFound</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56eea69a24d73986012170-7"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">tmpArray</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-v">imgHtml</span><span class="crayon-e "> componentsSeparatedByString</span><span class="crayon-o">:</span><span class="crayon-s">@”src=\””</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d73986012170-8"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span><span class="crayon-h"> </span><span class="crayon-st">else</span><span class="crayon-h"> </span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-sy">[</span><span class="crayon-v">imgHtml</span><span class="crayon-e "> rangeOfString</span><span class="crayon-o">:</span><span class="crayon-s">@”src=”</span><span class="crayon-sy">]</span><span class="crayon-sy">.</span><span class="crayon-v">location</span><span class="crayon-h"> </span><span class="crayon-o">!=</span><span class="crayon-h"> </span><span class="crayon-t">NSNotFound</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56eea69a24d73986012170-9"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">tmpArray</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-v">imgHtml</span><span class="crayon-e "> componentsSeparatedByString</span><span class="crayon-o">:</span><span class="crayon-s">@”src=”</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d73986012170-10"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56eea69a24d73986012170-11"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d73986012170-12"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">tmpArray</span><span class="crayon-sy">.</span><span class="crayon-v">count</span><span class="crayon-h"> </span><span class="crayon-o">&gt;=</span><span class="crayon-h"> </span><span class="crayon-cn">2</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56eea69a24d73986012170-13"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-t">NSString</span><span class="crayon-h"> </span><span class="crayon-v">src</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">tmpArray</span><span class="crayon-sy">[</span><span class="crayon-cn">1</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d73986012170-14"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line" id="crayon-56eea69a24d73986012170-15"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-t">NSUInteger</span><span class="crayon-h"> </span><span class="crayon-v">loc</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-v">src</span><span class="crayon-e "> rangeOfString</span><span class="crayon-o">:</span><span class="crayon-s">@”\””</span><span class="crayon-sy">]</span><span class="crayon-sy">.</span><span class="crayon-v">location</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d73986012170-16"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">loc</span><span class="crayon-h"> </span><span class="crayon-o">!=</span><span class="crayon-h"> </span><span class="crayon-t">NSNotFound</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56eea69a24d73986012170-17"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">src</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-v">src</span><span class="crayon-e "> substringToIndex</span><span class="crayon-v">:loc</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d73986012170-18"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line" id="crayon-56eea69a24d73986012170-19"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-t">NSLog</span><span class="crayon-sy">(</span><span class="crayon-s">@”正确解析出来的SRC为：%@”</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">src</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d73986012170-20"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">src</span><span class="crayon-sy">.</span><span class="crayon-v">length</span><span class="crayon-h"> </span><span class="crayon-o">&gt;</span><span class="crayon-h"> </span><span class="crayon-cn">0</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56eea69a24d73986012170-21"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-t">NSString</span><span class="crayon-h"> </span><span class="crayon-v"><em>localPath</em></span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-v">docPath</span><span class="crayon-e "> stringByAppendingPathComponent</span><span class="crayon-o">:</span><span class="crayon-sy">[</span><span class="crayon-r">self</span><span class="crayon-e "> md5</span><span class="crayon-v">:src</span><span class="crayon-sy">]</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d73986012170-22"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c">// 先将链接取个本地名字，且获取完整路径</span></div><div class="crayon-line" id="crayon-56eea69a24d73986012170-23"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">[</span><span class="crayon-v">urlDicts</span><span class="crayon-e "> setObject</span><span class="crayon-v">:localPath</span><span class="crayon-e "> forKey</span><span class="crayon-v">:src</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d73986012170-24"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56eea69a24d73986012170-25"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d73986012170-26"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56eea69a24d73986012170-27"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d73986012170-28">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><p>下一步，我们需要将HTML中所有的原始src的url值替换成我们app的沙盒中的图片路径，如果该路径中未存在，则需要去下载图片，否则不需要重复下载。如下：</p><br><div id="crayon-56eea69a24d79064734671" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-mac print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eea69a24d79064734671-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d79064734671-2">2</div><div class="crayon-num" data-line="crayon-56eea69a24d79064734671-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d79064734671-4">4</div><div class="crayon-num" data-line="crayon-56eea69a24d79064734671-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d79064734671-6">6</div><div class="crayon-num" data-line="crayon-56eea69a24d79064734671-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d79064734671-8">8</div><div class="crayon-num" data-line="crayon-56eea69a24d79064734671-9">9</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d79064734671-10">10</div><div class="crayon-num" data-line="crayon-56eea69a24d79064734671-11">11</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d79064734671-12">12</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eea69a24d79064734671-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d79064734671-2"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-c">// 遍历所有的URL，替换成本地的URL，并异步获取图片</span></div><div class="crayon-line" id="crayon-56eea69a24d79064734671-3"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-e">for</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-t">NSString</span><span class="crayon-h"> </span><span class="crayon-v">src</span><span class="crayon-h"> </span><span class="crayon-m">in</span><span class="crayon-h"> </span><span class="crayon-v">urlDicts</span><span class="crayon-sy">.</span><span class="crayon-v">allKeys</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d79064734671-4"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-t">NSString</span><span class="crayon-h"> </span><span class="crayon-v"><em>localPath</em></span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-v">urlDicts</span><span class="crayon-e "> objectForKey</span><span class="crayon-v">:src</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56eea69a24d79064734671-5"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">html</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-v">html</span><span class="crayon-e "> stringByReplacingOccurrencesOfString</span><span class="crayon-v">:src</span><span class="crayon-e "> withString</span><span class="crayon-v">:localPath</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d79064734671-6"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line" id="crayon-56eea69a24d79064734671-7"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c">// 如果已经缓存过，就不需要重复加载了。</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d79064734671-8"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-o">!</span><span class="crayon-sy">[</span><span class="crayon-sy">[</span><span class="crayon-t">NSFileManager</span><span class="crayon-h"> </span><span class="crayon-v">defaultManager</span><span class="crayon-sy">]</span><span class="crayon-e "> fileExistsAtPath</span><span class="crayon-v">:localPath</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56eea69a24d79064734671-9"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">[</span><span class="crayon-r">self</span><span class="crayon-e "> downloadImageWithUrl</span><span class="crayon-v">:src</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d79064734671-10"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56eea69a24d79064734671-11"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d79064734671-12">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><p>下载图片后，还需要将图片存储到该原始url对应的本地路径，也就是Document下,其文件名为原始url的md5值，其他也就可以得出去唯一路径。这里只贴出存储代码，关于如何下载图片，查看demo。</p><br><div id="crayon-56eea69a24d7e452108655" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-mac print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eea69a24d7e452108655-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d7e452108655-2">2</div><div class="crayon-num" data-line="crayon-56eea69a24d7e452108655-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d7e452108655-4">4</div><div class="crayon-num" data-line="crayon-56eea69a24d7e452108655-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d7e452108655-6">6</div><div class="crayon-num" data-line="crayon-56eea69a24d7e452108655-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d7e452108655-8">8</div><div class="crayon-num" data-line="crayon-56eea69a24d7e452108655-9">9</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d7e452108655-10">10</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eea69a24d7e452108655-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d7e452108655-2"><span class="crayon-t">NSData</span><span class="crayon-h"> </span><span class="crayon-v">data</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-t">UIImagePNGRepresentation</span><span class="crayon-sy">(</span><span class="crayon-v">image</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56eea69a24d7e452108655-3"><span class="crayon-t">NSString</span><span class="crayon-h"> </span><span class="crayon-v"><em>docPath</em></span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-t">NSHomeDirectory</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-e "> stringByAppendingPathComponent</span><span class="crayon-o">:</span><span class="crayon-s">@”Documents”</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d7e452108655-4">&nbsp;</div><div class="crayon-line" id="crayon-56eea69a24d7e452108655-5"><span class="crayon-t">NSString</span><span class="crayon-h"> </span><span class="crayon-v">localPath</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-v">docPath</span><span class="crayon-e "> stringByAppendingPathComponent</span><span class="crayon-o">:</span><span class="crayon-sy">[</span><span class="crayon-r">self</span><span class="crayon-e "> md5</span><span class="crayon-v">:src</span><span class="crayon-sy">]</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d7e452108655-6"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line" id="crayon-56eea69a24d7e452108655-7"><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-o">!</span><span class="crayon-sy">[</span><span class="crayon-v">data</span><span class="crayon-e "> writeToFile</span><span class="crayon-v">:localPath</span><span class="crayon-e "> atomically</span><span class="crayon-v">:NO</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d7e452108655-8"><span class="crayon-h">&nbsp;&nbsp; </span><span class="crayon-t">NSLog</span><span class="crayon-sy">(</span><span class="crayon-s">@”写入本地失败：%@”</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">src</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56eea69a24d7e452108655-9"><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d7e452108655-10">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><p></p><br><h1 id="toc_6">难点</h1><br><p>这里有几处难点：</p><br><ul><br><li>如何匹配<code>&lt;img src=”…”/&gt;</code>来查找图片链接</li><br><li>在匹配到以后，如何获取src的值</li><br><li>在得到src的值以后，如何在iOS原生获取图片后让webview加载</li><br></ul><br><p>这里使用了正则表达式来匹配查找<code>&lt;img src=”…”/&gt;</code>，匹配结果可能有多个，遍历数组就可以处理所有的图片链接:</p><br><div id="crayon-56eea69a24d84053006294" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-mac print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eea69a24d84053006294-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d84053006294-2">2</div><div class="crayon-num" data-line="crayon-56eea69a24d84053006294-3">3</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eea69a24d84053006294-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d84053006294-2"><span class="crayon-t">NSRegularExpression</span><span class="crayon-sy">(</span><span class="crayon-v">pattern</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-s">“&lt;img\ssrc[^&gt;]*/&gt;”</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">options</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-sy">.</span><span class="crayon-t">AllowCommentsAndWhitespace</span></div><div class="crayon-line" id="crayon-56eea69a24d84053006294-3">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><p></p><br><h1 id="toc_7">存储图片到沙盒</h1><br><p>通过获取到HTML中图片的链接后，我们需要通过ios原生的方式来发起请求，加载图片，在加载完成后，我们需要将图片存储到沙盒中document下：</p><br><div id="crayon-56eea69a24d88442647571" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-mac print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eea69a24d88442647571-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d88442647571-2">2</div><div class="crayon-num" data-line="crayon-56eea69a24d88442647571-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d88442647571-4">4</div><div class="crayon-num" data-line="crayon-56eea69a24d88442647571-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d88442647571-6">6</div><div class="crayon-num" data-line="crayon-56eea69a24d88442647571-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d88442647571-8">8</div><div class="crayon-num" data-line="crayon-56eea69a24d88442647571-9">9</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d88442647571-10">10</div><div class="crayon-num" data-line="crayon-56eea69a24d88442647571-11">11</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d88442647571-12">12</div><div class="crayon-num" data-line="crayon-56eea69a24d88442647571-13">13</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d88442647571-14">14</div><div class="crayon-num" data-line="crayon-56eea69a24d88442647571-15">15</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d88442647571-16">16</div><div class="crayon-num" data-line="crayon-56eea69a24d88442647571-17">17</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d88442647571-18">18</div><div class="crayon-num" data-line="crayon-56eea69a24d88442647571-19">19</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d88442647571-20">20</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eea69a24d88442647571-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d88442647571-2"><span class="crayon-e">func </span><span class="crayon-e">saveImageData</span><span class="crayon-sy">(</span><span class="crayon-e ">data</span><span class="crayon-v">: NSData</span><span class="crayon-sy">,</span><span class="crayon-e "> name</span><span class="crayon-v">: String</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">-&gt;</span><span class="crayon-t">String</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56eea69a24d88442647571-3"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-e">let </span><span class="crayon-v">docPath</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-t">NSSearchPathForDirectoriesInDomains</span><span class="crayon-sy">(</span><span class="crayon-t">NSSearchPathDirectory</span><span class="crayon-sy">.</span><span class="crayon-t">DocumentDirectory</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-t">NSSearchPathDomainMask</span><span class="crayon-sy">.</span><span class="crayon-t">UserDomainMask</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">true</span><span class="crayon-sy">)</span><span class="crayon-sy">[</span><span class="crayon-cn">0</span><span class="crayon-sy">]</span><span class="crayon-e "> as</span><span class="crayon-h"> </span><span class="crayon-t">NSString</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d88442647571-4"><span class="crayon-h">&nbsp;&nbsp;</span></div><div class="crayon-line" id="crayon-56eea69a24d88442647571-5"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-e">let </span><span class="crayon-v">path</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">docPath</span><span class="crayon-sy">.</span><span class="crayon-e">stringByAppendingPathComponent</span><span class="crayon-sy">(</span><span class="crayon-v">name</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d88442647571-6"><span class="crayon-h">&nbsp;&nbsp;</span></div><div class="crayon-line" id="crayon-56eea69a24d88442647571-7"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-c">// 若已经缓存过，就不需要重复操作了</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d88442647571-8"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-t">NSFileManager</span><span class="crayon-sy">.</span><span class="crayon-e">defaultManager</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-sy">.</span><span class="crayon-e">fileExistsAtPath</span><span class="crayon-sy">(</span><span class="crayon-v">path</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56eea69a24d88442647571-9"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">return</span><span class="crayon-h"> </span><span class="crayon-v">path</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d88442647571-10"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56eea69a24d88442647571-11"><span class="crayon-h">&nbsp;&nbsp;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d88442647571-12"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-st">do</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56eea69a24d88442647571-13"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">try </span><span class="crayon-v">data</span><span class="crayon-sy">.</span><span class="crayon-e">writeToFile</span><span class="crayon-sy">(</span><span class="crayon-v">path</span><span class="crayon-sy">,</span><span class="crayon-e "> options</span><span class="crayon-v">: NSDataWritingOptions</span><span class="crayon-sy">.</span><span class="crayon-t">DataWritingAtomic</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d88442647571-14"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-sy">}</span><span class="crayon-h"> </span><span class="crayon-v">catch</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56eea69a24d88442647571-15"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">print</span><span class="crayon-sy">(</span><span class="crayon-s">“save image data with name: <span class="crayon-sy">\</span><span class="crayon-sy">(</span><span class="crayon-v">name</span><span class="crayon-sy">)</span> error”</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d88442647571-16"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56eea69a24d88442647571-17"><span class="crayon-h">&nbsp;&nbsp;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d88442647571-18"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-st">return</span><span class="crayon-h"> </span><span class="crayon-v">path</span></div><div class="crayon-line" id="crayon-56eea69a24d88442647571-19"><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d88442647571-20">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><p></p><br><h1 id="toc_8">验证是否成功</h1><br><p>首先我们可以看到test.html中只有两个img标签：</p><br><div id="crayon-56eea69a24d8d476950164" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-mac print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eea69a24d8d476950164-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d8d476950164-2">2</div><div class="crayon-num" data-line="crayon-56eea69a24d8d476950164-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d8d476950164-4">4</div><div class="crayon-num" data-line="crayon-56eea69a24d8d476950164-5">5</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eea69a24d8d476950164-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d8d476950164-2"><span class="crayon-o">&lt;</span><span class="crayon-e">img </span><span class="crayon-v">src</span><span class="crayon-o">=</span><span class="crayon-s">“<a href="http://www.jhjcqc.com/ueditor/php/upload/image/20151014/1444783819412910.jpg" target="_blank" rel="external">http://www.jhjcqc.com/ueditor/php/upload/image/20151014/1444783819412910.jpg</a>“</span><span class="crayon-h"> </span><span class="crayon-o">/</span><span class="crayon-o">&gt;</span></div><div class="crayon-line" id="crayon-56eea69a24d8d476950164-3">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d8d476950164-4"><span class="crayon-o">&lt;</span><span class="crayon-e">img </span><span class="crayon-v">src</span><span class="crayon-o">=</span><span class="crayon-s">“<a href="http://www.jhjcqc.com/ueditor/php/upload/image/20151014/1444783847836404.jpg" target="_blank" rel="external">http://www.jhjcqc.com/ueditor/php/upload/image/20151014/1444783847836404.jpg</a>“</span><span class="crayon-h"> </span><span class="crayon-o">/</span><span class="crayon-o">&gt;</span></div><div class="crayon-line" id="crayon-56eea69a24d8d476950164-5">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><p>在我们替换路径完成后，我们加载webview，然后打印出webview所加载的HTML内容中这两个<code>&lt;img&gt;</code>标签的src是否变化，结果如下：</p><br><div id="crayon-56eea69a24d91789711306" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-mac print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"><br><div class="crayon-plain-wrap"></div><br><div class="crayon-main" style=""><br><table class="crayon-table"><br><tr class="crayon-row"><br><td class="crayon-nums " data-settings="show"><br><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56eea69a24d91789711306-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d91789711306-2">2</div><div class="crayon-num" data-line="crayon-56eea69a24d91789711306-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56eea69a24d91789711306-4">4</div><div class="crayon-num" data-line="crayon-56eea69a24d91789711306-5">5</div></div><br></td><br><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56eea69a24d91789711306-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d91789711306-2"><span class="crayon-o">&lt;</span><span class="crayon-e">img </span><span class="crayon-v">src</span><span class="crayon-o">=</span><span class="crayon-s">“/Users/huangyibiao/Library/Developer/CoreSimulator/Devices/09692E07-2E79-4070-9537-CFD9F3141B0D/data/Containers/Data/Application/73F6D429-E0FD-4BD4-B0A5-85C1BD179840/Documents/5353c07f4c2ea0471b9f3ee36dedcaac”</span><span class="crayon-h"> </span><span class="crayon-o">/</span><span class="crayon-o">&gt;</span></div><div class="crayon-line" id="crayon-56eea69a24d91789711306-3">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56eea69a24d91789711306-4"><span class="crayon-o">&lt;</span><span class="crayon-e">img </span><span class="crayon-v">src</span><span class="crayon-o">=</span><span class="crayon-s">“/Users/huangyibiao/Library/Developer/CoreSimulator/Devices/09692E07-2E79-4070-9537-CFD9F3141B0D/data/Containers/Data/Application/73F6D429-E0FD-4BD4-B0A5-85C1BD179840/Documents/54edea1f2edd444aaba9d0321d786962”</span><span class="crayon-h"> </span><span class="crayon-o">/</span><span class="crayon-o">&gt;</span></div><div class="crayon-line" id="crayon-56eea69a24d91789711306-5">&nbsp;</div></div></td><br></tr><br></table><br></div><br></div><p>根据效果图，我们可以看到图片是显示出来了，这就说明替换成功后仍然可以加载出来图片，实验成功。</p><br><h1 id="toc_9">源代码</h1><br><p>想要下载源代码，请移步github下载，内有Swift版的工程和ObjC版的工程：<br><br><a href="https://github.com/CoderJackyHuang/iOSLoadWebViewImage" target="_blank" rel="external">https://github.com/CoderJackyHuang/iOSLoadWebViewImage</a></p><br><h1 id="toc_10">推荐阅读</h1><br><ul><br><li><a href="http://www.henishuo.com/oc-js/" target="_blank" rel="external">OC JavaScriptCore与js交互</a></li><br><li><a href="http://www.henishuo.com/wkwebview-js/" target="_blank" rel="external">WKWebView新特性及JS交互</a></li><br><li><a href="http://www.henishuo.com/swift-js/" target="_blank" rel="external">Swift JavaScriptCore与JS交互</a></li><br></ul></span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/03/20/iOS与H5交互/" rel="next" title="iOS与H5交互">
+                <i class="fa fa-chevron-left"></i> iOS与H5交互
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2016/03/20/iOS-Native加载H5中的图片/"
+     data-title="iOS Native加载H5中的图片"
+     data-content=""
+     data-url="http://yoursite.com/2016/03/20/iOS-Native加载H5中的图片/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+        </div>
+
+        
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+        
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/03/20/iOS-Native加载H5中的图片/"
+           data-title="iOS Native加载H5中的图片" data-url="http://yoursite.com/2016/03/20/iOS-Native加载H5中的图片/">
+      </div>
+    
+  </div>
+
+
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="http://img5.duitang.com/uploads/item/201406/26/20140626193943_WGW2n.thumb.700_0.jpeg" alt="YCK" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">YCK</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">愿世界永无Bug！</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">28</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">1</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yckblog/ykcoder" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> github
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/fav?leftnav=1" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> weibo
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_1"><span class="nav-number">1.</span> <span class="nav-text">思路讲解</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_2"><span class="nav-number">2.</span> <span class="nav-text">Swift版代码讲解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#toc_3"><span class="nav-number">2.0.1.</span> <span class="nav-text">NSData同步加载图片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#toc_4"><span class="nav-number">2.0.2.</span> <span class="nav-text">异步加载图片</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_5"><span class="nav-number">3.</span> <span class="nav-text">ObjC版代码讲解</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_6"><span class="nav-number">4.</span> <span class="nav-text">难点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_7"><span class="nav-number">5.</span> <span class="nav-text">存储图片到沙盒</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_8"><span class="nav-number">6.</span> <span class="nav-text">验证是否成功</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_9"><span class="nav-number">7.</span> <span class="nav-text">源代码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_10"><span class="nav-number">8.</span> <span class="nav-text">推荐阅读</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">YCK</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"ykcoder"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+
+
+    
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+<script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+<script type="text/javascript" src="/js/motion.js?v=0.4.5.2" id="motion.global"></script>
+
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    motionMiddleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
+
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+
+  
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/MathJax.js"></script>
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/config/TeX-AMS-MML_HTMLorMML.js"></script>
+  
+
+
+  
+  
+
+</body>
+</html>

@@ -1,0 +1,805 @@
+<!doctype html>
+<html class="theme-next   use-motion ">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
+
+
+
+
+
+
+<meta name="description" content="本篇一起来学习选择排序的算法，它可是面试中经常会问到的哦，而且挺常使用的。今天跟大家一起来回忆回忆大学那些年所学过的选择排序算法。
+本篇将会使用C语言、ObjC和Swift分别来实现排序排序，并通过ObjC来举一个模型类选择排序的小例子，希望对大家在开发中应用算法有所帮助。
+算法思想
+选择排序的思想其实和冒泡排序有点类似，都是在一次排序后把最小的元素放到最前面。但是过程不同，冒泡排序是通过相邻的比">
+<meta property="og:type" content="article">
+<meta property="og:title" content="选择排序">
+<meta property="og:url" content="http://yoursite.com/2015/05/22/选择排序/index.html">
+<meta property="og:site_name" content="YKcoder">
+<meta property="og:description" content="本篇一起来学习选择排序的算法，它可是面试中经常会问到的哦，而且挺常使用的。今天跟大家一起来回忆回忆大学那些年所学过的选择排序算法。
+本篇将会使用C语言、ObjC和Swift分别来实现排序排序，并通过ObjC来举一个模型类选择排序的小例子，希望对大家在开发中应用算法有所帮助。
+算法思想
+选择排序的思想其实和冒泡排序有点类似，都是在一次排序后把最小的元素放到最前面。但是过程不同，冒泡排序是通过相邻的比">
+<meta property="og:updated_time" content="2016-03-20T10:59:50.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="选择排序">
+<meta name="twitter:description" content="本篇一起来学习选择排序的算法，它可是面试中经常会问到的哦，而且挺常使用的。今天跟大家一起来回忆回忆大学那些年所学过的选择排序算法。
+本篇将会使用C语言、ObjC和Swift分别来实现排序排序，并通过ObjC来举一个模型类选择排序的小例子，希望对大家在开发中应用算法有所帮助。
+算法思想
+选择排序的思想其实和冒泡排序有点类似，都是在一次排序后把最小的元素放到最前面。但是过程不同，冒泡排序是通过相邻的比">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post',
+    motion: true
+  };
+</script>
+
+  <title> 选择排序 | YKcoder </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta custom-logo">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">YKcoder</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">没有代码的日子好孤单！</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                选择排序
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-05-22T18:08:32+08:00" content="2015-05-22">
+              2015-05-22
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/05/22/选择排序/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/05/22/选择排序/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p></p><p>本篇一起来学习选择排序的算法，它可是面试中经常会问到的哦，而且挺常使用的。今天跟大家一起来回忆回忆大学那些年所学过的选择排序算法。</p><p></p>
+<p></p><p>本篇将会使用C语言、ObjC和Swift分别来实现排序排序，并通过ObjC来举一个模型类选择排序的小例子，希望对大家在开发中应用算法有所帮助。</p><p></p>
+<p></p><h1 id="toc_1">算法思想</h1><p></p>
+<p></p><p>选择排序的思想其实和冒泡排序有点类似，都是在一次排序后把最小的元素放到最前面。但是过程不同，冒泡排序是通过相邻的比较和交换。而选择排序是通过对整体的选择。</p><p></p>
+<p></p><p>算法思想：每一趟从前往后查找出值最小的索引（下标），最后通过比较是否需要交换。每一趟都将最小的元素交换到最前面。</p><p></p>
+<p></p><p>举个例子：对5,3,8,6,4这个无序序列进行简单选择排序。</p><p></p>
+<p></p><p>首先要选择5以外的最小数来和5交换，也就是选择3和5交换，一次排序后就变成了3,5,8,6,4。对剩下的序列依次进行选择和交换，最终就会得到一个有序序列。</p><p></p>
+<p></p><p>其实选择排序可以看成是<strong>冒泡排序</strong>的优化，因为其目的相同，只是选择排序只有在确定了最小数的前提下才进行交换，大大减少了交换的次数，而比较次数是一样的。</p><p></p>
+<p></p><p><strong>注意：</strong>冒泡排序是从后往前扫，使大的往下沉，而小的往上浮；选择排序是从前往后扫，每趟找出值最小的索引，使每趟最小值都交换到该趟的最前面，从而得到升序序列。</p><p></p>
+<p></p><p><strong>其过程大概是这样的：</strong></p><p></p>
+<p><div></div></p>
+<p><div id="crayon-56ee2443ca503916307882" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"></div></p>
+<p><div class="crayon-plain-wrap"></div></p>
+<p><div class="crayon-main" style=""></div></p>
+<p><table class="crayon-table"></table></p>
+<p><tr class="crayon-row"></tr></p>
+<p><td class="crayon-nums " data-settings="show"></td></p>
+<p><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56ee2443ca503916307882-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca503916307882-2">2</div><div class="crayon-num" data-line="crayon-56ee2443ca503916307882-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca503916307882-4">4</div><div class="crayon-num" data-line="crayon-56ee2443ca503916307882-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca503916307882-6">6</div><div class="crayon-num" data-line="crayon-56ee2443ca503916307882-7">7</div></div><br></p>
+<p><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56ee2443ca503916307882-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca503916307882-2"><span class="crayon-cn">5</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">3</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">8</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">6</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">4</span>（开始）</div><div class="crayon-line" id="crayon-56ee2443ca503916307882-3"><span class="crayon-cn">3</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">5</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">8</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">6</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">4</span>（第一趟：将最小的<span class="crayon-cn">3</span>与<span class="crayon-cn">5</span>交换，使这一趟最小值<span class="crayon-cn">3</span>放到最前面）</div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca503916307882-4"><span class="crayon-cn">3</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">4</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">8</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">6</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">5</span>（第二趟：将最小的<span class="crayon-cn">4</span>与<span class="crayon-cn">5</span>交换，使这一趟最小值<span class="crayon-cn">4</span>放到最前面）</div><div class="crayon-line" id="crayon-56ee2443ca503916307882-5"><span class="crayon-cn">3</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">4</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">5</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">6</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">8</span>（第三趟：将最小的<span class="crayon-cn">5</span>与<span class="crayon-cn">8</span>交换，使这一趟最小值<span class="crayon-cn">5</span>放到最前面）</div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca503916307882-6"><span class="crayon-cn">3</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">4</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">5</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">6</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">8</span>（第四趟：不需要交换，排序完成）</div><div class="crayon-line" id="crayon-56ee2443ca503916307882-7">&nbsp;</div></div></td><br><br><br><br><br></p>
+<p></p><h1 id="toc_2">时间复杂度</h1><p></p>
+<p></p><p>选择排序可以看作冒泡排序的优化版本，一样要两层循环才能排序完成。</p><p></p>
+<p></p><p>所以，选择排序的时间复杂度为O ( n<sup>2</sup> )</p><p></p>
+<p></p><h1 id="toc_3">伪代码</h1><p></p>
+<p><div></div></p>
+<p><div id="crayon-56ee2443ca511436088653" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"></div></p>
+<p><div class="crayon-plain-wrap"></div></p>
+<p><div class="crayon-main" style=""></div></p>
+<p><table class="crayon-table"></table></p>
+<p><tr class="crayon-row"></tr></p>
+<p><td class="crayon-nums " data-settings="show"></td></p>
+<p><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56ee2443ca511436088653-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca511436088653-2">2</div><div class="crayon-num" data-line="crayon-56ee2443ca511436088653-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca511436088653-4">4</div><div class="crayon-num" data-line="crayon-56ee2443ca511436088653-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca511436088653-6">6</div><div class="crayon-num" data-line="crayon-56ee2443ca511436088653-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca511436088653-8">8</div><div class="crayon-num" data-line="crayon-56ee2443ca511436088653-9">9</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca511436088653-10">10</div><div class="crayon-num" data-line="crayon-56ee2443ca511436088653-11">11</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca511436088653-12">12</div><div class="crayon-num" data-line="crayon-56ee2443ca511436088653-13">13</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca511436088653-14">14</div><div class="crayon-num" data-line="crayon-56ee2443ca511436088653-15">15</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca511436088653-16">16</div><div class="crayon-num" data-line="crayon-56ee2443ca511436088653-17">17</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca511436088653-18">18</div><div class="crayon-num" data-line="crayon-56ee2443ca511436088653-19">19</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca511436088653-20">20</div><div class="crayon-num" data-line="crayon-56ee2443ca511436088653-21">21</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca511436088653-22">22</div><div class="crayon-num" data-line="crayon-56ee2443ca511436088653-23">23</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca511436088653-24">24</div><div class="crayon-num" data-line="crayon-56ee2443ca511436088653-25">25</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca511436088653-26">26</div></div><br></p>
+<p><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56ee2443ca511436088653-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca511436088653-2"><span class="crayon-t">void</span><span class="crayon-h"> </span><span class="crayon-e">selectSort</span><span class="crayon-sy">(</span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">arr</span><span class="crayon-sy">[</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">len</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56ee2443ca511436088653-3"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">min</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">0</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca511436088653-4"><span class="crayon-h">&nbsp;&nbsp;</span></div><div class="crayon-line" id="crayon-56ee2443ca511436088653-5"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-c">// 只需要n-1趟即可，到最后一趟只有一个元素，一定是最小的了</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca511436088653-6"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">for</span><span class="crayon-h"> </span><span class="crayon-v">i</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">0</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-v">i</span><span class="crayon-h"> </span><span class="crayon-o">&lt;</span><span class="crayon-h"> </span><span class="crayon-v">len</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-o">++</span><span class="crayon-v">i</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56ee2443ca511436088653-7"><span class="crayon-h">&nbsp;&nbsp;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca511436088653-8"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c">// 每一趟的开始，假设该趟的第一个元素是最小的</span></div><div class="crayon-line" id="crayon-56ee2443ca511436088653-9"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">min</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">i</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca511436088653-10"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line" id="crayon-56ee2443ca511436088653-11"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c">// 查找该趟有没有更小的，如果找到更小的，则更新最小值的下标</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca511436088653-12"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">for</span><span class="crayon-h"> </span><span class="crayon-v">j</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">i</span><span class="crayon-h"> </span><span class="crayon-o">+</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-v">j</span><span class="crayon-h"> </span><span class="crayon-o">&lt;</span><span class="crayon-h"> </span><span class="crayon-v">len</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-o">++</span><span class="crayon-v">j</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56ee2443ca511436088653-13"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-v">arr</span><span class="crayon-sy">[</span><span class="crayon-v">j</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">&lt;</span><span class="crayon-h"> </span><span class="crayon-v">arr</span><span class="crayon-sy">[</span><span class="crayon-v">min</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca511436088653-14"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">min</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">j</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56ee2443ca511436088653-15"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-sy">}</span><span class="crayon-h"> </span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca511436088653-16"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56ee2443ca511436088653-17"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca511436088653-18"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c">// 如果该趟的第一个元素不是最小的，说明需要交换</span></div><div class="crayon-line" id="crayon-56ee2443ca511436088653-19"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-v">min</span><span class="crayon-h"> </span><span class="crayon-o">!=</span><span class="crayon-h"> </span><span class="crayon-v">i</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca511436088653-20"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">temp</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">arr</span><span class="crayon-sy">[</span><span class="crayon-v">i</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56ee2443ca511436088653-21"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-v">arr</span><span class="crayon-sy">[</span><span class="crayon-v">i</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">arr</span><span class="crayon-sy">[</span><span class="crayon-v">min</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca511436088653-22"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-v">arr</span><span class="crayon-sy">[</span><span class="crayon-v">min</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">temp</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56ee2443ca511436088653-23"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca511436088653-24"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56ee2443ca511436088653-25"><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca511436088653-26">&nbsp;</div></div></td><br><br><br><br><br></p>
+<p></p><h1 id="toc_4">C语言版</h1><p></p>
+<p><div></div></p>
+<p><div id="crayon-56ee2443ca517823975059" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"></div></p>
+<p><div class="crayon-plain-wrap"></div></p>
+<p><div class="crayon-main" style=""></div></p>
+<p><table class="crayon-table"></table></p>
+<p><tr class="crayon-row"></tr></p>
+<p><td class="crayon-nums " data-settings="show"></td></p>
+<p><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56ee2443ca517823975059-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca517823975059-2">2</div><div class="crayon-num" data-line="crayon-56ee2443ca517823975059-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca517823975059-4">4</div><div class="crayon-num" data-line="crayon-56ee2443ca517823975059-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca517823975059-6">6</div><div class="crayon-num" data-line="crayon-56ee2443ca517823975059-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca517823975059-8">8</div><div class="crayon-num" data-line="crayon-56ee2443ca517823975059-9">9</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca517823975059-10">10</div><div class="crayon-num" data-line="crayon-56ee2443ca517823975059-11">11</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca517823975059-12">12</div><div class="crayon-num" data-line="crayon-56ee2443ca517823975059-13">13</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca517823975059-14">14</div><div class="crayon-num" data-line="crayon-56ee2443ca517823975059-15">15</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca517823975059-16">16</div><div class="crayon-num" data-line="crayon-56ee2443ca517823975059-17">17</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca517823975059-18">18</div><div class="crayon-num" data-line="crayon-56ee2443ca517823975059-19">19</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca517823975059-20">20</div><div class="crayon-num" data-line="crayon-56ee2443ca517823975059-21">21</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca517823975059-22">22</div><div class="crayon-num" data-line="crayon-56ee2443ca517823975059-23">23</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca517823975059-24">24</div><div class="crayon-num" data-line="crayon-56ee2443ca517823975059-25">25</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca517823975059-26">26</div></div><br></p>
+<p><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56ee2443ca517823975059-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca517823975059-2"><span class="crayon-t">void</span><span class="crayon-h"> </span><span class="crayon-e">selectSort</span><span class="crayon-sy">(</span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">arr</span><span class="crayon-sy">[</span><span class="crayon-sy">]</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">len</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56ee2443ca517823975059-3"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">min</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">0</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca517823975059-4"><span class="crayon-h">&nbsp;&nbsp;</span></div><div class="crayon-line" id="crayon-56ee2443ca517823975059-5"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-c">// 只需要n-1趟</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca517823975059-6"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-e">for</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">i</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">0</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-v">i</span><span class="crayon-h"> </span><span class="crayon-o">&lt;</span><span class="crayon-h"> </span><span class="crayon-v">len</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-o">++</span><span class="crayon-v">i</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56ee2443ca517823975059-7"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">min</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">i</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca517823975059-8"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line" id="crayon-56ee2443ca517823975059-9"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c">// 从第n+1趟起始找到末尾</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca517823975059-10"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">for</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">j</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">i</span><span class="crayon-h"> </span><span class="crayon-o">+</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-v">j</span><span class="crayon-h"> </span><span class="crayon-o">&lt;</span><span class="crayon-h"> </span><span class="crayon-v">len</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-o">++</span><span class="crayon-v">j</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56ee2443ca517823975059-11"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca517823975059-12"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c">// 找到比min位置更小的，就更新这一趟所找到的最小值的位置</span></div><div class="crayon-line" id="crayon-56ee2443ca517823975059-13"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">arr</span><span class="crayon-sy">[</span><span class="crayon-v">j</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">&lt;</span><span class="crayon-h"> </span><span class="crayon-v">arr</span><span class="crayon-sy">[</span><span class="crayon-v">min</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca517823975059-14"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">min</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">j</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56ee2443ca517823975059-15"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca517823975059-16"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56ee2443ca517823975059-17"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca517823975059-18"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c">// 如果min与i不相等，说明有比i位置更小的，所以需要交换</span></div><div class="crayon-line" id="crayon-56ee2443ca517823975059-19"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">min</span><span class="crayon-h"> </span><span class="crayon-o">!=</span><span class="crayon-h"> </span><span class="crayon-v">i</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca517823975059-20"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">temp</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">arr</span><span class="crayon-sy">[</span><span class="crayon-v">min</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56ee2443ca517823975059-21"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">arr</span><span class="crayon-sy">[</span><span class="crayon-v">min</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">arr</span><span class="crayon-sy">[</span><span class="crayon-v">i</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca517823975059-22"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">arr</span><span class="crayon-sy">[</span><span class="crayon-v">i</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">temp</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56ee2443ca517823975059-23"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca517823975059-24"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56ee2443ca517823975059-25"><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca517823975059-26">&nbsp;</div></div></td><br><br><br><br><br></p>
+<p></p><h1 id="toc_5">ObjC版</h1><p></p>
+<p><div></div></p>
+<p><div id="crayon-56ee2443ca51d828098766" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"></div></p>
+<p><div class="crayon-plain-wrap"></div></p>
+<p><div class="crayon-main" style=""></div></p>
+<p><table class="crayon-table"></table></p>
+<p><tr class="crayon-row"></tr></p>
+<p><td class="crayon-nums " data-settings="show"></td></p>
+<p><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56ee2443ca51d828098766-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca51d828098766-2">2</div><div class="crayon-num" data-line="crayon-56ee2443ca51d828098766-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca51d828098766-4">4</div><div class="crayon-num" data-line="crayon-56ee2443ca51d828098766-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca51d828098766-6">6</div><div class="crayon-num" data-line="crayon-56ee2443ca51d828098766-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca51d828098766-8">8</div><div class="crayon-num" data-line="crayon-56ee2443ca51d828098766-9">9</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca51d828098766-10">10</div><div class="crayon-num" data-line="crayon-56ee2443ca51d828098766-11">11</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca51d828098766-12">12</div><div class="crayon-num" data-line="crayon-56ee2443ca51d828098766-13">13</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca51d828098766-14">14</div><div class="crayon-num" data-line="crayon-56ee2443ca51d828098766-15">15</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca51d828098766-16">16</div><div class="crayon-num" data-line="crayon-56ee2443ca51d828098766-17">17</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca51d828098766-18">18</div><div class="crayon-num" data-line="crayon-56ee2443ca51d828098766-19">19</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca51d828098766-20">20</div><div class="crayon-num" data-line="crayon-56ee2443ca51d828098766-21">21</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca51d828098766-22">22</div><div class="crayon-num" data-line="crayon-56ee2443ca51d828098766-23">23</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca51d828098766-24">24</div><div class="crayon-num" data-line="crayon-56ee2443ca51d828098766-25">25</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca51d828098766-26">26</div></div><br></p>
+<p><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56ee2443ca51d828098766-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca51d828098766-2"><span class="crayon-o">-</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-t">void</span><span class="crayon-sy">)</span><span class="crayon-e ">selectSort</span><span class="crayon-o">:</span><span class="crayon-sy">(</span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span><span class="crayon-v">arr</span><span class="crayon-e "> len</span><span class="crayon-o">:</span><span class="crayon-sy">(</span><span class="crayon-t">int</span><span class="crayon-sy">)</span><span class="crayon-v">len</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56ee2443ca51d828098766-3"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">min</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">0</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca51d828098766-4"><span class="crayon-h">&nbsp;&nbsp;</span></div><div class="crayon-line" id="crayon-56ee2443ca51d828098766-5"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-c">// 只需要n-1趟</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca51d828098766-6"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-e">for</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">i</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">0</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-v">i</span><span class="crayon-h"> </span><span class="crayon-o">&lt;</span><span class="crayon-h"> </span><span class="crayon-v">len</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-o">++</span><span class="crayon-v">i</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56ee2443ca51d828098766-7"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">min</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">i</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca51d828098766-8"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line" id="crayon-56ee2443ca51d828098766-9"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c">// 从第n+1趟起始找到末尾</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca51d828098766-10"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">for</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">j</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">i</span><span class="crayon-h"> </span><span class="crayon-o">+</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-v">j</span><span class="crayon-h"> </span><span class="crayon-o">&lt;</span><span class="crayon-h"> </span><span class="crayon-v">len</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-o">++</span><span class="crayon-v">j</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56ee2443ca51d828098766-11"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca51d828098766-12"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c">// 找到比min位置更小的，就更新这一趟所找到的最小值的位置</span></div><div class="crayon-line" id="crayon-56ee2443ca51d828098766-13"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">arr</span><span class="crayon-sy">[</span><span class="crayon-v">j</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">&lt;</span><span class="crayon-h"> </span><span class="crayon-v">arr</span><span class="crayon-sy">[</span><span class="crayon-v">min</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca51d828098766-14"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">min</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">j</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56ee2443ca51d828098766-15"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca51d828098766-16"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56ee2443ca51d828098766-17"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca51d828098766-18"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c">// 如果min与i不相等，说明有比i位置更小的，所以需要交换</span></div><div class="crayon-line" id="crayon-56ee2443ca51d828098766-19"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">min</span><span class="crayon-h"> </span><span class="crayon-o">!=</span><span class="crayon-h"> </span><span class="crayon-v">i</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca51d828098766-20"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-t">int</span><span class="crayon-h"> </span><span class="crayon-v">temp</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">arr</span><span class="crayon-sy">[</span><span class="crayon-v">min</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56ee2443ca51d828098766-21"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">arr</span><span class="crayon-sy">[</span><span class="crayon-v">min</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">arr</span><span class="crayon-sy">[</span><span class="crayon-v">i</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca51d828098766-22"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">arr</span><span class="crayon-sy">[</span><span class="crayon-v">i</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">temp</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56ee2443ca51d828098766-23"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca51d828098766-24"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56ee2443ca51d828098766-25"><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca51d828098766-26">&nbsp;</div></div></td><br><br><br><br><br></p>
+<p></p><h1 id="toc_6">Swift版</h1><p></p>
+<p><div></div></p>
+<p><div id="crayon-56ee2443ca522037192752" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"></div></p>
+<p><div class="crayon-plain-wrap"></div></p>
+<p><div class="crayon-main" style=""></div></p>
+<p><table class="crayon-table"></table></p>
+<p><tr class="crayon-row"></tr></p>
+<p><td class="crayon-nums " data-settings="show"></td></p>
+<p><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56ee2443ca522037192752-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca522037192752-2">2</div><div class="crayon-num" data-line="crayon-56ee2443ca522037192752-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca522037192752-4">4</div><div class="crayon-num" data-line="crayon-56ee2443ca522037192752-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca522037192752-6">6</div><div class="crayon-num" data-line="crayon-56ee2443ca522037192752-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca522037192752-8">8</div><div class="crayon-num" data-line="crayon-56ee2443ca522037192752-9">9</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca522037192752-10">10</div><div class="crayon-num" data-line="crayon-56ee2443ca522037192752-11">11</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca522037192752-12">12</div><div class="crayon-num" data-line="crayon-56ee2443ca522037192752-13">13</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca522037192752-14">14</div><div class="crayon-num" data-line="crayon-56ee2443ca522037192752-15">15</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca522037192752-16">16</div><div class="crayon-num" data-line="crayon-56ee2443ca522037192752-17">17</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca522037192752-18">18</div><div class="crayon-num" data-line="crayon-56ee2443ca522037192752-19">19</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca522037192752-20">20</div><div class="crayon-num" data-line="crayon-56ee2443ca522037192752-21">21</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca522037192752-22">22</div><div class="crayon-num" data-line="crayon-56ee2443ca522037192752-23">23</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca522037192752-24">24</div><div class="crayon-num" data-line="crayon-56ee2443ca522037192752-25">25</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca522037192752-26">26</div><div class="crayon-num" data-line="crayon-56ee2443ca522037192752-27">27</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca522037192752-28">28</div></div><br></p>
+<p><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56ee2443ca522037192752-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca522037192752-2"><span class="crayon-e">func </span><span class="crayon-e">selectSort</span><span class="crayon-sy">(</span><span class="crayon-v">var</span><span class="crayon-e "> arr</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-t">Int</span><span class="crayon-sy">]</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">-&gt;</span><span class="crayon-sy">[</span><span class="crayon-t">Int</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56ee2443ca522037192752-3"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-e">var </span><span class="crayon-v">min</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">0</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca522037192752-4"><span class="crayon-h">&nbsp;&nbsp;</span></div><div class="crayon-line" id="crayon-56ee2443ca522037192752-5"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-c">// 只需要n-1趟</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca522037192752-6"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-e">for </span><span class="crayon-v">var</span><span class="crayon-h"> </span><span class="crayon-v">i</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">0</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-v">i</span><span class="crayon-h"> </span><span class="crayon-o">&lt;</span><span class="crayon-h"> </span><span class="crayon-v">arr</span><span class="crayon-sy">.</span><span class="crayon-v">count</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-o">++</span><span class="crayon-v">i</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56ee2443ca522037192752-7"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">min</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">i</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca522037192752-8"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line" id="crayon-56ee2443ca522037192752-9"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c">// 从第n+1趟起始找到末尾</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca522037192752-10"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">for </span><span class="crayon-v">var</span><span class="crayon-h"> </span><span class="crayon-v">j</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">i</span><span class="crayon-h"> </span><span class="crayon-o">+</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-v">j</span><span class="crayon-h"> </span><span class="crayon-o">&lt;</span><span class="crayon-h"> </span><span class="crayon-v">arr</span><span class="crayon-sy">.</span><span class="crayon-v">count</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-o">++</span><span class="crayon-v">j</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56ee2443ca522037192752-11"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca522037192752-12"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c">// 找到比min位置更小的，就更新这一趟所找到的最小值的位置</span></div><div class="crayon-line" id="crayon-56ee2443ca522037192752-13"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-v">arr</span><span class="crayon-sy">[</span><span class="crayon-v">j</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">&lt;</span><span class="crayon-h"> </span><span class="crayon-v">arr</span><span class="crayon-sy">[</span><span class="crayon-v">min</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca522037192752-14"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">min</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">j</span></div><div class="crayon-line" id="crayon-56ee2443ca522037192752-15"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca522037192752-16"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56ee2443ca522037192752-17"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca522037192752-18"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c">// 如果min与i不相等，说明有比i位置更小的，所以需要交换</span></div><div class="crayon-line" id="crayon-56ee2443ca522037192752-19"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-v">min</span><span class="crayon-h"> </span><span class="crayon-o">!=</span><span class="crayon-h"> </span><span class="crayon-v">i</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca522037192752-20"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">let </span><span class="crayon-v">temp</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">arr</span><span class="crayon-sy">[</span><span class="crayon-v">i</span><span class="crayon-sy">]</span></div><div class="crayon-line" id="crayon-56ee2443ca522037192752-21"><span class="crayon-e ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arr</span><span class="crayon-sy">[</span><span class="crayon-v">i</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">arr</span><span class="crayon-sy">[</span><span class="crayon-v">min</span><span class="crayon-sy">]</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca522037192752-22"><span class="crayon-e ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arr</span><span class="crayon-sy">[</span><span class="crayon-v">min</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">temp</span></div><div class="crayon-line" id="crayon-56ee2443ca522037192752-23"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca522037192752-24"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56ee2443ca522037192752-25"><span class="crayon-h">&nbsp;&nbsp;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca522037192752-26"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-st">return</span><span class="crayon-h"> </span><span class="crayon-v">arr</span></div><div class="crayon-line" id="crayon-56ee2443ca522037192752-27"><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca522037192752-28">&nbsp;</div></div></td><br><br><br><br><br></p>
+<p></p><h1 id="toc_7">尝试ObjC实现模型选择排序</h1><p></p>
+<p><div></div></p>
+<p><div id="crayon-56ee2443ca527524272914" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"></div></p>
+<p><div class="crayon-plain-wrap"></div></p>
+<p><div class="crayon-main" style=""></div></p>
+<p><table class="crayon-table"></table></p>
+<p><tr class="crayon-row"></tr></p>
+<p><td class="crayon-nums " data-settings="show"></td></p>
+<p><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56ee2443ca527524272914-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca527524272914-2">2</div><div class="crayon-num" data-line="crayon-56ee2443ca527524272914-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca527524272914-4">4</div><div class="crayon-num" data-line="crayon-56ee2443ca527524272914-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca527524272914-6">6</div><div class="crayon-num" data-line="crayon-56ee2443ca527524272914-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca527524272914-8">8</div><div class="crayon-num" data-line="crayon-56ee2443ca527524272914-9">9</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca527524272914-10">10</div><div class="crayon-num" data-line="crayon-56ee2443ca527524272914-11">11</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca527524272914-12">12</div><div class="crayon-num" data-line="crayon-56ee2443ca527524272914-13">13</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca527524272914-14">14</div><div class="crayon-num" data-line="crayon-56ee2443ca527524272914-15">15</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca527524272914-16">16</div><div class="crayon-num" data-line="crayon-56ee2443ca527524272914-17">17</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca527524272914-18">18</div><div class="crayon-num" data-line="crayon-56ee2443ca527524272914-19">19</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca527524272914-20">20</div><div class="crayon-num" data-line="crayon-56ee2443ca527524272914-21">21</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca527524272914-22">22</div><div class="crayon-num" data-line="crayon-56ee2443ca527524272914-23">23</div></div><br></p>
+<p><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56ee2443ca527524272914-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca527524272914-2"><span class="crayon-o">-</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-t">void</span><span class="crayon-sy">)</span><span class="crayon-e ">selectSort</span><span class="crayon-o">:</span><span class="crayon-sy">(</span><span class="crayon-t">NSMutableArray</span><span class="crayon-h"> </span><span class="crayon-t "><em></em></span><span class="crayon-sy">)</span><span class="crayon-v">array</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56ee2443ca527524272914-3"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-t">NSUInteger</span><span class="crayon-h"> </span><span class="crayon-v">minIndex</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">0</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca527524272914-4"><span class="crayon-h">&nbsp;&nbsp;</span></div><div class="crayon-line" id="crayon-56ee2443ca527524272914-5"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-e">for</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-t">NSUInteger</span><span class="crayon-h"> </span><span class="crayon-v">i</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">0</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-v">i</span><span class="crayon-h"> </span><span class="crayon-o">&lt;</span><span class="crayon-h"> </span><span class="crayon-v">array</span><span class="crayon-sy">.</span><span class="crayon-v">count</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-o">++</span><span class="crayon-v">i</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca527524272914-6"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">minIndex</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">i</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56ee2443ca527524272914-7"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca527524272914-8"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">for</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-t">NSUInteger</span><span class="crayon-h"> </span><span class="crayon-v">j</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">i</span><span class="crayon-h"> </span><span class="crayon-o">+</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-v">j</span><span class="crayon-h"> </span><span class="crayon-o">&lt;</span><span class="crayon-h"> </span><span class="crayon-v">array</span><span class="crayon-sy">.</span><span class="crayon-v">count</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-o">++</span><span class="crayon-v">j</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56ee2443ca527524272914-9"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-t">HYBTestModel</span><span class="crayon-h"> </span><span class="crayon-v">modelj</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-v">array</span><span class="crayon-e "> objectAtIndex</span><span class="crayon-v">:j</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca527524272914-10"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-t">HYBTestModel</span><span class="crayon-h"> </span><span class="crayon-v">*model</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-v">array</span><span class="crayon-e "> objectAtIndex</span><span class="crayon-v">:minIndex</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56ee2443ca527524272914-11"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca527524272914-12"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c">// 比min下的还要小，则更新min</span></div><div class="crayon-line" id="crayon-56ee2443ca527524272914-13"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-sy">[</span><span class="crayon-v">modelj</span><span class="crayon-sy">.</span><span class="crayon-v">uid</span><span class="crayon-e "> compare</span><span class="crayon-v">:model</span><span class="crayon-sy">.</span><span class="crayon-v">uid</span><span class="crayon-e "> options</span><span class="crayon-v">:NSCaseInsensitiveSearch</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-o">==</span><span class="crayon-h"> </span><span class="crayon-t">NSOrderedAscending</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca527524272914-14"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">minIndex</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">j</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56ee2443ca527524272914-15"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca527524272914-16"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56ee2443ca527524272914-17"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca527524272914-18"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">minIndex</span><span class="crayon-h"> </span><span class="crayon-o">!=</span><span class="crayon-h"> </span><span class="crayon-v">i</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56ee2443ca527524272914-19"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">[</span><span class="crayon-v">array</span><span class="crayon-e "> exchangeObjectAtIndex</span><span class="crayon-v">:minIndex</span><span class="crayon-e "> withObjectAtIndex</span><span class="crayon-v">:i</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca527524272914-20"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56ee2443ca527524272914-21"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca527524272914-22"><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56ee2443ca527524272914-23">&nbsp;</div></div></td><br><br><br><br><br></p>
+<p></p><p>测试：</p><p></p>
+<p><div></div></p>
+<p><div id="crayon-56ee2443ca52c164835948" class="crayon-syntax crayon-theme-familiar-copy crayon-font-consolas crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always disable-anim" style=" margin-top: 12px; margin-bottom: 12px; margin-right: 24px; font-size: 15px !important; line-height: 20px !important;"></div></p>
+<p><div class="crayon-plain-wrap"></div></p>
+<p><div class="crayon-main" style=""></div></p>
+<p><table class="crayon-table"></table></p>
+<p><tr class="crayon-row"></tr></p>
+<p><td class="crayon-nums " data-settings="show"></td></p>
+<p><div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-56ee2443ca52c164835948-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca52c164835948-2">2</div><div class="crayon-num" data-line="crayon-56ee2443ca52c164835948-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca52c164835948-4">4</div><div class="crayon-num" data-line="crayon-56ee2443ca52c164835948-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca52c164835948-6">6</div><div class="crayon-num" data-line="crayon-56ee2443ca52c164835948-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca52c164835948-8">8</div><div class="crayon-num" data-line="crayon-56ee2443ca52c164835948-9">9</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca52c164835948-10">10</div><div class="crayon-num" data-line="crayon-56ee2443ca52c164835948-11">11</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca52c164835948-12">12</div><div class="crayon-num" data-line="crayon-56ee2443ca52c164835948-13">13</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca52c164835948-14">14</div><div class="crayon-num" data-line="crayon-56ee2443ca52c164835948-15">15</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca52c164835948-16">16</div><div class="crayon-num" data-line="crayon-56ee2443ca52c164835948-17">17</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca52c164835948-18">18</div><div class="crayon-num" data-line="crayon-56ee2443ca52c164835948-19">19</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca52c164835948-20">20</div><div class="crayon-num" data-line="crayon-56ee2443ca52c164835948-21">21</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca52c164835948-22">22</div><div class="crayon-num" data-line="crayon-56ee2443ca52c164835948-23">23</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca52c164835948-24">24</div><div class="crayon-num" data-line="crayon-56ee2443ca52c164835948-25">25</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca52c164835948-26">26</div><div class="crayon-num" data-line="crayon-56ee2443ca52c164835948-27">27</div><div class="crayon-num crayon-striped-num" data-line="crayon-56ee2443ca52c164835948-28">28</div><div class="crayon-num" data-line="crayon-56ee2443ca52c164835948-29">29</div></div><br></p>
+<p><td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-56ee2443ca52c164835948-1">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca52c164835948-2"><span class="crayon-t">NSMutableArray</span><span class="crayon-h"> </span><span class="crayon-v"><em>array</em></span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-sy">[</span><span class="crayon-t">NSMutableArray</span><span class="crayon-h"> </span><span class="crayon-r">alloc</span><span class="crayon-sy">]</span><span class="crayon-e "> init</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56ee2443ca52c164835948-3"><span class="crayon-e">for</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-t">NSUInteger</span><span class="crayon-h"> </span><span class="crayon-v">i</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-cn">0</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-v">i</span><span class="crayon-h"> </span><span class="crayon-o">&lt;</span><span class="crayon-h"> </span><span class="crayon-cn">10</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-o">++</span><span class="crayon-v">i</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca52c164835948-4"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-t">HYBTestModel</span><span class="crayon-h"> </span><span class="crayon-v">model</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-sy">[</span><span class="crayon-t">HYBTestModel</span><span class="crayon-h"> </span><span class="crayon-r">alloc</span><span class="crayon-sy">]</span><span class="crayon-e "> init</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56ee2443ca52c164835948-5"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">model</span><span class="crayon-sy">.</span><span class="crayon-v">title</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-t">NSString</span><span class="crayon-e "> stringWithFormat</span><span class="crayon-o">:</span><span class="crayon-s">@”标哥的技术博客：%ld”</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">10</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">i</span><span class="crayon-h"> </span><span class="crayon-o">+</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">)</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca52c164835948-6"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-v">model</span><span class="crayon-sy">.</span><span class="crayon-v">uid</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">[</span><span class="crayon-t">NSString</span><span class="crayon-e "> stringWithFormat</span><span class="crayon-o">:</span><span class="crayon-s">@”%ld”</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">10</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">i</span><span class="crayon-h"> </span><span class="crayon-o">+</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-sy">)</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56ee2443ca52c164835948-7"><span class="crayon-h">&nbsp;&nbsp;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca52c164835948-8"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-sy">[</span><span class="crayon-v">array</span><span class="crayon-e "> addObject</span><span class="crayon-v">:model</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56ee2443ca52c164835948-9"><span class="crayon-h">&nbsp;&nbsp;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca52c164835948-10"><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56ee2443ca52c164835948-11">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca52c164835948-12"><span class="crayon-sy">[</span><span class="crayon-r">self</span><span class="crayon-e "> selectSort</span><span class="crayon-v">:array</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-56ee2443ca52c164835948-13">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca52c164835948-14"><span class="crayon-e">for</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-t">HYBTestModel</span><span class="crayon-h"> </span><span class="crayon-v">*model</span><span class="crayon-h"> </span><span class="crayon-m">in</span><span class="crayon-h"> </span><span class="crayon-v">array</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-56ee2443ca52c164835948-15"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-t">NSLog</span><span class="crayon-sy">(</span><span class="crayon-s">@”%@ %@”</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">model</span><span class="crayon-sy">.</span><span class="crayon-v">uid</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">model</span><span class="crayon-sy">.</span><span class="crayon-v">title</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca52c164835948-16"><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-56ee2443ca52c164835948-17">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-56ee2443ca52c164835948-18"><span class="crayon-c"></span></div></div></td></p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/04/20/插入排序/" rel="next" title="插入排序">
+                <i class="fa fa-chevron-left"></i> 插入排序
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/07/20/webView图片自适应屏幕/" rel="prev" title="webView图片自适应屏幕">
+                webView图片自适应屏幕 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2015/05/22/选择排序/"
+     data-title="选择排序"
+     data-content=""
+     data-url="http://yoursite.com/2015/05/22/选择排序/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+        </div>
+
+        
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+        
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/05/22/选择排序/"
+           data-title="选择排序" data-url="http://yoursite.com/2015/05/22/选择排序/">
+      </div>
+    
+  </div>
+
+
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="http://img5.duitang.com/uploads/item/201406/26/20140626193943_WGW2n.thumb.700_0.jpeg" alt="YCK" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">YCK</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">愿世界永无Bug！</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">28</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">1</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yckblog/ykcoder" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> github
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/fav?leftnav=1" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> weibo
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_1"><span class="nav-number">1.</span> <span class="nav-text">算法思想</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_2"><span class="nav-number">2.</span> <span class="nav-text">时间复杂度</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_3"><span class="nav-number">3.</span> <span class="nav-text">伪代码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_4"><span class="nav-number">4.</span> <span class="nav-text">C语言版</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_5"><span class="nav-number">5.</span> <span class="nav-text">ObjC版</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_6"><span class="nav-number">6.</span> <span class="nav-text">Swift版</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_7"><span class="nav-number">7.</span> <span class="nav-text">尝试ObjC实现模型选择排序</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">YCK</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"ykcoder"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+
+
+    
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+<script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+<script type="text/javascript" src="/js/motion.js?v=0.4.5.2" id="motion.global"></script>
+
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    motionMiddleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
+
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+
+  
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/MathJax.js"></script>
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/config/TeX-AMS-MML_HTMLorMML.js"></script>
+  
+
+
+  
+  
+
+</body>
+</html>

@@ -1,0 +1,714 @@
+<!doctype html>
+<html class="theme-next   use-motion ">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
+
+
+
+
+
+
+<meta name="description" content="作为iOS开发人员，在开发App的过程中怎么会不使用第三方库呢？相信没有App是不使用第三方库的！相信自己在所做过的App中使用过哪些第三方库呢？网络库说到网络库，这是开发必备，除非你的App玩单机。现在特别火也特别好用的网络库就数AFNetworking了。也有部分同志喜欢自己用原生的NSURLConnection来做，当然是可以的，只是要写起来也困难，维护起来更困难。笔者基于AFNetwork">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS常用的第三方库简介">
+<meta property="og:url" content="http://yoursite.com/2015/03/20/iOS常用的第三方库简介/index.html">
+<meta property="og:site_name" content="YKcoder">
+<meta property="og:description" content="作为iOS开发人员，在开发App的过程中怎么会不使用第三方库呢？相信没有App是不使用第三方库的！相信自己在所做过的App中使用过哪些第三方库呢？网络库说到网络库，这是开发必备，除非你的App玩单机。现在特别火也特别好用的网络库就数AFNetworking了。也有部分同志喜欢自己用原生的NSURLConnection来做，当然是可以的，只是要写起来也困难，维护起来更困难。笔者基于AFNetwork">
+<meta property="og:updated_time" content="2016-03-20T07:48:53.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS常用的第三方库简介">
+<meta name="twitter:description" content="作为iOS开发人员，在开发App的过程中怎么会不使用第三方库呢？相信没有App是不使用第三方库的！相信自己在所做过的App中使用过哪些第三方库呢？网络库说到网络库，这是开发必备，除非你的App玩单机。现在特别火也特别好用的网络库就数AFNetworking了。也有部分同志喜欢自己用原生的NSURLConnection来做，当然是可以的，只是要写起来也困难，维护起来更困难。笔者基于AFNetwork">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post',
+    motion: true
+  };
+</script>
+
+  <title> iOS常用的第三方库简介 | YKcoder </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta custom-logo">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">YKcoder</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">没有代码的日子好孤单！</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                iOS常用的第三方库简介
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-03-20T15:39:25+08:00" content="2015-03-20">
+              2015-03-20
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/03/20/iOS常用的第三方库简介/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/03/20/iOS常用的第三方库简介/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>作为iOS开发人员，在开发App的过程中怎么会不使用第三方库呢？相信没有App是不使用第三方库的！相信自己在所做过的App中使用过哪些第三方库呢？</p><br><h2 id="toc_1">网络库</h2><br><p>说到网络库，这是开发必备，除非你的App玩单机。现在特别火也特别好用的网络库就数AFNetworking了。也有部分同志喜欢自己用原生的NSURLConnection来做，当然是可以的，只是要写起来也困难，维护起来更困难。</p><br><p>笔者基于AFNetworking封装了一个网络常用API类，猛点阅读：<a href="http://www.henishuo.com/base-on-afnetworking-wrapper/" target="_blank" rel="external">开源HYBNetworking基于AFN封装网络</a></p><br><h2 id="toc_2">数据库</h2><br><p>不是每个App都使用到数据库的，但是如果需要使用到数据库，我们还是需要使用第三方的。因为原来的CoreData真不好用。当前刚接触的时候，FMDB是特别火的，当然现在仍然有很多公司在使用，包括我们公司。</p><br><p>这里有一篇CSDN文章说得不错：<a href="http://blog.csdn.net/xyz_lmn/article/details/9312837" target="_blank" rel="external">http://blog.csdn.net/xyz_lmn/article/details/9312837</a></p><br><h2 id="toc_3">模型与字典互转/自动归档</h2><br><p>从我开发公司的App以来，一直在寻找JSON与Model互转的第三方库，因为每次网络取回数据后再一个个解析取出来真的很麻烦很累。这里自然极力推荐的库就是MJExtension。</p><p>这个库简单易用，直接看一看文档就明白怎么用了：<a href="https://github.com/CoderMJLee/MJExtension" target="_blank" rel="external">https://github.com/CoderMJLee/MJExtension</a></p><br><p>当然，后来出了个YYModel，笔者研究了一下，其实与MJExtension差不多，只是YYModel大部分都使用runtime最底层API，而MJExtension更多的是OC语法。在性能上，据说YYModel要比MJExtension要高，当然从原理上来分析应该会高一些。</p><br><p>想试试YYModel？试试吧：<a href="https://github.com/ibireme/YYModel" target="_blank" rel="external">YYModel</a></p><br><h2 id="toc_4">图片下载</h2><br><p>现在很多公司所开发的App中使用了SDWebImage，但是个人觉得使用AFNetworking这套网络库就可以了，这套库已经提供了对图片的下载和高效缓存。如果喜欢使用SDWebImage，可查看一下源代码及使用文档：</p><br><p><a href="https://github.com/rs/SDWebImage" target="_blank" rel="external">著名SDWebImage</a></p><br><p>事实上，本人现在直接使用AFNetworking的图片下载及缓存功能，无须再添加一个三方库。</p><br><h2 id="toc_5">提示HUD</h2><br><p>说到这个提示HUD，很多人都非常喜欢MBProgressHUD，其下载地址：<a href="https://github.com/jdg/MBProgressHUD" target="_blank" rel="external">MBProggressHUD</a></p><br><p>但是，本人不太喜欢它，因为使用起来很麻烦。本人更推荐的是SVProgressHUD，以单例形式存活，任何时候直接调用，而且我们需要调用的api都是类方法，直接调用即可。其下载地址为：<a href="https://github.com/TransitApp/SVProgressHUD" target="_blank" rel="external">SVProgressHUD</a></p><br><h1 id="toc_6">自动布局</h1><br><p>对于开发是使用xib/storybard的同学可跳过。这里介绍的是纯代码的自动布局，原生的代码自动布局是相当困难的，写起来很麻烦而且也很难记住。因此，我们需要一个第三方库对原生的约束api封装成简单易用的接口给我们使用。</p><br><p>这里本人极力推荐Masonry，其下载地址为：<a href="https://github.com/SnapKit/Masonry" target="_blank" rel="external">著名自动布局Masonry</a></p><br><p>扩展了自动计算行高：<a href="http://www.henishuo.com/masonry-cell-height-auto-calculate/" target="_blank" rel="external">开源HYBMasonryAutoCellHeight</a></p><br><p>如果是swift开发，推荐SnapKit，另外笔者基于SnapKit扩展了一个自动计算行高：<a href="http://www.henishuo.com/snapkit-auto-cell-height/" target="_blank" rel="external">HYBSnapkitAutoCellHeight开源自动算行高Swift版</a></p><br><p>不会用Masonry？看看笔者的14篇教程吧：<a href="http://www.henishuo.com/category/autolayout/" target="_blank" rel="external">Masonry纯代码自动布局实战</a></p><br><h2 id="toc_7">侧滑菜单</h2><br><p>对于使用侧滑风格的app，可使用MMDrawerController这套库，几行代码就可以实现了。其下载地址为：<a href="https://github.com/mutualmobile/MMDrawerController" target="_blank" rel="external">https://github.com/mutualmobile/MMDrawerController</a></p><br><h2 id="toc_8">CoverFlow效果</h2><br><p>我想最有名的CoverFlow效果的第三方库就是iCarousel了。其下载地址：<a href="https://github.com/nicklockwood/iCarousel" target="_blank" rel="external">https://github.com/nicklockwood/iCarousel</a></p><br><h2 id="toc_9">日志</h2><br><p>开发App怎么能没有日志呢？没有日志，如何去查看记录？现在特别火的日志库是CocoaLumberjack，其下载地址：<a href="https://github.com/CocoaLumberjack/CocoaLumberjack" target="_blank" rel="external">https://github.com/CocoaLumberjack/CocoaLumberjack</a></p><br><h2 id="toc_10">刷新</h2><br><p>到目前为止，很多公司的App都采用了MJRefresh这个快速集成下拉刷新和上拉加载更多功能的库。这个库还支持自定义样式，因此可根据需求定制风格。其下载地址：<a href="https://github.com/CoderMJLee/MJRefresh" target="_blank" rel="external">https://github.com/CoderMJLee/MJRefresh</a></p><br><h2 id="toc_11">模糊效果</h2><br><p>iOS7以后就有UIVisualEffect这个控件支持模糊效果。如果要支持iOS5.0以上版本，那就需要第三方库来支持了。支持静态、动态模糊效果，继承与UIView的模糊特效的FXBlurView就能满足我们的需求。其下载地址：<a href="https://github.com/nicklockwood/FXBlurView" target="_blank" rel="external">https://github.com/nicklockwood/FXBlurView</a></p><br><h2 id="toc_12">富文本</h2><br><p>文字视图开源组件，是UILabel的替代元件，可以简单的方式展现渲染的属性字符串。另外，还支持链接，不管是手动还是使用UIDataDetectorTypes自动把电话号码、事件、地址以及其他信息变成链接。其下载地址：<a href="https://github.com/mattt/TTTAttributedLabel" target="_blank" rel="external">https://github.com/mattt/TTTAttributedLabel</a></p><br><h2 id="toc_13">TabBarController</h2><br><p>RDVTabBarController可以方便设置底部菜单的文字图片，点击效果，小红点提示等等，但是没有原生的UITabBar过渡效果，因此笔者不是很喜欢。其下载地址：<a href="https://github.com/robbdimitrov/RDVTabBarController" target="_blank" rel="external">https://github.com/robbdimitrov/RDVTabBarController</a></p></span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/03/18/支付宝集成iOSSDK的方法/" rel="next" title="支付宝集成iOSSDK的方法">
+                <i class="fa fa-chevron-left"></i> 支付宝集成iOSSDK的方法
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/03/20/iOS开发即时通讯常用的第三方库/" rel="prev" title="iOS开发即时通讯常用的第三方库">
+                iOS开发即时通讯常用的第三方库 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2015/03/20/iOS常用的第三方库简介/"
+     data-title="iOS常用的第三方库简介"
+     data-content=""
+     data-url="http://yoursite.com/2015/03/20/iOS常用的第三方库简介/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+        </div>
+
+        
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+        
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/03/20/iOS常用的第三方库简介/"
+           data-title="iOS常用的第三方库简介" data-url="http://yoursite.com/2015/03/20/iOS常用的第三方库简介/">
+      </div>
+    
+  </div>
+
+
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="http://img5.duitang.com/uploads/item/201406/26/20140626193943_WGW2n.thumb.700_0.jpeg" alt="YCK" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">YCK</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">愿世界永无Bug！</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">28</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">1</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yckblog/ykcoder" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> github
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/fav?leftnav=1" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> weibo
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#toc_1"><span class="nav-number">1.</span> <span class="nav-text">网络库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#toc_2"><span class="nav-number">2.</span> <span class="nav-text">数据库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#toc_3"><span class="nav-number">3.</span> <span class="nav-text">模型与字典互转/自动归档</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#toc_4"><span class="nav-number">4.</span> <span class="nav-text">图片下载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#toc_5"><span class="nav-number">5.</span> <span class="nav-text">提示HUD</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toc_6"><span class="nav-number"></span> <span class="nav-text">自动布局</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#toc_7"><span class="nav-number">1.</span> <span class="nav-text">侧滑菜单</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#toc_8"><span class="nav-number">2.</span> <span class="nav-text">CoverFlow效果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#toc_9"><span class="nav-number">3.</span> <span class="nav-text">日志</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#toc_10"><span class="nav-number">4.</span> <span class="nav-text">刷新</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#toc_11"><span class="nav-number">5.</span> <span class="nav-text">模糊效果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#toc_12"><span class="nav-number">6.</span> <span class="nav-text">富文本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#toc_13"><span class="nav-number">7.</span> <span class="nav-text">TabBarController</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">YCK</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"ykcoder"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+
+
+    
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+<script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+<script type="text/javascript" src="/js/motion.js?v=0.4.5.2" id="motion.global"></script>
+
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    motionMiddleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
+
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+
+  
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/MathJax.js"></script>
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/config/TeX-AMS-MML_HTMLorMML.js"></script>
+  
+
+
+  
+  
+
+</body>
+</html>
